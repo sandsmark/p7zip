@@ -1060,6 +1060,16 @@ HRESULT UpdateArchive(
         throw "there is no such archive";
       if (fi.IsDevice)
         return E_NOTIMPL;
+
+      if (!options.StdOutMode && options.UpdateArchiveItself)
+        if (fi.IsReadOnly())
+        {
+          errorInfo.SystemError = ERROR_ACCESS_DENIED;
+          errorInfo.Message = "The file is read-only";
+          errorInfo.FileNames.Add(us2fs(arcPath));
+          return errorInfo.Get_HRESULT_Error();
+        }
+
       if (options.VolumesSizes.Size() > 0){
         errorInfo.FileNames.Add(us2fs(arcPath));
         errorInfo.SystemError = (DWORD)E_NOTIMPL;
