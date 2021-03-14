@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2684,13 +2684,15 @@ Hunk #39, a/CPP/7zip/UI/Common/Bench.cpp void GetCpuName(AString &s)
+       AString s2;
+       x86cpuid_to_String(cpuid, s2);
+       s += s2;
+-      return;
+     }
++    else
++    {
+     #ifdef MY_CPU_AMD64
+     s += "x64";
+     #else
+     s += "x86";
+     #endif
++    }
+   }
+   #else
+   

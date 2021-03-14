@@ -1,0 +1,14 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -609,7 +609,8 @@ Hunk #17, a/C/LzFind.c static UInt32 Bt3_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+ 
+ static UInt32 Bt4_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+ {
+-  UInt32 h2, h3, d2, d3, maxLen, offset, pos;
++  UInt32 h2, h3, d2, d3, pos;
++  unsigned maxLen, offset;
+   UInt32 *hash;
+   GET_MATCHES_HEADER(4)
+ 

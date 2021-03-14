@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -1313,7 +1313,7 @@ Hunk #14, a/C/Util/7zipInstall/7zipInstall.c if (res == SZ_OK)
+         }
+ 
+         {
+-          // Bool skipFile = False;
++          // BoolInt skipFile = False;
+           
+           wcscpy(origPath, path);
+   

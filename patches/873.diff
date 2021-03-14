@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1107,7 +1107,7 @@ Hunk #18, a/CPP/7zip/UI/Common/Bench.cpp HRESULT CEncoderInfo::Decode(UInt32 decoderIndex)
+       prev = pi->BenchInfo.UnpackSize;
+     }
+ 
+-    inStreamSpec->Init(outStreamSpec->Buffer, compressedSize);
++    inStreamSpec->Init((const Byte *)*outStreamSpec, compressedSize);
+     crcOutStreamSpec->Init();
+     
+     UInt64 outSize = kBufferSize;

@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/7z/7zExtract.cpp b/CPP/7zip/Archive/7z/7zExtract.cpp
+index 8fea5aa..9ffe2fd 100644
+--- a/CPP/7zip/Archive/7z/7zExtract.cpp
++++ b/CPP/7zip/Archive/7z/7zExtract.cpp
+@@ -363,8 +363,8 @@ Hunk #2, a/CPP/7zip/Archive/7z/7zExtract.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+           , dataAfterEnd_Error
+           
+           _7Z_DECODER_CRYPRO_VARS
+-          #if !defined(_7ZIP_ST) && !defined(_SFX)
+-            , true, _numThreads
++          #if !defined(_7ZIP_ST)
++            , true, _numThreads, _memUsage
+           #endif
+           );
+ 

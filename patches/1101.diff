@@ -1,0 +1,49 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -50,17 +50,40 @@ Hunk #2, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::InvokeSystemCommand(const char *command)
+   contextMenu->InvokeCommand(&ci);
+ }
+ 
+-static const char * const kSeparator = "----------------------------\n";
+-static const char * const kSeparatorSmall = "----\n";
+-static const char * const kPropValueSeparator = ": ";
++static const char * const kSeparator = "------------------------";
++static const char * const kSeparatorSmall = "----------------";
+ 
+ extern UString ConvertSizeToString(UInt64 value) throw();
+ bool IsSizeProp(UINT propID) throw();
+ 
+ UString GetOpenArcErrorMessage(UInt32 errorFlags);
+ 
++
++static void AddListAscii(CListViewDialog &dialog, const char *s)
++{
++  dialog.Strings.Add((UString)s);
++  dialog.Values.AddNew();
++}
++
++static void AddSeparator(CListViewDialog &dialog)
++{
++  AddListAscii(dialog, kSeparator);
++}
++
++static void AddSeparatorSmall(CListViewDialog &dialog)
++{
++  AddListAscii(dialog, kSeparatorSmall);
++}
++
++static void AddPropertyPair(const UString &name, const UString &val, CListViewDialog &dialog)
++{
++  dialog.Strings.Add(name);
++  dialog.Values.Add(val);
++}
++
++
+ static void AddPropertyString(PROPID propID, const wchar_t *nameBSTR,
+-    const NCOM::CPropVariant &prop, UString &s)
++    const NCOM::CPropVariant &prop, CListViewDialog &dialog)
+ {
+   if (prop.vt != VT_EMPTY)
+   {

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Common/CompressCall2.cpp b/CPP/7zip/UI/Common/CompressCall2.cpp
+index fb67ed1..5bad774 100644
+--- a/CPP/7zip/UI/Common/CompressCall2.cpp
++++ b/CPP/7zip/UI/Common/CompressCall2.cpp
+@@ -20,6 +20,7 @@ Hunk #2, a/CPP/7zip/UI/Common/CompressCall2.cpp extern HWND g_HWND;
+ #define MY_TRY_BEGIN  HRESULT result; try {
+ #define MY_TRY_FINISH } \
+   catch(CSystemException &e) { result = e.ErrorCode; } \
++  catch(UString &s) { ErrorMessage(s); result = E_FAIL; } \
+   catch(...) { result = E_FAIL; } \
+   if (result != S_OK && result != E_ABORT) \
+     ErrorMessageHRESULT(result);

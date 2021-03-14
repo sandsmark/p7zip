@@ -1,0 +1,94 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -788,53 +788,54 @@ Hunk #33, a/C/LzmaDec.c void LzmaDec_Init(CLzmaDec *p)
+   LzmaDec_InitDicAndState(p, True, True);
+ }
+ 
+-static void LzmaDec_InitStateReal(CLzmaDec *p)
+-{
+-  SizeT numProbs = LzmaProps_GetNumProbs(&p->prop);
+-  SizeT i;
+-  CLzmaProb *probs = p->probs;
+-  for (i = 0; i < numProbs; i++)
+-    probs[i] = kBitModelTotal >> 1;
+-  p->reps[0] = p->reps[1] = p->reps[2] = p->reps[3] = 1;
+-  p->state = 0;
+-  p->needInitState = 0;
+-}
+ 
+ SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, SizeT *srcLen,
+     ELzmaFinishMode finishMode, ELzmaStatus *status)
+ {
+   SizeT inSize = *srcLen;
+   (*srcLen) = 0;
+-  LzmaDec_WriteRem(p, dicLimit);
+   
+   *status = LZMA_STATUS_NOT_SPECIFIED;
+ 
++  if (p->remainLen > kMatchSpecLenStart)
++  {
++    for (; inSize > 0 && p->tempBufSize < RC_INIT_SIZE; (*srcLen)++, inSize--)
++      p->tempBuf[p->tempBufSize++] = *src++;
++    if (p->tempBufSize != 0 && p->tempBuf[0] != 0)
++      return SZ_ERROR_DATA;
++    if (p->tempBufSize < RC_INIT_SIZE)
++    {
++      *status = LZMA_STATUS_NEEDS_MORE_INPUT;
++      return SZ_OK;
++    }
++    p->code =
++        ((UInt32)p->tempBuf[1] << 24)
++      | ((UInt32)p->tempBuf[2] << 16)
++      | ((UInt32)p->tempBuf[3] << 8)
++      | ((UInt32)p->tempBuf[4]);
++    p->range = 0xFFFFFFFF;
++    p->tempBufSize = 0;
++
++    if (p->remainLen > kMatchSpecLenStart + 1)
++    {
++      SizeT numProbs = LzmaProps_GetNumProbs(&p->prop);
++      SizeT i;
++      CLzmaProb *probs = p->probs;
++      for (i = 0; i < numProbs; i++)
++        probs[i] = kBitModelTotal >> 1;
++      p->reps[0] = p->reps[1] = p->reps[2] = p->reps[3] = 1;
++      p->state = 0;
++    }
++
++    p->remainLen = 0;
++  }
++
++  LzmaDec_WriteRem(p, dicLimit);
++
+   while (p->remainLen != kMatchSpecLenStart)
+   {
+-      int checkEndMarkNow;
++      int checkEndMarkNow = 0;
+ 
+-      if (p->needFlush)
+-      {
+-        for (; inSize > 0 && p->tempBufSize < RC_INIT_SIZE; (*srcLen)++, inSize--)
+-          p->tempBuf[p->tempBufSize++] = *src++;
+-        if (p->tempBufSize < RC_INIT_SIZE)
+-        {
+-          *status = LZMA_STATUS_NEEDS_MORE_INPUT;
+-          return SZ_OK;
+-        }
+-        if (p->tempBuf[0] != 0)
+-          return SZ_ERROR_DATA;
+-        p->code =
+-              ((UInt32)p->tempBuf[1] << 24)
+-            | ((UInt32)p->tempBuf[2] << 16)
+-            | ((UInt32)p->tempBuf[3] << 8)
+-            | ((UInt32)p->tempBuf[4]);
+-        p->range = 0xFFFFFFFF;
+-        p->needFlush = 0;
+-        p->tempBufSize = 0;
+-      }
+-
+-      checkEndMarkNow = 0;
+       if (p->dicPos >= dicLimit)
+       {
+         if (p->remainLen == 0 && p->code == 0)

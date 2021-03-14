@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -117,10 +117,10 @@ Hunk #5, a/CPP/7zip/Archive/XzHandler.cpp class CHandler:
+   INTERFACE_IInArchive(;)
+   STDMETHOD(OpenSeq)(ISequentialInStream *stream);
+   STDMETHOD(GetStream)(UInt32 index, ISequentialInStream **stream);
++  STDMETHOD(SetProperties)(const wchar_t * const *names, const PROPVARIANT *values, UInt32 numProps);
+ 
+   #ifndef EXTRACT_ONLY
+   INTERFACE_IOutArchive(;)
+-  STDMETHOD(SetProperties)(const wchar_t * const *names, const PROPVARIANT *values, UInt32 numProps);
+   #endif
+ 
+   size_t _blocksArraySize;

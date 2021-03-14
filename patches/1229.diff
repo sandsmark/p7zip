@@ -1,0 +1,13 @@
+diff --git a/DOC/lzma.txt b/DOC/lzma.txt
+index 87d727b..a65988f 100644
+--- a/DOC/lzma.txt
++++ b/DOC/lzma.txt
+@@ -70,7 +70,7 @@ Hunk #2, a/DOC/lzma.txt You can use p = p; operator to disable compiler warnings.
+ Single-call Decompressing
+ -------------------------
+ When to use: RAM->RAM decompressing
+-Compile files: LzmaDec.h + LzmaDec.c + Types.h
++Compile files: LzmaDec.h + LzmaDec.c + 7zTypes.h
+ Compile defines: no defines
+ Memory Requirements:
+   - Input buffer: compressed size

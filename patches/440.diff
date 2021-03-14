@@ -1,0 +1,26 @@
+diff --git a/CPP/7zip/Archive/NtfsHandler.cpp b/CPP/7zip/Archive/NtfsHandler.cpp
+index 0eebf00..2137203 100644
+--- a/CPP/7zip/Archive/NtfsHandler.cpp
++++ b/CPP/7zip/Archive/NtfsHandler.cpp
+@@ -1475,6 +1475,21 @@ Hunk #1, a/CPP/7zip/Archive/NtfsHandler.cpp void CDatabase::ClearAndClose()
+   InStream.Release();
+ }
+ 
++
++static void CopyName(wchar_t *dest, const wchar_t *src)
++{
++  for (;;)
++  {
++    wchar_t c = *src++;
++    // 18.06
++    if (c == '\\' || c == '/')
++      c = '_';
++    *dest++ = c;
++    if (c == 0)
++      return;
++  }
++}
++
+ void CDatabase::GetItemPath(unsigned index, NCOM::CPropVariant &path) const
+ {
+   const CItem *item = &Items[index];

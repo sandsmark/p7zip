@@ -1,0 +1,38 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -2813,18 +2813,30 @@ Hunk #22, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+           curUnpackSize = 0;
+         curPackSize = GetPackSize(index2);
+       }
+-      else if ((unsigned)index2 < index)
+-        bufIndex = FindLinkBuf(linkFiles, index2);
++      else
++      {
++        if ((unsigned)index2 < index)
++          bufIndex = FindLinkBuf(linkFiles, index2);
++      }
+     }
+ 
++    bool needCallback = true;
++
+     if (!realOutStream)
+     {
+       if (testMode)
+       {
+         if (item->NeedUse_as_CopyLink_or_HardLink())
+         {
++          Int32 opRes = NExtract::NOperationResult::kOK;
++          if (bufIndex >= 0)
++          {
++            const CLinkFile &linkFile = linkFiles[bufIndex];
++            opRes = DecoderRes_to_OpRes(linkFile.Res, linkFile.crcOK);
++          }
++
+           RINOK(extractCallback->PrepareOperation(askMode));
+-          RINOK(extractCallback->SetOperationResult(NExtract::NOperationResult::kOK));
++          RINOK(extractCallback->SetOperationResult(opRes));
+           continue;
+         }
+       }

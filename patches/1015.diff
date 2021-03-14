@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Explorer/ContextMenu.cpp b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+index 21de12a..a99ca81 100644
+--- a/CPP/7zip/UI/Explorer/ContextMenu.cpp
++++ b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+@@ -582,7 +582,7 @@ Hunk #3, a/CPP/7zip/UI/Explorer/ContextMenu.cpp STDMETHODIMP CZipContextMenu::QueryContextMenu(HMENU hMenu, UINT indexMenu,
+       }
+     }
+     
+-    const UString &fileName = _fileNames.Front();
++    // const UString &fileName = _fileNames.Front();
+     
+     if (needExtract)
+     {

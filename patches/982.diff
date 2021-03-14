@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -885,7 +885,7 @@ Hunk #7, a/CPP/7zip/UI/Console/List.cpp HRESULT Print_OpenArchive_Props(CStdOutStream &so, const CCodecs *codecs, const
+       else
+         PrintArcTypeError(so, codecs->GetFormatNamePtr(er.ErrorFormatIndex), true);
+     }
+-    PrintPropPair(so, "Type", codecs->GetFormatNamePtr(arc.FormatIndex));
++    PrintPropPair(so, "Type", codecs->GetFormatNamePtr(arc.FormatIndex), false);
+     
+     ErrorInfo_Print(so, er);
+     

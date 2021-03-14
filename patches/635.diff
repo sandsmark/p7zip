@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Bundles/Format7zExtract/makefile b/CPP/7zip/Bundles/Format7zExtract/makefile
+index 82265b0..e22faf3 100644
+--- a/CPP/7zip/Bundles/Format7zExtract/makefile
++++ b/CPP/7zip/Bundles/Format7zExtract/makefile
+@@ -98,7 +98,9 @@ Hunk #2, a/CPP/7zip/Bundles/Format7zExtract/makefile C_OBJS = \
+   $O\CpuArch.obj \
+   $O\Delta.obj \
+   $O\Lzma2Dec.obj \
++  $O\Lzma2DecMt.obj \
+   $O\LzmaDec.obj \
++  $O\MtDec.obj \
+   $O\Ppmd7.obj \
+   $O\Ppmd7Dec.obj \
+   $O\Sha256.obj \

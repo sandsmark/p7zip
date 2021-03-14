@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/GUI/makefile b/CPP/7zip/UI/GUI/makefile
+index bcafa0e..f841602 100644
+--- a/CPP/7zip/UI/GUI/makefile
++++ b/CPP/7zip/UI/GUI/makefile
+@@ -36,6 +36,7 @@ Hunk #1, a/CPP/7zip/UI/GUI/makefile COMMON_OBJS = \
+   $O\Wildcard.obj \
+ 
+ WIN_OBJS = \
++  $O\Clipboard.obj \
+   $O\CommonDialog.obj \
+   $O\DLL.obj \
+   $O\ErrorMsg.obj \

@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -998,10 +998,10 @@ Hunk #16, a/CPP/7zip/UI/Common/Bench.cpp HRESULT CEncoderInfo::Encode()
+     
+     if (_encoderFilter)
+     {
+-      memcpy(rgCopy.Buffer, uncompressedDataPtr, kBufferSize);
++      memcpy((Byte *)rgCopy, uncompressedDataPtr, kBufferSize);
+       _encoderFilter->Init();
+-      My_FilterBench(_encoderFilter, rgCopy.Buffer, kBufferSize);
+-      RINOK(WriteStream(outStream, rgCopy.Buffer, kBufferSize));
++      My_FilterBench(_encoderFilter, (Byte *)rgCopy, kBufferSize);
++      RINOK(WriteStream(outStream, (const Byte *)rgCopy, kBufferSize));
+     }
+     else
+     {

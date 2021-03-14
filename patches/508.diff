@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/Archive/SquashfsHandler.cpp b/CPP/7zip/Archive/SquashfsHandler.cpp
+index bc9ff8b..89de660 100644
+--- a/CPP/7zip/Archive/SquashfsHandler.cpp
++++ b/CPP/7zip/Archive/SquashfsHandler.cpp
+@@ -1156,12 +1156,13 @@ Hunk #4, a/CPP/7zip/Archive/SquashfsHandler.cpp HRESULT CHandler::Decompress(ISequentialOutStream *outStream, Byte *outBuf, bool
+     if (inSize != _zlibDecoderSpec->GetInputProcessedSize())
+       return S_FALSE;
+   }
++  /*
+   else if (method == kMethod_LZMA)
+   {
+     if (!_lzmaDecoder)
+     {
+       _lzmaDecoderSpec = new NCompress::NLzma::CDecoder();
+-      _lzmaDecoderSpec->FinishStream = true;
++      // _lzmaDecoderSpec->FinishStream = true;
+       _lzmaDecoder = _lzmaDecoderSpec;
+     }
+     const UInt32 kPropsSize = LZMA_PROPS_SIZE + 8;

@@ -1,0 +1,15 @@
+diff --git a/CPP/Common/ListFileUtils.cpp b/CPP/Common/ListFileUtils.cpp
+index 9112003..edd37eb 100644
+--- a/CPP/Common/ListFileUtils.cpp
++++ b/CPP/Common/ListFileUtils.cpp
+@@ -74,7 +74,10 @@ Hunk #3, a/CPP/Common/ListFileUtils.cpp bool ReadNamesFromListFile(CFSTR fileName, UStringVector &strings, UINT codePage
+     char *p = s.GetBuf((unsigned)fileSize);
+     UInt32 processed;
+     if (!file.Read(p, (UInt32)fileSize, processed))
++    {
++      lastError = ::GetLastError();
+       return false;
++    }
+     if (processed != fileSize)
+       return false;
+     file.Close();

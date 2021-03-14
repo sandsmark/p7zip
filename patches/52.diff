@@ -1,0 +1,12 @@
+diff --git a/C/DllSecur.h b/C/DllSecur.h
+index e01f224..e2a049a 100644
+--- a/C/DllSecur.h
++++ b/C/DllSecur.h
+@@ -10,6 +10,7 @@ Hunk #2, a/C/DllSecur.h EXTERN_C_BEGIN
+ 
+ #ifdef _WIN32
+ 
++void My_SetDefaultDllDirectories();
+ void LoadSecurityDlls();
+ 
+ #endif

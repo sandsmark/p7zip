@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -250,7 +250,7 @@ Hunk #7, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::Properties()
+       AddPropertyString(kpidSize, unpackSize, message);
+       AddPropertyString(kpidPackSize, packSize, message);
+ 
+-      message += kSeparator;
++      AddSeparator(message);
+     }
+ 
+         

@@ -1,0 +1,20 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -550,9 +550,13 @@ Hunk #22, a/C/LzmaDec.c static int MY_FAST_CALL LzmaDec_DecodeReal2(CLzmaDec *p, SizeT limit, const Byte
+       UInt32 rem = p->prop.dicSize - p->processedPos;
+       if (limit - p->dicPos > rem)
+         limit2 = p->dicPos + rem;
++
++      if (p->processedPos == 0)
++        if (p->code >= kBadRepCode)
++          return SZ_ERROR_DATA;
+     }
+-    
+-    RINOK(LzmaDec_DecodeReal(p, limit2, bufLimit));
++
++    RINOK(LZMA_DECODE_REAL(p, limit2, bufLimit));
+     
+     if (p->checkDicSize == 0 && p->processedPos >= p->prop.dicSize)
+       p->checkDicSize = p->prop.dicSize;

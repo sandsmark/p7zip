@@ -1,0 +1,9 @@
+diff --git a/CPP/7zip/Bundles/Format7zF/Arc.mak b/CPP/7zip/Bundles/Format7zF/Arc.mak
+index 97f6596..fd24d5a 100644
+--- a/CPP/7zip/Bundles/Format7zF/Arc.mak
++++ b/CPP/7zip/Bundles/Format7zF/Arc.mak
+@@ -284,3 +284,4 @@ Hunk #3, a/CPP/7zip/Bundles/Format7zF/Arc.mak C_OBJS = \
+ !include "../../Aes.mak"
+ !include "../../Crc.mak"
+ !include "../../Crc64.mak"
++!include "../../LzmaDec.mak"

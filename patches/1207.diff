@@ -1,0 +1,12 @@
+diff --git a/CPP/Windows/FileLink.cpp b/CPP/Windows/FileLink.cpp
+index 9e706ea..3e2f643 100644
+--- a/CPP/Windows/FileLink.cpp
++++ b/CPP/Windows/FileLink.cpp
+@@ -247,6 +247,7 @@ Hunk #3, a/CPP/Windows/FileLink.cpp bool CReparseAttr::Parse(const Byte *p, size_t size)
+   GetString(p + subOffs, subLen >> 1, SubsName);
+   GetString(p + printOffs, printLen >> 1, PrintName);
+ 
++  errorCode = 0;
+   return true;
+ }
+ 

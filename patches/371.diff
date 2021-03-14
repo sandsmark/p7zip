@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/Archive/7z/7zUpdate.cpp b/CPP/7zip/Archive/7z/7zUpdate.cpp
+index 53ea3a5..6705fc0 100644
+--- a/CPP/7zip/Archive/7z/7zUpdate.cpp
++++ b/CPP/7zip/Archive/7z/7zUpdate.cpp
+@@ -124,13 +124,13 @@ Hunk #1, a/CPP/7zip/Archive/7z/7zUpdate.cpp static int Parse_EXE(const Byte *buf, size_t size, CFilterMode *filterMode)
+ #define ELF_DATA_2LSB 1
+ #define ELF_DATA_2MSB 2
+ 
+-static UInt16 Get16(const Byte *p, Bool be) { if (be) return (UInt16)GetBe16(p); return (UInt16)GetUi16(p); }
+-static UInt32 Get32(const Byte *p, Bool be) { if (be) return GetBe32(p); return GetUi32(p); }
+-// static UInt64 Get64(const Byte *p, Bool be) { if (be) return GetBe64(p); return GetUi64(p); }
++static UInt16 Get16(const Byte *p, BoolInt be) { if (be) return (UInt16)GetBe16(p); return (UInt16)GetUi16(p); }
++static UInt32 Get32(const Byte *p, BoolInt be) { if (be) return GetBe32(p); return GetUi32(p); }
++// static UInt64 Get64(const Byte *p, BoolInt be) { if (be) return GetBe64(p); return GetUi64(p); }
+ 
+ static int Parse_ELF(const Byte *buf, size_t size, CFilterMode *filterMode)
+ {
+-  Bool /* is32, */ be;
++  BoolInt /* is32, */ be;
+   UInt32 filterId;
+ 
+   if (size < 512 || buf[6] != 1) /* ver */

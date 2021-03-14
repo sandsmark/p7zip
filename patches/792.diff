@@ -1,0 +1,51 @@
+diff --git a/CPP/7zip/Compress/XzDecoder.h b/CPP/7zip/Compress/XzDecoder.h
+index 040ed21..b65b46b 100644
+--- a/CPP/7zip/Compress/XzDecoder.h
++++ b/CPP/7zip/Compress/XzDecoder.h
+@@ -70,21 +70,41 @@ Hunk #2, a/CPP/7zip/Compress/XzDecoder.h class CComDecoder:
+   public ICompressCoder,
+   public ICompressSetFinishMode,
+   public ICompressGetInStreamProcessedSize,
+-  public CMyUnknownImp
++
++  #ifndef _7ZIP_ST
++  public ICompressSetCoderMt,
++  public ICompressSetMemLimit,
++  #endif
++
++  public CMyUnknownImp,
++  public CDecoder
+ {
+-  CDecoder _decoder;
+   bool _finishStream;
+ 
+ public:
+-  MY_UNKNOWN_IMP2(
+-      ICompressSetFinishMode,
+-      ICompressGetInStreamProcessedSize)
++  MY_QUERYINTERFACE_BEGIN2(ICompressCoder)
++
++  MY_QUERYINTERFACE_ENTRY(ICompressSetFinishMode)
++  MY_QUERYINTERFACE_ENTRY(ICompressGetInStreamProcessedSize)
++
++  #ifndef _7ZIP_ST
++  MY_QUERYINTERFACE_ENTRY(ICompressSetCoderMt)
++  MY_QUERYINTERFACE_ENTRY(ICompressSetMemLimit)
++  #endif
+   
++  MY_QUERYINTERFACE_END
++  MY_ADDREF_RELEASE
++
+   STDMETHOD(Code)(ISequentialInStream *inStream, ISequentialOutStream *outStream,
+       const UInt64 *inSize, const UInt64 *outSize, ICompressProgressInfo *progress);
+   STDMETHOD(SetFinishMode)(UInt32 finishMode);
+   STDMETHOD(GetInStreamProcessedSize)(UInt64 *value);
+ 
++  #ifndef _7ZIP_ST
++  STDMETHOD(SetNumberOfThreads)(UInt32 numThreads);
++  STDMETHOD(SetMemLimit)(UInt64 memUsage);
++  #endif
++
+   CComDecoder(): _finishStream(false) {}
+ };
+ 

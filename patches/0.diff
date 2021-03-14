@@ -1,0 +1,4 @@
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1 @@ Hunk #1, b/.gitignore
++*.o

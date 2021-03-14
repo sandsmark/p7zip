@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -614,7 +614,7 @@ Hunk #11, a/CPP/7zip/UI/FileManager/PanelDrag.cpp static void GetNamesFromDataObject(IDataObject *dataObject, UStringVector &names
+     size_t blockSize = GlobalSize(medium.hGlobal);
+     NMemory::CGlobalLock dropLock(medium.hGlobal);
+     const DROPFILES* dropFiles = (DROPFILES*)dropLock.GetPointer();
+-    if (dropFiles == 0)
++    if (!dropFiles)
+       return;
+     if (blockSize < dropFiles->pFiles)
+       return;

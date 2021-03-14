@@ -1,0 +1,29 @@
+diff --git a/CPP/7zip/Compress/ShrinkDecoder.cpp b/CPP/7zip/Compress/ShrinkDecoder.cpp
+index bd7c246..41f0e35 100644
+--- a/CPP/7zip/Compress/ShrinkDecoder.cpp
++++ b/CPP/7zip/Compress/ShrinkDecoder.cpp
+@@ -34,20 +34,15 @@ Hunk #2, a/CPP/7zip/Compress/ShrinkDecoder.cpp HRESULT CDecoder::CodeReal(ISequentialInStream *inStream, ISequentialOutStream *
+   outBuffer.Init();
+ 
+   {
+-    unsigned i;
+-    for (i = 0; i < 257; i++)
+-      _parents[i] = (UInt16)i;
+-    for (; i < kNumItems; i++)
+-      _parents[i] = kNumItems;
+-    for (i = 0; i < kNumItems; i++)
+-      _suffixes[i] = 0;
++    for (unsigned i = 0; i < kNumItems; i++)
++      _parents[i] = kEmpty;
+   }
+ 
+-  UInt64 prevPos = 0, inPrev = 0;
++  UInt64 outPrev = 0, inPrev = 0;
+   unsigned numBits = kNumMinBits;
+   unsigned head = 257;
+   int lastSym = -1;
+-  Byte lastChar2 = 0;
++  Byte lastChar = 0;
+   bool moreOut = false;
+ 
+   HRESULT res = S_FALSE;

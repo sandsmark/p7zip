@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2762,7 +2762,7 @@ Hunk #43, a/CPP/7zip/UI/Common/Bench.cpp HRESULT Bench(
+ 
+   COneMethodInfo method;
+ 
+-  CBenchBuffer fileDataBuffer;
++  CAlignedBuffer fileDataBuffer;
+ 
+   {
+   unsigned i;

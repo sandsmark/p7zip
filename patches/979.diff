@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -831,9 +831,11 @@ Hunk #4, a/CPP/7zip/UI/Console/List.cpp static void PrintPropertyPair2(CStdOutStream &so, PROPID propID, const wchar_t *
+     UString nameU;
+     GetPropName(propID, name, nameA, nameU);
+     if (!nameA.IsEmpty())
+-      PrintPropPair(so, nameA, s);
++      so << nameA;
+     else
+-      so << nameU << " = " << s << endl;
++      so << nameU;
++    so << " = ";
++    PrintPropVal_MultiLine(so, s);
+   }
+ }
+ 

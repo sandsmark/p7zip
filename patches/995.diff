@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Console/Main.cpp b/CPP/7zip/UI/Console/Main.cpp
+index ed47bdc..333223b 100644
+--- a/CPP/7zip/UI/Console/Main.cpp
++++ b/CPP/7zip/UI/Console/Main.cpp
+@@ -382,6 +382,13 @@ Hunk #8, a/CPP/7zip/UI/Console/Main.cpp static void PrintMemUsage(const char *s, UInt64 val)
+   *g_StdStream << "    " << s << " Memory =";
+   PrintNum(SHIFT_SIZE_VALUE(val, 20), 7);
+   *g_StdStream << " MB";
++
++  #ifdef _7ZIP_LARGE_PAGES
++  AString lp;
++  Add_LargePages_String(lp);
++  if (!lp.IsEmpty())
++    *g_StdStream << lp;
++  #endif
+ }
+ 
+ EXTERN_C_BEGIN

@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -771,8 +771,11 @@ Hunk #15, a/CPP/7zip/Archive/XzHandler.cpp static HRESULT DecodeBlock(CXzUnpackerCPP2 &xzu,
+     ECoderStatus status;
+ 
+     SRes res = XzUnpacker_Code(&xzu.p,
+-        dest + outPos, &outLen,
++        // dest + outPos,
++        NULL,
++        &outLen,
+         xzu.InBuf + inPos, &inLen,
++        (inLen == 0), // srcFinished
+         CODER_FINISH_END, &status);
+ 
+     // return E_OUTOFMEMORY;

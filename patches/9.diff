@@ -1,0 +1,13 @@
+diff --git a/C/7zArcIn.c b/C/7zArcIn.c
+index e1b03d8..f74d0fa 100644
+--- a/C/7zArcIn.c
++++ b/C/7zArcIn.c
+@@ -1744,7 +1744,7 @@ Hunk #4, a/C/7zArcIn.c size_t SzArEx_GetFullNameLen(const CSzArEx *p, size_t fileIndex)
+ 
+ UInt16 *SzArEx_GetFullNameUtf16_Back(const CSzArEx *p, size_t fileIndex, UInt16 *dest)
+ {
+-  Bool needSlash;
++  BoolInt needSlash;
+   if (!p->FileNameOffsets)
+   {
+     *(--dest) = 0;

@@ -1,0 +1,13 @@
+diff --git a/DOC/lzma.txt b/DOC/lzma.txt
+index 87d727b..a65988f 100644
+--- a/DOC/lzma.txt
++++ b/DOC/lzma.txt
+@@ -167,7 +167,7 @@ Hunk #4, a/DOC/lzma.txt How To compress data
+ --------------------
+ 
+ Compile files: 
+-  Types.h
++  7zTypes.h
+   Threads.h	
+   LzmaEnc.h
+   LzmaEnc.c

@@ -1,0 +1,15 @@
+diff --git a/C/Lzma2Dec.c b/C/Lzma2Dec.c
+index 63853c6..4e138a4 100644
+--- a/C/Lzma2Dec.c
++++ b/C/Lzma2Dec.c
+@@ -124,8 +124,8 @@ Hunk #5, a/C/Lzma2Dec.c static ELzma2State Lzma2Dec_UpdateState(CLzma2Dec *p, Byte b)
+     case LZMA2_STATE_UNPACK1:
+       p->unpackSize |= (UInt32)b;
+       p->unpackSize++;
+-      PRF(printf(" %8u", (unsigned)p->unpackSize));
+-      return (LZMA2_IS_UNCOMPRESSED_STATE(p)) ? LZMA2_STATE_DATA : LZMA2_STATE_PACK0;
++      PRF(printf(" %7u", (unsigned)p->unpackSize));
++      return LZMA2_IS_UNCOMPRESSED_STATE(p) ? LZMA2_STATE_DATA : LZMA2_STATE_PACK0;
+     
+     case LZMA2_STATE_PACK0:
+       p->packSize = (UInt32)b << 8;

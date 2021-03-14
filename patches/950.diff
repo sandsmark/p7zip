@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1616,12 +1616,12 @@ Hunk #11, a/CPP/7zip/UI/Common/Update.cpp HRESULT UpdateArchive(
+     for (i = 0; i < dirItems.Items.Size(); i++)
+     {
+       const CDirItem &dirItem = dirItems.Items[i];
+-      FString phyPath = dirItems.GetPhyPath(i);
++      const FString phyPath = dirItems.GetPhyPath(i);
+       if (dirItem.IsDir())
+       {
+-        CRefSortPair pair;
++        CDirPathSortPair pair;
+         pair.Index = i;
+-        pair.Len = GetNumSlashes(phyPath);
++        pair.SetNumSlashes(phyPath);
+         pairs.Add(pair);
+       }
+       else

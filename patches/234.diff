@@ -1,0 +1,13 @@
+diff --git a/C/Util/7z/7zMain.c b/C/Util/7z/7zMain.c
+index cb60a9b..6ccc830 100644
+--- a/C/Util/7z/7zMain.c
++++ b/C/Util/7z/7zMain.c
+@@ -227,7 +227,7 @@ Hunk #4, a/C/Util/7z/7zMain.c static WRes MyCreateDir(const UInt16 *name)
+ static WRes OutFile_OpenUtf16(CSzFile *p, const UInt16 *name)
+ {
+   #ifdef USE_WINDOWS_FILE
+-  return OutFile_OpenW(p, name);
++  return OutFile_OpenW(p, (LPCWSTR)name);
+   #else
+   CBuf buf;
+   WRes res;

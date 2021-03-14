@@ -1,0 +1,11 @@
+diff --git a/CPP/7zip/Bundles/Format7z/makefile b/CPP/7zip/Bundles/Format7z/makefile
+index 1fb1d45..1233d4f 100644
+--- a/CPP/7zip/Bundles/Format7z/makefile
++++ b/CPP/7zip/Bundles/Format7z/makefile
+@@ -136,5 +136,6 @@ Hunk #2, a/CPP/7zip/Bundles/Format7z/makefile C_OBJS = \
+ 
+ !include "../../Aes.mak"
+ !include "../../Crc.mak"
++!include "../../LzmaDec.mak"
+ 
+ !include "../../7zip.mak"

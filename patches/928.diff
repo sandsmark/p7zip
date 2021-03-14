@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/OpenArchive.cpp b/CPP/7zip/UI/Common/OpenArchive.cpp
+index 6981717..419c29e 100644
+--- a/CPP/7zip/UI/Common/OpenArchive.cpp
++++ b/CPP/7zip/UI/Common/OpenArchive.cpp
+@@ -2295,7 +2295,7 @@ Hunk #6, a/CPP/7zip/UI/Common/OpenArchive.cpp HRESULT CArc::OpenStream2(const COpenOptions &op)
+       int index = orderIndices[i];
+       if (index < 0)
+         continue;
+-      const CArcInfoEx &ai = op.codecs->Formats[index];
++      const CArcInfoEx &ai = op.codecs->Formats[(unsigned)index];
+       bool isDifficult = false;
+       // if (ai.Version < 0x91F) // we don't use parser with old DLL (before 9.31)
+       if (!ai.NewInterface)

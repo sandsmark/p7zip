@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.dsp b/CPP/7zip/UI/GUI/GUI.dsp
+index c022088..b70e284 100644
+--- a/CPP/7zip/UI/GUI/GUI.dsp
++++ b/CPP/7zip/UI/GUI/GUI.dsp
+@@ -975,6 +975,14 @@ Hunk #4, a/CPP/7zip/UI/GUI/GUI.dsp SOURCE=..\..\..\Windows\Control\Static.h
+ # End Group
+ # Begin Source File
+ 
++SOURCE=..\..\..\Windows\Clipboard.cpp
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\..\Windows\Clipboard.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\..\Windows\COM.h
+ # End Source File
+ # Begin Source File

@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -270,7 +270,7 @@ Hunk #5, a/C/Util/7zipInstall/7zipInstall.c static int MyRegistry_QueryString2(HKEY hKey, LPCWSTR keyName, LPCWSTR valName,
+   if (res != ERROR_SUCCESS)
+     return False;
+   {
+-    Bool res2 = MyRegistry_QueryString(key, valName, dest);
++    BoolInt res2 = MyRegistry_QueryString(key, valName, dest);
+     RegCloseKey(key);
+     return res2;
+   }

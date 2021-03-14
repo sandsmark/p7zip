@@ -1,0 +1,41 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1045,36 +1045,6 @@ Hunk #4, a/CPP/7zip/UI/Common/Update.cpp static HRESULT EnumerateInArchiveItems(
+ 
+ #endif
+ 
+-struct CRefSortPair
+-{
+-  unsigned Len;
+-  unsigned Index;
+-};
+-
+-#define RINOZ(x) { int __tt = (x); if (__tt != 0) return __tt; }
+-
+-static int CompareRefSortPair(const CRefSortPair *a1, const CRefSortPair *a2, void *)
+-{
+-  RINOZ(-MyCompare(a1->Len, a2->Len));
+-  return MyCompare(a1->Index, a2->Index);
+-}
+-
+-static unsigned GetNumSlashes(const FChar *s)
+-{
+-  for (unsigned numSlashes = 0;;)
+-  {
+-    FChar c = *s++;
+-    if (c == 0)
+-      return numSlashes;
+-    if (IS_PATH_SEPAR(c))
+-      numSlashes++;
+-  }
+-}
+-
+-#ifdef _WIN32
+-void ConvertToLongNames(NWildcard::CCensor &censor);
+-#endif
+-
+ HRESULT UpdateArchive(
+     CCodecs *codecs,
+     const CObjectVector<COpenType> &types,

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2931,7 +2931,7 @@ Hunk #47, a/CPP/7zip/UI/Common/Bench.cpp HRESULT Bench(
+         else
+         {
+           // PrintNumber(*printCallback, start, 0);
+-          PrintNumber(*printCallback, mipsVal, 5 + ((sum == 0xF1541213) ? 1 : 0));
++          PrintNumber(*printCallback, mipsVal, 5);
+         }
+       }
+       /*

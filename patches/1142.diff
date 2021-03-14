@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/GUI/ExtractGUI.cpp b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+index 5071d1f..1e37efb 100644
+--- a/CPP/7zip/UI/GUI/ExtractGUI.cpp
++++ b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+@@ -252,11 +252,11 @@ Hunk #5, a/CPP/7zip/UI/GUI/ExtractGUI.cpp HRESULT ExtractGUI(
+ 
+   extracter.Title = title;
+   extracter.ExtractCallbackSpec = extractCallback;
+-  extracter.ExtractCallbackSpec->ProgressDialog = &extracter.ProgressDialog;
++  extracter.ExtractCallbackSpec->ProgressDialog = &extracter;
+   extracter.ExtractCallback = extractCallback;
+   extracter.ExtractCallbackSpec->Init();
+ 
+-  extracter.ProgressDialog.CompressingMode = false;
++  extracter.CompressingMode = false;
+ 
+   extracter.ArchivePaths = &archivePaths;
+   extracter.ArchivePathsFull = &archivePathsFull;

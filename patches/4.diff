@@ -1,0 +1,37 @@
+diff --git a/Asm/x86/7zAsm.asm b/Asm/x86/7zAsm.asm
+index 3707e90..067db82 100644
+--- a/Asm/x86/7zAsm.asm
++++ b/Asm/x86/7zAsm.asm
+@@ -103,3 +103,32 @@ Hunk #4, a/Asm/x86/7zAsm.asm MY_POP_4_REGS macro
+     pop     r5
+     pop     r3
+ endm
++
++
++ifdef x64
++
++; for WIN64-x64 ABI:
++
++REG_PARAM_0 equ r1
++REG_PARAM_1 equ r2
++REG_PARAM_2 equ r8
++REG_PARAM_3 equ r9
++
++MY_PUSH_PRESERVED_REGS macro
++    MY_PUSH_4_REGS
++    push    r12
++    push    r13
++    push    r14
++    push    r15
++endm
++
++
++MY_POP_PRESERVED_REGS macro
++    pop     r15
++    pop     r14
++    pop     r13
++    pop     r12
++    MY_POP_4_REGS
++endm
++
++endif

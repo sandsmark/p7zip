@@ -1,0 +1,26 @@
+diff --git a/CPP/7zip/Compress/Rar2Decoder.cpp b/CPP/7zip/Compress/Rar2Decoder.cpp
+index e906dee..fe458c8 100644
+--- a/CPP/7zip/Compress/Rar2Decoder.cpp
++++ b/CPP/7zip/Compress/Rar2Decoder.cpp
+@@ -389,15 +389,19 @@ Hunk #10, a/CPP/7zip/Compress/Rar2Decoder.cpp HRESULT CDecoder::CodeReal(ISequentialInStream *inStream, ISequentialOutStream *
+       if (!DecodeLz((Int32)blockSize))
+         return S_FALSE;
+     }
++
++    if (m_InBitStream.ExtraBitsWereRead())
++      return S_FALSE;
++
+     UInt64 globalPos = m_OutWindowStream.GetProcessedSize();
+     pos = globalPos - blockStartPos;
+     if (pos < blockSize)
+       if (!ReadTables())
+         return S_FALSE;
+     pos = globalPos - startPos;
+-    if (progress != 0)
++    if (progress)
+     {
+-      UInt64 packSize = m_InBitStream.GetProcessedSize();
++      const UInt64 packSize = m_InBitStream.GetProcessedSize();
+       RINOK(progress->SetRatioInfo(&packSize, &pos));
+     }
+   }

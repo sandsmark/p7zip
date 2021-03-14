@@ -1,0 +1,15 @@
+diff --git a/C/LzmaDec.h b/C/LzmaDec.h
+index d6af922..1f0927a 100644
+--- a/C/LzmaDec.h
++++ b/C/LzmaDec.h
+@@ -132,8 +132,8 @@ Hunk #5, a/C/LzmaDec.h LzmaDec_Allocate* can return:
+ SRes LzmaDec_AllocateProbs(CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAllocPtr alloc);
+ void LzmaDec_FreeProbs(CLzmaDec *p, ISzAllocPtr alloc);
+ 
+-SRes LzmaDec_Allocate(CLzmaDec *state, const Byte *prop, unsigned propsSize, ISzAllocPtr alloc);
+-void LzmaDec_Free(CLzmaDec *state, ISzAllocPtr alloc);
++SRes LzmaDec_Allocate(CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAllocPtr alloc);
++void LzmaDec_Free(CLzmaDec *p, ISzAllocPtr alloc);
+ 
+ /* ---------- Dictionary Interface ---------- */
+ 

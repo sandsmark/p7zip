@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelOperations.cpp b/CPP/7zip/UI/FileManager/PanelOperations.cpp
+index d049a3c..00bda1a 100644
+--- a/CPP/7zip/UI/FileManager/PanelOperations.cpp
++++ b/CPP/7zip/UI/FileManager/PanelOperations.cpp
+@@ -79,10 +79,10 @@ Hunk #1, a/CPP/7zip/UI/FileManager/PanelOperations.cpp HRESULT CThreadFolderOperations::DoOperation(CPanel &panel, const UString &progr
+ {
+   UpdateCallbackSpec = new CUpdateCallback100Imp;
+   UpdateCallback = UpdateCallbackSpec;
+-  UpdateCallbackSpec->ProgressDialog = &ProgressDialog;
++  UpdateCallbackSpec->ProgressDialog = this;
+ 
+-  ProgressDialog.WaitMode = true;
+-  ProgressDialog.Sync.FinalMessage.ErrorMessage.Title = titleError;
++  WaitMode = true;
++  Sync.FinalMessage.ErrorMessage.Title = titleError;
+   Result = S_OK;
+ 
+   UpdateCallbackSpec->Init();

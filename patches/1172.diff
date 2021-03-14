@@ -1,0 +1,38 @@
+diff --git a/CPP/Build.mak b/CPP/Build.mak
+index 22b8e16..f53286b 100644
+--- a/CPP/Build.mak
++++ b/CPP/Build.mak
+@@ -4,22 +4,23 @@ Hunk #1, a/CPP/Build.mak LIBS = $(LIBS) oleaut32.lib ole32.lib
+ CFLAGS = $(CFLAGS) -DUNICODE -D_UNICODE
+ !ENDIF
+ 
+-# CFLAGS = $(CFLAGS) -FAsc -Fa$O/Asm/
+-
+ !IFNDEF O
+-!IFDEF CPU
+-O=$(CPU)
++!IFDEF PLATFORM
++O=$(PLATFORM)
+ !ELSE
+-O=O
++O=o
+ !ENDIF
+ !ENDIF
+ 
+-!IF "$(CPU)" == "AMD64"
+-MY_ML = ml64 -Dx64
+-!ELSEIF "$(CPU)" == "ARM"
+-MY_ML = armasm
++# CFLAGS = $(CFLAGS) -FAsc -Fa$O/asm/
++
++
++!IF "$(PLATFORM)" == "x64"
++MY_ML = ml64 -Dx64 -WX
++!ELSEIF "$(PLATFORM)" == "arm"
++MY_ML = armasm -WX
+ !ELSE
+-MY_ML = ml
++MY_ML = ml -WX
+ !ENDIF
+ 
+ 

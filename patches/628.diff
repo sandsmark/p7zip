@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/Bundles/Fm/FM.dsp b/CPP/7zip/Bundles/Fm/FM.dsp
+index 7ebf37e..03fbb50 100644
+--- a/CPP/7zip/Bundles/Fm/FM.dsp
++++ b/CPP/7zip/Bundles/Fm/FM.dsp
+@@ -1040,6 +1040,15 @@ Hunk #4, a/CPP/7zip/Bundles/Fm/FM.dsp SOURCE=..\..\..\..\C\MtCoder.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\..\..\C\MtDec.c
++# SUBTRACT CPP /YX /Yc /Yu
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\..\..\C\MtDec.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\..\..\C\Sha256.c
+ 
+ !IF  "$(CFG)" == "FM - Win32 Release"

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/HfsHandler.cpp b/CPP/7zip/Archive/HfsHandler.cpp
+index d02f072..ca1d7bd 100644
+--- a/CPP/7zip/Archive/HfsHandler.cpp
++++ b/CPP/7zip/Archive/HfsHandler.cpp
+@@ -1754,7 +1754,7 @@ Hunk #7, a/CPP/7zip/Archive/HfsHandler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+           if (fork.Size == pos)
+             break;
+           const CExtent &e = fork.Extents[extentIndex];
+-          RINOK(_stream->Seek((UInt64)e.Pos << Header.BlockSizeLog, STREAM_SEEK_SET, NULL));
++          RINOK(_stream->Seek(SpecOffset + ((UInt64)e.Pos << Header.BlockSizeLog), STREAM_SEEK_SET, NULL));
+           UInt64 extentRem = (UInt64)e.NumBlocks << Header.BlockSizeLog;
+           while (extentRem != 0)
+           {

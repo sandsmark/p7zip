@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Rar/RarHandler.cpp b/CPP/7zip/Archive/Rar/RarHandler.cpp
+index c097b15..dd78e31 100644
+--- a/CPP/7zip/Archive/Rar/RarHandler.cpp
++++ b/CPP/7zip/Archive/Rar/RarHandler.cpp
+@@ -415,6 +415,8 @@ Hunk #3, a/CPP/7zip/Archive/Rar/RarHandler.cpp bool CInArchive::ReadHeaderReal(const Byte *p, unsigned size, CItem &item)
+     if (size < 8)
+       return false;
+     item.PackSize |= ((UInt64)Get32(p) << 32);
++    if (item.PackSize >= ((UInt64)1 << 63))
++      return false;
+     item.Size |= ((UInt64)Get32(p + 4) << 32);
+     p += 8;
+     size -= 8;

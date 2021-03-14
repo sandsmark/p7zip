@@ -1,0 +1,5 @@
+--- /dev/null
++++ b/CPP/7zip/UI/FileManager/EditDialogRes.h
+@@ -0,0 +1,2 @@ Hunk #1, b/CPP/7zip/UI/FileManager/EditDialogRes.h
++#define IDD_EDIT_DLG  94
++#define IDE_EDIT 100

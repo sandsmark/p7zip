@@ -1,0 +1,18 @@
+diff --git a/C/Lzma2Dec.c b/C/Lzma2Dec.c
+index 63853c6..4e138a4 100644
+--- a/C/Lzma2Dec.c
++++ b/C/Lzma2Dec.c
+@@ -230,12 +230,7 @@ Hunk #9, a/C/Lzma2Dec.c SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
+ 
+         if (p->state == LZMA2_STATE_DATA)
+         {
+-          Bool initDic = (p->control == LZMA2_CONTROL_COPY_RESET_DIC);
+-          if (initDic)
+-            p->needInitProp = p->needInitState = True;
+-          else if (p->needInitDic)
+-            break;
+-          p->needInitDic = False;
++          BoolInt initDic = (p->control == LZMA2_CONTROL_COPY_RESET_DIC);
+           LzmaDec_InitDicAndState(&p->decoder, initDic, False);
+         }
+ 

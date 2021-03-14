@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipHandler.cpp b/CPP/7zip/Archive/Zip/ZipHandler.cpp
+index 927b374..a4794f5 100644
+--- a/CPP/7zip/Archive/Zip/ZipHandler.cpp
++++ b/CPP/7zip/Archive/Zip/ZipHandler.cpp
+@@ -169,6 +169,7 @@ Hunk #2, a/CPP/7zip/Archive/Zip/ZipHandler.cpp static const Byte kProps[] =
+   kpidUnpackVer,
+   kpidVolumeIndex,
+   kpidOffset
++  // kpidIsAltStream
+ };
+ 
+ static const Byte kArcProps[] =

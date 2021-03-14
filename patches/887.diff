@@ -1,0 +1,27 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1639,14 +1639,15 @@ Hunk #32, a/CPP/7zip/UI/Common/Bench.cpp static UInt32 RandGenCrc(Byte *buf, UInt32 size, CBaseRandomGenerator &RG)
+ 
+ bool CrcInternalTest()
+ {
+-  CBenchBuffer buffer;
+-  const UInt32 kBufferSize0 = (1 << 8);
+-  const UInt32 kBufferSize1 = (1 << 10);
+-  const UInt32 kCheckSize = (1 << 5);
+-  if (!buffer.Alloc(kBufferSize0 + kBufferSize1))
++  CAlignedBuffer buffer;
++  const size_t kBufferSize0 = (1 << 8);
++  const size_t kBufferSize1 = (1 << 10);
++  const unsigned kCheckSize = (1 << 5);
++  buffer.Alloc(kBufferSize0 + kBufferSize1);
++  if (!buffer.IsAllocated())
+     return false;
+-  Byte *buf = buffer.Buffer;
+-  UInt32 i;
++  Byte *buf = (Byte *)buffer;
++  size_t i;
+   for (i = 0; i < kBufferSize0; i++)
+     buf[i] = (Byte)i;
+   UInt32 crc1 = CrcCalc1(buf, kBufferSize0);

@@ -1,0 +1,13 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -355,7 +355,7 @@ Hunk #9, a/C/XzDec.c void MixCoder_Free(CMixCoder *p)
+   }
+ }
+ 
+-void MixCoder_Init(CMixCoder *p)
++static void MixCoder_Init(CMixCoder *p)
+ {
+   unsigned i;
+   for (i = 0; i < MIXCODER_NUM_FILTERS_MAX - 1; i++)

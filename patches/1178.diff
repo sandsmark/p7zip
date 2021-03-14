@@ -1,0 +1,18 @@
+diff --git a/CPP/Build.mak b/CPP/Build.mak
+index 22b8e16..f53286b 100644
+--- a/CPP/Build.mak
++++ b/CPP/Build.mak
+@@ -128,10 +128,10 @@ Hunk #7, a/CPP/Build.mak clean:
+ 
+ $O:
+ 	if not exist "$O" mkdir "$O"
+-$O/Asm:
+-	if not exist "$O/Asm" mkdir "$O/Asm"
++$O/asm:
++	if not exist "$O/asm" mkdir "$O/asm"
+ 
+-$(PROGPATH): $O $O/Asm $(OBJS) $(DEF_FILE)
++$(PROGPATH): $O $O/asm $(OBJS) $(DEF_FILE)
+ 	link $(LFLAGS) -out:$(PROGPATH) $(OBJS) $(LIBS)
+ 
+ !IFNDEF NO_DEFAULT_RES

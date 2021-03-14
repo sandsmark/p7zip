@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/Bundles/Fm/FM.dsp b/CPP/7zip/Bundles/Fm/FM.dsp
+index 7ebf37e..03fbb50 100644
+--- a/CPP/7zip/Bundles/Fm/FM.dsp
++++ b/CPP/7zip/Bundles/Fm/FM.dsp
+@@ -677,6 +677,14 @@ Hunk #1, a/CPP/7zip/Bundles/Fm/FM.dsp SOURCE=..\..\UI\FileManager\DialogSize.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\UI\FileManager\EditDialog.cpp
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\UI\FileManager\EditDialog.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\UI\FileManager\LinkDialog.cpp
+ # End Source File
+ # Begin Source File

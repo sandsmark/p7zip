@@ -1,0 +1,37 @@
+diff --git a/CPP/7zip/Common/CreateCoder.h b/CPP/7zip/Common/CreateCoder.h
+index f06064b..20d0ef3 100644
+--- a/CPP/7zip/Common/CreateCoder.h
++++ b/CPP/7zip/Common/CreateCoder.h
+@@ -152,18 +152,29 @@ Hunk #2, a/CPP/7zip/Common/CreateCoder.h struct CCreatedCoder
+ };
+ 
+ 
+-HRESULT CreateCoder(
++HRESULT CreateCoder_Index(
++    DECL_EXTERNAL_CODECS_LOC_VARS
++    unsigned codecIndex, bool encode,
++    CMyComPtr<ICompressFilter> &filter,
++    CCreatedCoder &cod);
++
++HRESULT CreateCoder_Index(
++    DECL_EXTERNAL_CODECS_LOC_VARS
++    unsigned index, bool encode,
++    CCreatedCoder &cod);
++
++HRESULT CreateCoder_Id(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+     CMethodId methodId, bool encode,
+     CMyComPtr<ICompressFilter> &filter,
+     CCreatedCoder &cod);
+ 
+-HRESULT CreateCoder(
++HRESULT CreateCoder_Id(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+     CMethodId methodId, bool encode,
+     CCreatedCoder &cod);
+ 
+-HRESULT CreateCoder(
++HRESULT CreateCoder_Id(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+     CMethodId methodId, bool encode,
+     CMyComPtr<ICompressCoder> &coder);

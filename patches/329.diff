@@ -1,0 +1,13 @@
+diff --git a/C/XzEnc.c b/C/XzEnc.c
+index 2b95a0e..d0a8b44 100644
+--- a/C/XzEnc.c
++++ b/C/XzEnc.c
+@@ -931,7 +931,7 @@ Hunk #7, a/C/XzEnc.c typedef struct
+   #ifndef _7ZIP_ST
+   unsigned checkType;
+   ISeqOutStream *outStream;
+-  Bool mtCoder_WasConstructed;
++  BoolInt mtCoder_WasConstructed;
+   CMtCoder mtCoder;
+   CXzEncBlockInfo EncBlocks[MTCODER__BLOCKS_MAX];
+   #endif

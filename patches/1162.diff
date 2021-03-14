@@ -1,0 +1,59 @@
+diff --git a/CPP/7zip/UI/GUI/HashGUI.cpp b/CPP/7zip/UI/GUI/HashGUI.cpp
+index cc93f07..37cd65e 100644
+--- a/CPP/7zip/UI/GUI/HashGUI.cpp
++++ b/CPP/7zip/UI/GUI/HashGUI.cpp
+@@ -268,15 +268,49 @@ Hunk #9, a/CPP/7zip/UI/GUI/HashGUI.cpp HRESULT HashCalcGUI(
+   t.censor = &censor;
+   t.options = &options;
+ 
+-  t.ProgressDialog.ShowCompressionInfo = false;
++  t.ShowCompressionInfo = false;
+ 
+   const UString title = LangString(IDS_CHECKSUM_CALCULATING);
+ 
+-  t.ProgressDialog.MainTitle = "7-Zip"; // LangString(IDS_APP_TITLE);
+-  t.ProgressDialog.MainAddTitle = title;
+-  t.ProgressDialog.MainAddTitle.Add_Space();
++  t.MainTitle = "7-Zip"; // LangString(IDS_APP_TITLE);
++  t.MainAddTitle = title;
++  t.MainAddTitle.Add_Space();
+ 
+   RINOK(t.Create(title));
+-  messageWasDisplayed = t.ThreadFinishedOK && t.ProgressDialog.MessagesDisplayed;
++  messageWasDisplayed = t.ThreadFinishedOK && t.MessagesDisplayed;
+   return S_OK;
+ }
++
++
++void ShowHashResults(const CPropNameValPairs &propPairs, HWND hwnd)
++{
++  CListViewDialog lv;
++  
++  FOR_VECTOR (i, propPairs)
++  {
++    const CProperty &pair = propPairs[i];
++    lv.Strings.Add(pair.Name);
++    lv.Values.Add(pair.Value);
++  }
++  
++  lv.Title = LangString(IDS_CHECKSUM_INFORMATION);
++  lv.DeleteIsAllowed = true;
++  lv.SelectFirst = false;
++  lv.NumColumns = 2;
++  
++  lv.Create(hwnd);
++}
++
++
++void ShowHashResults(const CHashBundle &hb, HWND hwnd)
++{
++  CPropNameValPairs propPairs;
++  AddHashBundleRes(propPairs, hb);
++  ShowHashResults(propPairs, hwnd);
++}
++
++
++void CHashCallbackGUI::ProcessWasFinished_GuiVirt()
++{
++  ShowHashResults(PropNameValPairs, *this);
++}

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Rar/RarHandler.h b/CPP/7zip/Archive/Rar/RarHandler.h
+index 901406d..e444bd7 100644
+--- a/CPP/7zip/Archive/Rar/RarHandler.h
++++ b/CPP/7zip/Archive/Rar/RarHandler.h
+@@ -26,7 +26,7 @@ Hunk #1, a/CPP/7zip/Archive/Rar/RarHandler.h struct CInArcInfo
+   UInt32 DataCRC;
+   bool EndOfArchive_was_Read;
+ 
+-  CInArcInfo(): EndFlags(0), EndOfArchive_was_Read(false) {}
++  CInArcInfo(): EndFlags(0), EndOfArchive_was_Read(false), VolNumber(0) {}
+ 
+   UInt64 GetPhySize() const { return EndPos - StartPos; }
+ 

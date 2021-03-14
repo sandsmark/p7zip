@@ -1,0 +1,25 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -890,15 +890,16 @@ Hunk #17, a/CPP/7zip/Archive/XzHandler.cpp STDMETHODIMP CHandler::GetStream(UInt32 index, ISequentialInStream **stream)
+     return E_INVALIDARG;
+ 
+   if (!_stat.UnpackSize_Defined
++      || _maxBlocksSize == 0 // 18.02
+       || _maxBlocksSize > kMaxBlockSize_for_GetStream
+       || _maxBlocksSize != (size_t)_maxBlocksSize)
+     return S_FALSE;
+ 
+-  UInt64 physSize = (UInt64)(sizeof(size_t)) << 29;
+-  bool ramSize_Defined = NSystem::GetRamSize(physSize);
+-  if (ramSize_Defined)
++  UInt64 memSize;
++  if (!NSystem::GetRamSize(memSize))
++    memSize = (UInt64)(sizeof(size_t)) << 28;
+   {
+-    if (_maxBlocksSize > physSize / 4)
++    if (_maxBlocksSize > memSize / 4)
+       return S_FALSE;
+   }
+ 

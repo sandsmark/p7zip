@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Far/Far.cpp b/CPP/7zip/UI/Far/Far.cpp
+index cec4af5..5d92bc4 100644
+--- a/CPP/7zip/UI/Far/Far.cpp
++++ b/CPP/7zip/UI/Far/Far.cpp
+@@ -411,7 +411,7 @@ Hunk #4, a/CPP/7zip/UI/Far/Far.cpp static HANDLE MyOpenFilePlugin(const char *name)
+   #else
+     ::AreFileApisANSI() ? CP_ACP : CP_OEMCP;
+   #endif
+-  return MyOpenFilePluginW(GetUnicodeString(name, codePage));
++  return MyOpenFilePluginW(GetUnicodeString(name, codePage), isAbortCodeSupported);
+ }
+ 
+ EXTERN_C HANDLE WINAPI OpenFilePlugin(char *name, const unsigned char * /* data */, int /* dataSize */)

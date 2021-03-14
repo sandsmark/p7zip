@@ -1,0 +1,36 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1396,6 +1396,31 @@ Hunk #6, a/CPP/7zip/UI/Common/Update.cpp HRESULT UpdateArchive(
+ 
+   unsigned ci;
+ 
++
++  // self including protection
++  if (options.DeleteAfterCompressing)
++  {
++    for (ci = 0; ci < options.Commands.Size(); ci++)
++    {
++      CArchivePath &ap = options.Commands[ci].ArchivePath;
++      const FString path = us2fs(ap.GetFinalPath());
++      // maybe we must compare absolute paths path here
++      FOR_VECTOR (i, dirItems.Items)
++      {
++        const FString phyPath = dirItems.GetPhyPath(i);
++        if (phyPath == path)
++        {
++          UString s;
++          s = "It is not allowed to include archive to itself";
++          s.Add_LF();
++          s += path;
++          throw s;
++        }
++      }
++    }
++  }
++
++
+   for (ci = 0; ci < options.Commands.Size(); ci++)
+   {
+     CArchivePath &ap = options.Commands[ci].ArchivePath;

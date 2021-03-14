@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Common/UpdateCallback.h b/CPP/7zip/UI/Common/UpdateCallback.h
+index d5ac412..9e6925f 100644
+--- a/CPP/7zip/UI/Common/UpdateCallback.h
++++ b/CPP/7zip/UI/Common/UpdateCallback.h
+@@ -136,6 +136,7 @@ Hunk #1, a/CPP/7zip/UI/Common/UpdateCallback.h class CArchiveUpdateCallback:
+   const UString *Comment;
+ 
+   bool ShareForWrite;
++  bool StopAfterOpenError;
+   bool StdInMode;
+ 
+   bool KeepOriginalItemNames;

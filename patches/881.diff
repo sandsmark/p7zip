@@ -1,0 +1,45 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1257,22 +1257,38 @@ Hunk #26, a/CPP/7zip/UI/Common/Bench.cpp static HRESULT MethodBench(
+   {
+     CEncoderInfo &encoder = encoders[i];
+     encoder._method = method;
++    encoder.generateDictBits = generateDictBits;
+     encoder._uncompressedDataSize = uncompressedDataSize;
+     encoder.kBufferSize = uncompressedDataSize;
+     encoder.fileData = fileData;
+     encoder.crc = crc;
+-
+-    RINOK(encoders[i].Init(method, generateDictBits, &rg));
+   }
+ 
+   CBenchProgressStatus status;
+   status.Res = S_OK;
+   status.EncodeMode = true;
+ 
++  #ifndef _7ZIP_ST
++  CBenchThreadsFlusher encoderFlusher;
++  if (mtEncMode)
++  {
++    WRes wres = encoderFlusher.Common.StartEvent.Create();
++    if (wres != 0)
++      return HRESULT_FROM_WIN32(wres);
++    encoderFlusher.NumThreads = numEncoderThreads;
++    encoderFlusher.EncodersSpec = &encodersSpec;
++    encoderFlusher.NeedClose = true;
++  }
++  #endif
++
+   for (i = 0; i < numEncoderThreads; i++)
+   {
+     CEncoderInfo &encoder = encoders[i];
+     encoder.NumIterations = GetNumIterations(benchProps->GeComprCommands(uncompressedDataSize), complexInCommands);
++    encoder.Salt = g_CrcTable[i & 0xFF];
++    encoder.Salt ^= (g_CrcTable[(i >> 8) & 0xFF] << 3);
++    // (g_CrcTable[0] == 0), and (encoder.Salt == 0) for first thread
++    // printf(" %8x", encoder.Salt);
+ 
+     for (int j = 0; j < 2; j++)
+     {

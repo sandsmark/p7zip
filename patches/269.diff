@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipUninstall/7zipUninstall.c b/C/Util/7zipUninstall/7zipUninstall.c
+index 0bf27cc..1676117 100644
+--- a/C/Util/7zipUninstall/7zipUninstall.c
++++ b/C/Util/7zipUninstall/7zipUninstall.c
+@@ -558,7 +558,7 @@ Hunk #16, a/C/Util/7zipUninstall/7zipUninstall.c static BOOL RemoveDir()
+ 
+ static const char * const k_Names =
+   "af an ar ast az ba be bg bn br ca co cs cy da de el eo es et eu ext"
+-  " fa fi fr fur fy ga gl gu he hi hr hu hy id io is it ja ka kaa kk ko ku ku-ckb ky"
++  " fa fi fr fur fy ga gl gu he hi hr hu hy id io is it ja ka kaa kab kk ko ku ku-ckb ky"
+   " lij lt lv mk mn mng mng2 mr ms nb ne nl nn pa-in pl ps pt pt-br ro ru"
+   " sa si sk sl sq sr-spc sr-spl sv ta th tr tt ug uk uz va vi yo zh-cn zh-tw"
+   " en.ttt"

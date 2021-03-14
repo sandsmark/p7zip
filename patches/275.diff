@@ -1,0 +1,13 @@
+diff --git a/C/Util/Lzma/LzmaUtil.c b/C/Util/Lzma/LzmaUtil.c
+index 33db3e1..739bc0f 100644
+--- a/C/Util/Lzma/LzmaUtil.c
++++ b/C/Util/Lzma/LzmaUtil.c
+@@ -177,7 +177,7 @@ Hunk #2, a/C/Util/Lzma/LzmaUtil.c static int main2(int numArgs, const char *args[], char *rs)
+   char c;
+   int res;
+   int encodeMode;
+-  Bool useOutFile = False;
++  BoolInt useOutFile = False;
+ 
+   FileSeqInStream_CreateVTable(&inStream);
+   File_Construct(&inStream.file);

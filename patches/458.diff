@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -898,8 +898,7 @@ Hunk #14, a/CPP/7zip/Archive/PeHandler.cpp STDMETHODIMP CHandler::GetArchiveProperty(PROPID propID, PROPVARIANT *value)
+     // case kpidAddressOfEntryPoint: prop = _optHeader.AddressOfEntryPoint; break;
+     // case kpidBaseOfCode: prop = _optHeader.BaseOfCode; break;
+     // case kpidBaseOfData32: if (!_optHeader.Is64Bit()) prop = _optHeader.BaseOfData32; break;
+-
+-    case kpidMainSubfile: if (_mainSubfile >= 0) prop = (UInt32)_mainSubfile; break;
++  }
+   }
+   prop.Detach(value);
+   return S_OK;

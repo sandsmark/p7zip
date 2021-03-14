@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+index fa14655..de2f2e0 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -205,8 +205,8 @@ Hunk #2, a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp void CArchiveExtractCallback::Init(
+     const UStringVector &removePathParts, bool removePartsForAltStreams,
+     UInt64 packSize)
+ {
+-  _extractedFolderPaths.Clear();
+-  _extractedFolderIndices.Clear();
++  ClearExtractedDirsInfo();
++  _outFileStream.Release();
+   
+   #ifdef SUPPORT_LINKS
+   _hardLinks.Clear();

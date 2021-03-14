@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Bundles/SFXWin/makefile b/CPP/7zip/Bundles/SFXWin/makefile
+index dc48ae8..b3b4546 100644
+--- a/CPP/7zip/Bundles/SFXWin/makefile
++++ b/CPP/7zip/Bundles/SFXWin/makefile
+@@ -135,7 +135,9 @@ Hunk #3, a/CPP/7zip/Bundles/SFXWin/makefile C_OBJS = \
+   $O\Delta.obj \
+   $O\DllSecur.obj \
+   $O\Lzma2Dec.obj \
++  $O\Lzma2DecMt.obj \
+   $O\LzmaDec.obj \
++  $O\MtDec.obj \
+   $O\Ppmd7.obj \
+   $O\Ppmd7Dec.obj \
+   $O\Sha256.obj \

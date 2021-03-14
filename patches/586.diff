@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipItem.h b/CPP/7zip/Archive/Zip/ZipItem.h
+index 0cf9bd0..e576971 100644
+--- a/CPP/7zip/Archive/Zip/ZipItem.h
++++ b/CPP/7zip/Archive/Zip/ZipItem.h
+@@ -209,6 +209,12 @@ Hunk #2, a/CPP/7zip/Archive/Zip/ZipItem.h class CLocalItem
+ public:
+   UInt16 Flags;
+   UInt16 Method;
++  
++  /*
++    Zip specification doesn't mention that ExtractVersion field uses HostOS subfield.
++    18.06: 7-Zip now doesn't use ExtractVersion::HostOS to detect codePage
++  */
++
+   CVersion ExtractVersion;
+ 
+   UInt64 Size;

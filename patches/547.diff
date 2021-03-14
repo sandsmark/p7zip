@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipAddCommon.cpp b/CPP/7zip/Archive/Zip/ZipAddCommon.cpp
+index 0baa254..1ee7e22 100644
+--- a/CPP/7zip/Archive/Zip/ZipAddCommon.cpp
++++ b/CPP/7zip/Archive/Zip/ZipAddCommon.cpp
+@@ -384,7 +384,7 @@ Hunk #1, a/CPP/7zip/Archive/Zip/ZipAddCommon.cpp HRESULT CAddCommon::Compress(
+               methodId = kMethodId_ZipBase + method;
+               break;
+           }
+-          RINOK(CreateCoder(
++          RINOK(CreateCoder_Id(
+               EXTERNAL_CODECS_LOC_VARS
+               methodId, true, _compressEncoder));
+           if (!_compressEncoder)

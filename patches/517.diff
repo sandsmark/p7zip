@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/Wim/WimIn.cpp b/CPP/7zip/Archive/Wim/WimIn.cpp
+index b934478..3c71208 100644
+--- a/CPP/7zip/Archive/Wim/WimIn.cpp
++++ b/CPP/7zip/Archive/Wim/WimIn.cpp
+@@ -111,7 +111,9 @@ Hunk #1, a/CPP/7zip/Archive/Wim/WimIn.cpp HRESULT CUnpacker::UnpackChunk(
+     }
+     else if (method == NMethod::kLZX)
+     {
+-      lzxDecoderSpec->SetExternalWindow(unpackBuf.Data, chunkSizeBits);
++      res = lzxDecoderSpec->SetExternalWindow(unpackBuf.Data, chunkSizeBits);
++      if (res != S_OK)
++        return E_NOTIMPL;
+       lzxDecoderSpec->KeepHistoryForNext = false;
+       lzxDecoderSpec->SetKeepHistory(false);
+       res = lzxDecoderSpec->Code(packBuf.Data, inSize, (UInt32)outSize);

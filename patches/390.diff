@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/Cab/CabHandler.cpp b/CPP/7zip/Archive/Cab/CabHandler.cpp
+index c62efbd..4395ae1 100644
+--- a/CPP/7zip/Archive/Cab/CabHandler.cpp
++++ b/CPP/7zip/Archive/Cab/CabHandler.cpp
+@@ -822,7 +822,8 @@ Hunk #7, a/CPP/7zip/Archive/Cab/CabHandler.cpp HRESULT CFolderOutStream::Write2(const void *data, UInt32 size, UInt32 *processe
+         realProcessed += numBytesToWrite;
+         if (processedSize)
+           *processedSize = realProcessed;
+-        data = (const void *)((const Byte *)data + numBytesToWrite);
++        if (data)
++          data = (const void *)((const Byte *)data + numBytesToWrite);
+         size -= numBytesToWrite;
+         m_PosInFolder += numBytesToWrite;
+       }

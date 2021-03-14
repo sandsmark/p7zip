@@ -1,0 +1,10 @@
+diff --git a/CPP/7zip/UI/GUI/resource.rc b/CPP/7zip/UI/GUI/resource.rc
+index 13a09c6..04af815 100644
+--- a/CPP/7zip/UI/GUI/resource.rc
++++ b/CPP/7zip/UI/GUI/resource.rc
+@@ -21,3 +21,5 @@ Hunk #1, a/CPP/7zip/UI/GUI/resource.rc IDI_ICON ICON "FM.ico"
+ #include "Extract.rc"
+ #include "../FileManager/BrowseDialog.rc"
+ #include "../FileManager/ComboDialog.rc"
++#include "../FileManager/EditDialog.rc"
++#include "../FileManager/ListViewDialog.rc"

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Compress/XpressDecoder.cpp b/CPP/7zip/Compress/XpressDecoder.cpp
+index a38d941..864c6f8 100644
+--- a/CPP/7zip/Compress/XpressDecoder.cpp
++++ b/CPP/7zip/Compress/XpressDecoder.cpp
+@@ -99,7 +99,7 @@ Hunk #3, a/CPP/7zip/Compress/XpressDecoder.cpp HRESULT Decode(const Byte *in, size_t inSize, Byte *out, size_t outSize)
+           in += 2;
+         }
+         else
+-          len += kNumLenSlots - 1;
++          len += kLenMask;
+       }
+ 
+       bs.BitPos -= dist;

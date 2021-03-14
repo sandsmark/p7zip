@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Compress/XpressDecoder.cpp b/CPP/7zip/Compress/XpressDecoder.cpp
+index a38d941..864c6f8 100644
+--- a/CPP/7zip/Compress/XpressDecoder.cpp
++++ b/CPP/7zip/Compress/XpressDecoder.cpp
+@@ -83,10 +83,10 @@ Hunk #2, a/CPP/7zip/Compress/XpressDecoder.cpp HRESULT Decode(const Byte *in, size_t inSize, Byte *out, size_t outSize)
+     else
+     {
+       sym -= 256;
+-      UInt32 dist = sym / kNumLenSlots;
+-      UInt32 len = sym & (kNumLenSlots - 1);
++      UInt32 dist = sym >> kNumLenBits;
++      UInt32 len = sym & kLenMask;
+       
+-      if (len == kNumLenSlots - 1)
++      if (len == kLenMask)
+       {
+         if (in > lim)
+           return S_FALSE;

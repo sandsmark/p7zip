@@ -1,0 +1,13 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -733,7 +733,7 @@ Hunk #30, a/C/LzmaDec.c static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
+ 
+           if (posSlot < kEndPosModelIndex)
+           {
+-            prob = probs + SpecPos + ((2 | (posSlot & 1)) << numDirectBits) - posSlot - 1;
++            prob = probs + SpecPos + ((2 | (posSlot & 1)) << numDirectBits);
+           }
+           else
+           {

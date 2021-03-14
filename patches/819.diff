@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Agent/Agent.cpp b/CPP/7zip/UI/Agent/Agent.cpp
+index dbcd6ff..1c2e339 100644
+--- a/CPP/7zip/UI/Agent/Agent.cpp
++++ b/CPP/7zip/UI/Agent/Agent.cpp
+@@ -1557,6 +1557,7 @@ Hunk #3, a/CPP/7zip/UI/Agent/Agent.cpp STDMETHODIMP CAgent::Open(
+ {
+   COM_TRY_BEGIN
+   _archiveFilePath = filePath;
++  _attrib = 0;
+   NFile::NFind::CFileInfo fi;
+   _isDeviceFile = false;
+   if (!inStream)

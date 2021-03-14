@@ -1,0 +1,30 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -924,17 +924,20 @@ Hunk #36, a/C/LzmaDec.c SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, SizeT *sr
+             return SZ_ERROR_FAIL; /* some internal error */
+           lookAhead -= rem;
+         }
+-        (*srcLen) += lookAhead;
++        (*srcLen) += (SizeT)lookAhead;
+         src += lookAhead;
+-        inSize -= lookAhead;
++        inSize -= (SizeT)lookAhead;
+         p->tempBufSize = 0;
+       }
+   }
+-  if (p->code == 0)
+-    *status = LZMA_STATUS_FINISHED_WITH_MARK;
+-  return (p->code == 0) ? SZ_OK : SZ_ERROR_DATA;
++  
++  if (p->code != 0)
++    return SZ_ERROR_DATA;
++  *status = LZMA_STATUS_FINISHED_WITH_MARK;
++  return SZ_OK;
+ }
+ 
++
+ SRes LzmaDec_DecodeToBuf(CLzmaDec *p, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status)
+ {
+   SizeT outSize = *destLen;

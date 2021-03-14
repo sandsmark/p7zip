@@ -1,0 +1,25 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.h b/CPP/7zip/Archive/Zip/ZipUpdate.h
+index d5fda85..8785ae6 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.h
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.h
+@@ -50,12 +50,19 @@ Hunk #2, a/CPP/7zip/Archive/Zip/ZipUpdate.h struct CUpdateItem
+     IsDir = false;
+     NtfsTimeIsDefined = false;
+     IsUtf8 = false;
++    // IsAltStream = false;
+     Size = 0;
+     Name.Empty();
+     Comment.Free();
+   }
+ 
+-  CUpdateItem(): NtfsTimeIsDefined(false), IsUtf8(false), Size(0) {}
++  CUpdateItem():
++    IsDir(false),
++    NtfsTimeIsDefined(false),
++    IsUtf8(false),
++    // IsAltStream(false),
++    Size(0)
++    {}
+ };
+ 
+ HRESULT Update(

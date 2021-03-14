@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelCopy.cpp b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+index d07def1..c3416cc 100644
+--- a/CPP/7zip/UI/FileManager/PanelCopy.cpp
++++ b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+@@ -159,7 +159,7 @@ Hunk #7, a/CPP/7zip/UI/FileManager/PanelCopy.cpp HRESULT CPanel::CopyTo(CCopyToOptions &options, const CRecordVector<UInt32> &ind
+     extracter.ExtractCallbackSpec->SetHashCalc(&extracter.Hash);
+   }
+ 
+-  extracter.Hash.Init();
++  // extracter.Hash.Init();
+ 
+   UString title;
+   {

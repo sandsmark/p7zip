@@ -1,0 +1,44 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -242,27 +242,31 @@ Hunk #9, a/C/LzmaEnc.c typedef struct
+ 
+ typedef struct
+ {
+-  CLzmaProb choice;
+-  CLzmaProb choice2;
+-  CLzmaProb low[LZMA_NUM_PB_STATES_MAX << kLenNumLowBits];
+-  CLzmaProb mid[LZMA_NUM_PB_STATES_MAX << kLenNumMidBits];
++  CLzmaProb low[LZMA_NUM_PB_STATES_MAX << (kLenNumLowBits + 1)];
+   CLzmaProb high[kLenNumHighSymbols];
+ } CLenEnc;
+ 
+ 
+ typedef struct
+ {
+-  CLenEnc p;
+-  UInt32 tableSize;
++  unsigned tableSize;
+   UInt32 prices[LZMA_NUM_PB_STATES_MAX][kLenNumSymbolsTotal];
+-  UInt32 counters[LZMA_NUM_PB_STATES_MAX];
++  // UInt32 prices1[LZMA_NUM_PB_STATES_MAX][kLenNumLowSymbols * 2];
++  // UInt32 prices2[kLenNumSymbolsTotal];
+ } CLenPriceEnc;
+ 
++#define GET_PRICE_LEN(p, posState, len) \
++    ((p)->prices[posState][(size_t)(len) - LZMA_MATCH_LEN_MIN])
++
++/*
++#define GET_PRICE_LEN(p, posState, len) \
++    ((p)->prices2[(size_t)(len) - 2] + ((p)->prices1[posState][((len) - 2) & (kLenNumLowSymbols * 2 - 1)] & (((len) - 2 - kLenNumLowSymbols * 2) >> 9)))
++*/
+ 
+ typedef struct
+ {
+   UInt32 range;
+-  Byte cache;
++  unsigned cache;
+   UInt64 low;
+   UInt64 cacheSize;
+   Byte *buf;

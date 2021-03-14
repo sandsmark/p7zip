@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/Common/PropIDUtils.cpp b/CPP/7zip/UI/Common/PropIDUtils.cpp
+index 4b796f0..7702e22 100644
+--- a/CPP/7zip/UI/Common/PropIDUtils.cpp
++++ b/CPP/7zip/UI/Common/PropIDUtils.cpp
+@@ -508,12 +508,12 @@ Hunk #7, a/CPP/7zip/UI/Common/PropIDUtils.cpp void ConvertNtSecureToString(const Byte *data, UInt32 size, AString &s)
+     return;
+   }
+   ParseOwner(s, data, size, Get32(data + 4));
+-  s += ' ';
++  s.Add_Space();
+   ParseOwner(s, data, size, Get32(data + 8));
+   ParseAcl(s, data, size, "s:", MY_SE_SACL_PRESENT, 12);
+   ParseAcl(s, data, size, "d:", MY_SE_DACL_PRESENT, 16);
+-  s += ' ';
+-  AddUInt32ToString(s, size);
++  s.Add_Space();
++  s.Add_UInt32(size);
+   // s += '\n';
+   // s += Data_To_Hex(data, size);
+ }

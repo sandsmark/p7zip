@@ -1,0 +1,13 @@
+diff --git a/DOC/lzma.txt b/DOC/lzma.txt
+index 87d727b..a65988f 100644
+--- a/DOC/lzma.txt
++++ b/DOC/lzma.txt
+@@ -33,7 +33,7 @@ Hunk #1, a/DOC/lzma.txt If you want to use old interfaces you can download previous version of LZMA SDK
+ from sourceforge.net site.
+ 
+ To use ANSI-C LZMA Decoder you need the following files:
+-1) LzmaDec.h + LzmaDec.c + Types.h
++1) LzmaDec.h + LzmaDec.c + 7zTypes.h + Precomp.h + Compiler.h
+ 
+ Look example code:
+   C/Util/Lzma/LzmaUtil.c

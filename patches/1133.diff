@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/FileManager/resource.rc b/CPP/7zip/UI/FileManager/resource.rc
+index a166129..6d259eb 100644
+--- a/CPP/7zip/UI/FileManager/resource.rc
++++ b/CPP/7zip/UI/FileManager/resource.rc
+@@ -247,6 +247,7 @@ Hunk #1, a/CPP/7zip/UI/FileManager/resource.rc END
+ #include "BrowseDialog.rc"
+ #include "ComboDialog.rc"
+ #include "CopyDialog.rc"
++#include "EditDialog.rc"
+ #include "EditPage.rc"
+ #include "FoldersPage.rc"
+ #include "LangPage.rc"

@@ -1,0 +1,29 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -766,20 +766,19 @@ Hunk #32, a/C/LzmaDec.c static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
+ }
+ 
+ 
+-void LzmaDec_InitDicAndState(CLzmaDec *p, Bool initDic, Bool initState)
++void LzmaDec_InitDicAndState(CLzmaDec *p, BoolInt initDic, BoolInt initState)
+ {
+-  p->needFlush = 1;
+-  p->remainLen = 0;
++  p->remainLen = kMatchSpecLenStart + 1;
+   p->tempBufSize = 0;
+ 
+   if (initDic)
+   {
+     p->processedPos = 0;
+     p->checkDicSize = 0;
+-    p->needInitState = 1;
++    p->remainLen = kMatchSpecLenStart + 2;
+   }
+   if (initState)
+-    p->needInitState = 1;
++    p->remainLen = kMatchSpecLenStart + 2;
+ }
+ 
+ void LzmaDec_Init(CLzmaDec *p)

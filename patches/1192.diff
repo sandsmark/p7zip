@@ -1,0 +1,12 @@
+diff --git a/CPP/Common/MyWindows.h b/CPP/Common/MyWindows.h
+index a8db9e6..db3f35d 100644
+--- a/CPP/Common/MyWindows.h
++++ b/CPP/Common/MyWindows.h
+@@ -16,6 +16,7 @@ Hunk #1, a/CPP/Common/MyWindows.h
+ 
+ #include <stddef.h> // for wchar_t
+ #include <string.h>
++// #include <stdint.h> // for uintptr_t
+ 
+ #include "MyGuidDef.h"
+ 

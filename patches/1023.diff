@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Far/Far.cpp b/CPP/7zip/UI/Far/Far.cpp
+index cec4af5..5d92bc4 100644
+--- a/CPP/7zip/UI/Far/Far.cpp
++++ b/CPP/7zip/UI/Far/Far.cpp
+@@ -373,7 +373,12 @@ Hunk #2, a/CPP/7zip/UI/Far/Far.cpp static HANDLE MyOpenFilePluginW(const wchar_t *name)
+       archiverInfoResult, defaultName, openArchiveCallback);
+   */
+   if (result == E_ABORT)
+-    return (HANDLE)-2;
++  {
++    // fixed 18.06:
++    // OpenFilePlugin() is allowed to return (HANDLE)-2 as abort code
++    // OpenPlugin() is not allowed to return (HANDLE)-2.
++    return isAbortCodeSupported ? (HANDLE)-2 : INVALID_HANDLE_VALUE;
++  }
+ 
+   UString errorMessage = agent->GetErrorMessage();
+   if (!errorMessage.IsEmpty())

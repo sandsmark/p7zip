@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/Common/UpdateCallback.cpp b/CPP/7zip/UI/Common/UpdateCallback.cpp
+index ae3c483..fd46dda 100644
+--- a/CPP/7zip/UI/Common/UpdateCallback.cpp
++++ b/CPP/7zip/UI/Common/UpdateCallback.cpp
+@@ -346,7 +346,8 @@ Hunk #2, a/CPP/7zip/UI/Common/UpdateCallback.cpp STDMETHODIMP CArchiveUpdateCallback::GetProperty(UInt32 index, PROPID propID, PR
+         // if (di.IsDir())
+         {
+           CReparseAttr attr;
+-          if (attr.Parse(di.ReparseData, di.ReparseData.Size()))
++          DWORD errorCode = 0;
++          if (attr.Parse(di.ReparseData, di.ReparseData.Size(), errorCode))
+           {
+             UString simpleName = attr.GetPath();
+             if (attr.IsRelative())

@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+index a4bfc1c..21c2f07 100644
+--- a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
++++ b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+@@ -95,6 +95,16 @@ Hunk #2, a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp void PrintSize_bytes_Smart(AString &s, UInt64 val)
+   s += ')';
+ }
+ 
++void PrintSize_bytes_Smart_comma(AString &s, UInt64 val)
++{
++  if (val == (UInt64)(Int64)-1)
++    return;
++  s += ", ";
++  PrintSize_bytes_Smart(s, val);
++}
++
++
++
+ void Print_DirItemsStat(AString &s, const CDirItemsStat &st)
+ {
+   if (st.NumDirs != 0)

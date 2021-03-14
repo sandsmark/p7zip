@@ -1,0 +1,65 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -71,34 +71,48 @@ Hunk #3, a/CPP/7zip/Archive/XzHandler.cpp class CHandler:
+ 
+   UInt64 _numSolidBytes;
+ 
+-  HRESULT SetSolidFromString(const UString &s);
+-  HRESULT SetSolidFromPROPVARIANT(const PROPVARIANT &value);
+-  HRESULT SetProperty(const wchar_t *name, const PROPVARIANT &value);
+-
+-  void InitSolid()
++  void InitXz()
+   {
++    _filterId = 0;
+     _numSolidBytes = XZ_PROPS__BLOCK_SIZE__AUTO;
+   }
+ 
++  #endif
++
+   void Init()
+   {
+-    InitSolid();
+-    _filterId = 0;
+-    CMultiMethodProps::Init();
++    #ifndef EXTRACT_ONLY
++      InitXz();
++      CMultiMethodProps::Init();
++    #else
++      CCommonMethodProps::InitCommon();
++    #endif
+   }
+   
+-  #endif
++  HRESULT SetProperty(const wchar_t *name, const PROPVARIANT &value);
+ 
+   HRESULT Open2(IInStream *inStream, /* UInt32 flags, */ IArchiveOpenCallback *callback);
+ 
+-  HRESULT Decode2(ISequentialInStream *seqInStream, ISequentialOutStream *outStream,
+-      NCompress::NXz::CDecoder &decoder, ICompressProgressInfo *progress)
++  HRESULT Decode(NCompress::NXz::CDecoder &decoder,
++      ISequentialInStream *seqInStream,
++      ISequentialOutStream *outStream,
++      ICompressProgressInfo *progress)
+   {
++    #ifndef _7ZIP_ST
++    decoder._numThreads = _numThreads;
++    #endif
++    decoder._memUsage = _memUsage;
++
++    MainDecodeSRes = SZ_OK;
++
+     RINOK(decoder.Decode(seqInStream, outStream,
+         NULL, // *outSizeLimit
+         true, // finishStream
+         progress));
+-    _stat = decoder;
++    
++    _stat = decoder.Stat;
++    MainDecodeSRes = decoder.MainDecodeSRes;
++
+     _phySize_Defined = true;
+     return S_OK;
+   }

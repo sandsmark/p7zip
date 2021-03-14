@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/FM.mak b/CPP/7zip/UI/FileManager/FM.mak
+index 6a85ea2..654da62 100644
+--- a/CPP/7zip/UI/FileManager/FM.mak
++++ b/CPP/7zip/UI/FileManager/FM.mak
+@@ -72,6 +72,9 @@ Hunk #3, a/CPP/7zip/UI/FileManager/FM.mak WIN_OBJS = $(WIN_OBJS) \
+ 
+ !ENDIF
+ 
++C_OBJS = $(C_OBJS) \
++  $O\DllSecur.obj \
++
+ AGENT_OBJS = \
+   $O\Agent.obj \
+   $O\AgentOut.obj \

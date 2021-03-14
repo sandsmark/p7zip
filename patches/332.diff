@@ -1,0 +1,13 @@
+diff --git a/C/XzEnc.c b/C/XzEnc.c
+index 2b95a0e..d0a8b44 100644
+--- a/C/XzEnc.c
++++ b/C/XzEnc.c
+@@ -1224,7 +1224,7 @@ Hunk #10, a/C/XzEnc.c SRes XzEnc_Encode(CXzEncHandle pp, ISeqOutStream *outStream, ISeqInStream *inStr
+         if (!p->outBufs[0] || t2 != p->outBufSize)
+         {
+           XzEnc_FreeOutBufs(p);
+-          p->outBufs[0] = ISzAlloc_Alloc(p->alloc, t2);
++          p->outBufs[0] = (Byte *)ISzAlloc_Alloc(p->alloc, t2);
+           if (!p->outBufs[0])
+             return SZ_ERROR_MEM;
+           p->outBufSize = t2;

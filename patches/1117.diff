@@ -1,0 +1,82 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp b/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
+index 3f7111a..7c63332 100644
+--- a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
++++ b/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
+@@ -121,46 +121,65 @@ Hunk #3, a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp HRESULT CThreadSplit::ProcessVirt()
+     else
+       volSize = VolumeSizes.Back();
+     
+-    UInt32 needSize = (UInt32)(MyMin((UInt64)kBufSize, volSize - curVolSize));
++    UInt32 needSize = kBufSize;
++    {
++      const UInt64 rem = volSize - outFile.Written;
++      if (needSize > rem)
++        needSize = (UInt32)rem;
++    }
+     UInt32 processedSize;
+     if (!inFile.Read(buffer, needSize, processedSize))
+       return GetLastError();
+     if (processedSize == 0)
+-      break;
++      return S_OK;
+     needSize = processedSize;
+-    if (curVolSize == 0)
++  
++    if (outFile.Written == 0)
+     {
+       FString name = VolBasePath;
+       name += '.';
+       name += us2fs(seqName.GetNextName());
+       sync.Set_FilePath(fs2us(name));
+-      sync.Set_NumFilesCur(numFiles++);
+-      if (!outFile.Create(name, false))
++      if (!outFile.File.Create(name, false))
+       {
+         HRESULT res = GetLastError();
+         AddErrorPath(name);
+         return res;
+       }
++      UInt64 expectSize = volSize;
++      if (pos < length)
++      {
++        const UInt64 rem = length - pos;
++        if (expectSize > rem)
++          expectSize = rem;
++      }
++      outFile.PreAlloc(expectSize);
+     }
++    
+     if (!outFile.Write(buffer, needSize, processedSize))
+       return GetLastError();
+     if (needSize != processedSize)
+       throw g_Message_FileWriteError;
+-    curVolSize += processedSize;
+-    if (curVolSize == volSize)
++    
++    pos += processedSize;
++    
++    if (outFile.Written == volSize)
+     {
+       outFile.Close();
++      sync.Set_NumFilesCur(++numFiles);
+       if (volIndex < VolumeSizes.Size())
+         volIndex++;
+-      curVolSize = 0;
+     }
+-    pos += processedSize;
+-    RINOK(sync.Set_NumBytesCur(pos));
++
++    if (pos - prev >= ((UInt32)1 << 22) || outFile.Written == 0)
++    {
++      RINOK(sync.Set_NumBytesCur(pos));
++      prev = pos;
++    }
+   }
+-  sync.Set_NumFilesCur(numFiles);
+-  return S_OK;
+ }
+ 
++
+ void CApp::Split()
+ {
+   int srcPanelIndex = GetFocusedPanelIndex();

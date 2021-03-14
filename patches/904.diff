@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -3291,9 +3291,9 @@ Hunk #49, a/CPP/7zip/UI/Common/Bench.cpp HRESULT Bench(
+       {
+         res = TotalBench(EXTERNAL_CODECS_LOC_VARS
+             complexInCommands, numThreads,
+-            dictIsDefined || fileDataBuffer.Buffer, // forceUnpackSize
+-            fileDataBuffer.Buffer ? fileDataBuffer.BufferSize : dict,
+-            fileDataBuffer.Buffer,
++            dictIsDefined || fileDataBuffer.IsAllocated(), // forceUnpackSize
++            fileDataBuffer.IsAllocated() ? fileDataBuffer.Size() : dict,
++            (const Byte *)fileDataBuffer,
+             printCallback, &callback);
+         RINOK(res);
+       }

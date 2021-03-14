@@ -1,0 +1,135 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -422,78 +422,101 @@ Hunk #12, a/C/XzDec.c SRes MixCoder_Code(CMixCoder *p, Byte *dest, SizeT *destLen,
+     {
+       SRes res;
+       IStateCoder *coder = &p->coders[i];
+-      Byte *destCur;
+-      SizeT destLenCur, srcLenCur;
+-      const Byte *srcCur;
+-      int srcFinishedCur;
++      Byte *dest2;
++      SizeT destLen2, srcLen2; // destLen2_Orig;
++      const Byte *src2;
++      int srcFinished2;
+       int encodingWasFinished;
++      ECoderStatus status2;
+       
+       if (i == 0)
+       {
+-        srcCur = src;
+-        srcLenCur = srcLenOrig - *srcLen;
+-        srcFinishedCur = srcWasFinished;
++        src2 = src;
++        srcLen2 = srcLenOrig - *srcLen;
++        srcFinished2 = srcWasFinished;
+       }
+       else
+       {
+         size_t k = i - 1;
+-        srcCur = p->buf + (CODER_BUF_SIZE * k) + p->pos[k];
+-        srcLenCur = p->size[k] - p->pos[k];
+-        srcFinishedCur = p->finished[k];
++        src2 = p->buf + (CODER_BUF_SIZE * k) + p->pos[k];
++        srcLen2 = p->size[k] - p->pos[k];
++        srcFinished2 = p->finished[k];
+       }
+       
+       if (i == p->numCoders - 1)
+       {
+-        destCur = dest;
+-        destLenCur = destLenOrig - *destLen;
++        dest2 = dest;
++        destLen2 = destLenOrig - *destLen;
+       }
+       else
+       {
+         if (p->pos[i] != p->size[i])
+           continue;
+-        destCur = p->buf + (CODER_BUF_SIZE * i);
+-        destLenCur = CODER_BUF_SIZE;
++        dest2 = p->buf + (CODER_BUF_SIZE * i);
++        destLen2 = CODER_BUF_SIZE;
+       }
+       
+-      res = coder->Code(coder->p, destCur, &destLenCur, srcCur, &srcLenCur, srcFinishedCur, finishMode, &encodingWasFinished);
++      // destLen2_Orig = destLen2;
++      
++      if (p->results[i] != SZ_OK)
++      {
++        if (resMain == SZ_OK)
++          resMain = p->results[i];
++        continue;
++      }
+ 
++      res = coder->Code2(coder->p,
++          dest2, &destLen2,
++          src2, &srcLen2, srcFinished2,
++          finishMode,
++          // &encodingWasFinished,
++          &status2);
++
++      if (res != SZ_OK)
++      {
++        p->results[i] = res;
++        if (resMain == SZ_OK)
++          resMain = res;
++      }
++
++      encodingWasFinished = (status2 == CODER_STATUS_FINISHED_WITH_MARK);
++      
+       if (!encodingWasFinished)
++      {
+         allFinished = False;
++        if (p->numCoders == 1 && res == SZ_OK)
++          p->status = status2;
++      }
+ 
+       if (i == 0)
+       {
+-        *srcLen += srcLenCur;
+-        src += srcLenCur;
++        *srcLen += srcLen2;
++        src += srcLen2;
+       }
+       else
+-      {
+-        p->pos[(size_t)i - 1] += srcLenCur;
+-      }
++        p->pos[(size_t)i - 1] += srcLen2;
+ 
+       if (i == p->numCoders - 1)
+       {
+-        *destLen += destLenCur;
+-        dest += destLenCur;
++        *destLen += destLen2;
++        dest += destLen2;
+       }
+       else
+       {
+-        p->size[i] = destLenCur;
++        p->size[i] = destLen2;
+         p->pos[i] = 0;
+         p->finished[i] = encodingWasFinished;
+       }
+       
+-      if (res != SZ_OK)
+-        return res;
+-
+-      if (destLenCur != 0 || srcLenCur != 0)
++      if (destLen2 != 0 || srcLen2 != 0)
+         processed = True;
+     }
+     
+     if (!processed)
+     {
+       if (allFinished)
+-        *status = CODER_STATUS_FINISHED_WITH_MARK;
+-      return SZ_OK;
++        p->status = CODER_STATUS_FINISHED_WITH_MARK;
++      return resMain;
+     }
+   }
+ }

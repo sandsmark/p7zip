@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+index a4bfc1c..21c2f07 100644
+--- a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
++++ b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+@@ -103,14 +103,12 @@ Hunk #3, a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp void Print_DirItemsStat(AString &s, const CDirItemsStat &st)
+     s += ", ";
+   }
+   Print_UInt64_and_String(s, st.NumFiles, st.NumFiles == 1 ? "file" : "files");
+-  s += ", ";
+-  PrintSize_bytes_Smart(s, st.FilesSize);
++  PrintSize_bytes_Smart_comma(s, st.FilesSize);
+   if (st.NumAltStreams != 0)
+   {
+     s.Add_LF();
+     Print_UInt64_and_String(s, st.NumAltStreams, "alternate streams");
+-    s += ", ";
+-    PrintSize_bytes_Smart(s, st.AltStreamsSize);
++    PrintSize_bytes_Smart_comma(s, st.AltStreamsSize);
+   }
+ }
+ 

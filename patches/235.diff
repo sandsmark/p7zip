@@ -1,0 +1,13 @@
+diff --git a/C/Util/7z/7zMain.c b/C/Util/7z/7zMain.c
+index cb60a9b..6ccc830 100644
+--- a/C/Util/7z/7zMain.c
++++ b/C/Util/7z/7zMain.c
+@@ -354,7 +354,7 @@ Hunk #5, a/C/Util/7z/7zMain.c static void PrintError(char *s)
+   PrintLF();
+ }
+ 
+-static void GetAttribString(UInt32 wa, Bool isDir, char *s)
++static void GetAttribString(UInt32 wa, BoolInt isDir, char *s)
+ {
+   #ifdef USE_WINDOWS_FILE
+   s[0] = (char)(((wa & FILE_ATTRIBUTE_DIRECTORY) != 0 || isDir) ? 'D' : '.');

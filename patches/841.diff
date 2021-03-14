@@ -1,0 +1,47 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+index fa14655..de2f2e0 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -1030,14 +1030,36 @@ Hunk #5, a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp if (askExtractMode == NArchive::NExtract::NAskMode::kExtract && !_testMode)
+       {
+         FString fullPathNew;
+         CreateComplexDirectory(pathParts, fullPathNew);
++        
+         if (_item.IsDir)
+         {
+-          _extractedFolderPaths.Add(fullPathNew);
+-          _extractedFolderIndices.Add(index);
+-          SetDirTime(fullPathNew,
+-            (WriteCTime && _fi.CTimeDefined) ? &_fi.CTime : NULL,
+-            (WriteATime && _fi.ATimeDefined) ? &_fi.ATime : NULL,
+-            (WriteMTime && _fi.MTimeDefined) ? &_fi.MTime : (_arc->MTimeDefined ? &_arc->MTime : NULL));
++          CDirPathTime &pt = _extractedFolders.AddNew();
++          
++          pt.CTime = _fi.CTime;
++          pt.CTimeDefined = (WriteCTime && _fi.CTimeDefined);
++          
++          pt.ATime = _fi.ATime;
++          pt.ATimeDefined = (WriteATime && _fi.ATimeDefined);
++          
++          pt.MTimeDefined = false;
++
++          if (WriteMTime)
++          {
++            if (_fi.MTimeDefined)
++            {
++              pt.MTime = _fi.MTime;
++              pt.MTimeDefined = true;
++            }
++            else if (_arc->MTimeDefined)
++            {
++              pt.MTime = _arc->MTime;
++              pt.MTimeDefined = true;
++            }
++          }
++
++          pt.Path = fullPathNew;
++
++          pt.SetDirTime();
+         }
+       }
+     }

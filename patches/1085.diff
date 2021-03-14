@@ -1,0 +1,73 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -394,11 +394,67 @@ Hunk #7, a/CPP/7zip/UI/FileManager/PanelDrag.cpp void CPanel::OnDrag(LPNMLISTVIEW /* nmListView */)
+   dropSourceSpec->DataObjectSpec = dataObjectSpec;
+   dropSourceSpec->DataObject = dataObjectSpec;
+ 
+-  bool moveIsAllowed = isFSFolder;
++ 
++  /*
++  CTime - file creation timestamp.
++  There are two operations in Windows with Drag and Drop:
++    COPY_OPERATION - icon with    Plus sign - CTime will be set as current_time.
++    MOVE_OPERATION - icon without Plus sign - CTime will be preserved
+ 
++  Note: if we call DoDragDrop() with (effectsOK = DROPEFFECT_MOVE), then
++        it will use MOVE_OPERATION and CTime will be preserved.
++        But MoveFile() function doesn't preserve CTime, if different volumes are used.
++        Why it's so?
++        Does DoDragDrop() use some another function (not MoveFile())?
++
++  if (effectsOK == DROPEFFECT_COPY) it works as COPY_OPERATION
++    
++  if (effectsOK == DROPEFFECT_MOVE) drag works as MOVE_OPERATION
++
++  if (effectsOK == (DROPEFFECT_COPY | DROPEFFECT_MOVE))
++  {
++    if we drag file to same volume, then Windows suggests:
++       CTRL      - COPY_OPERATION
++       [default] - MOVE_OPERATION
++    
++    if we drag file to another volume, then Windows suggests
++       [default] - COPY_OPERATION
++       SHIFT     - MOVE_OPERATION
++  }
++
++  We want to use MOVE_OPERATION for extracting from archive (open in 7-Zip) to Explorer:
++  It has the following advantages:
++    1) it uses fast MOVE_OPERATION instead of slow COPY_OPERATION and DELETE, if same volume.
++    2) it preserved CTime
++
++  Some another programs support only COPY_OPERATION.
++  So we can use (DROPEFFECT_COPY | DROPEFFECT_MOVE)
++
++  Also another program can return from DoDragDrop() before
++  files using. But we delete temp folder after DoDragDrop(),
++  and another program can't open input files in that case.
++
++  We create objects:
++    IDropSource *dropSource
++    IDataObject *dataObject
++  if DropTarget is 7-Zip window, then 7-Zip's
++    IDropTarget::DragOver() sets Path in IDataObject.
++  and
++    IDropSource::QueryContinueDrag() sets NeedPostCopy, if Path is not epmty.
++  So we can detect destination path after DoDragDrop().
++  Now we don't know any good way to detect destination path for D&D to Explorer.
++  */
++
++  bool moveIsAllowed = isFSFolder;
++  /*
+   DWORD effectsOK = DROPEFFECT_COPY;
+   if (moveIsAllowed)
+     effectsOK |= DROPEFFECT_MOVE;
++  */
++
++  // 18.04: was changed
++  DWORD effectsOK = DROPEFFECT_MOVE | DROPEFFECT_COPY;
++
+   DWORD effect;
+   _panelCallback->DragBegin();
+   

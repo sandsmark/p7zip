@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -239,8 +239,7 @@ Hunk #6, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::Properties()
+       {
+         wchar_t temp[32];
+         ConvertUInt32ToString(operatedIndices.Size(), temp);
+-        message += MyFormatNew(g_App.LangString_N_SELECTED_ITEMS, temp);
+-        message.Add_LF();
++        AddPropertyPair(L"", MyFormatNew(g_App.LangString_N_SELECTED_ITEMS, temp), message);
+       }
+ 
+       if (numDirs != 0)

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.cpp b/CPP/7zip/Archive/Zip/ZipIn.cpp
+index 9e9918d..509753c 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.cpp
++++ b/CPP/7zip/Archive/Zip/ZipIn.cpp
+@@ -155,6 +155,7 @@ Hunk #1, a/CPP/7zip/Archive/Zip/ZipIn.cpp void CInArchive::Close()
+   HeadersError = false;
+   HeadersWarning = false;
+   ExtraMinorError = false;
++  
+   UnexpectedEnd = false;
+   LocalsWereRead = false;
+   LocalsCenterMerged = false;

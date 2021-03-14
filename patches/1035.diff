@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/FileManager/ExtractCallback.cpp b/CPP/7zip/UI/FileManager/ExtractCallback.cpp
+index a5317e2..1bc96ae 100644
+--- a/CPP/7zip/UI/FileManager/ExtractCallback.cpp
++++ b/CPP/7zip/UI/FileManager/ExtractCallback.cpp
+@@ -759,11 +759,15 @@ Hunk #1, a/CPP/7zip/UI/FileManager/ExtractCallback.cpp STDMETHODIMP CExtractCallbackImp::AskWrite(
+       destPathResultTemp = fs2us(destPathSys);
+     }
+     else
++    {
++      if (NFind::DoesFileExist(destPathSys))
+       if (!NDir::DeleteFileAlways(destPathSys))
++      if (GetLastError() != ERROR_FILE_NOT_FOUND)
+       {
+         RINOK(MessageError("can not delete output file", destPathSys));
+         return E_ABORT;
+       }
++    }
+   }
+   *writeAnswer = BoolToInt(true);
+   return StringToBstr(destPathResultTemp, destPathResult);

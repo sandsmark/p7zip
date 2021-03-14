@@ -1,0 +1,25 @@
+diff --git a/CPP/7zip/UI/FileManager/ListViewDialog.cpp b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+index 80cdd7f..a42e790 100644
+--- a/CPP/7zip/UI/FileManager/ListViewDialog.cpp
++++ b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+@@ -107,19 +107,7 @@ Hunk #7, a/CPP/7zip/UI/FileManager/ListViewDialog.cpp bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
+         {
+           if (!DeleteIsAllowed)
+             return false;
+-          for (;;)
+-          {
+-            int index = _listView.GetNextSelectedItem(-1);
+-            if (index < 0)
+-              break;
+-            StringsWereChanged = true;
+-            _listView.DeleteItem(index);
+-            Strings.Delete(index);
+-          }
+-          int focusedIndex = _listView.GetFocusedItem();
+-          if (focusedIndex >= 0)
+-            _listView.SetItemState_FocusedSelected(focusedIndex);
+-          _listView.SetColumnWidthAuto(0);
++          DeleteItems();
+           return true;
+         }
+         case 'A':

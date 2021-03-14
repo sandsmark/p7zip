@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -2306,11 +2306,12 @@ Hunk #22, a/CPP/7zip/Archive/PeHandler.cpp HRESULT CHandler::Open2(IInStream *stream, IArchiveOpenCallback *callback)
+   }
+ 
+ 
++  if (IsOpt())
+   if (_optHeader.CheckSum != 0)
+   {
+     RINOK(stream->Seek(0, STREAM_SEEK_SET, NULL));
+     UInt32 checkSum = 0;
+-    RINOK(CalcCheckSum(stream, _totalSize, _peOffset + kHeaderSize + k_CheckSum_Field_Offset, checkSum));
++    RINOK(CalcCheckSum(stream, _totalSize, optStart + k_CheckSum_Field_Offset, checkSum));
+     _checksumError = (checkSum != _optHeader.CheckSum);
+   }
+ 

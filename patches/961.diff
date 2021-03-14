@@ -1,0 +1,11 @@
+diff --git a/CPP/7zip/UI/Console/Console.mak b/CPP/7zip/UI/Console/Console.mak
+index 05a07e5..bd4c1da 100644
+--- a/CPP/7zip/UI/Console/Console.mak
++++ b/CPP/7zip/UI/Console/Console.mak
+@@ -33,4 +33,5 @@ Hunk #2, a/CPP/7zip/UI/Console/Console.mak UI_COMMON_OBJS = \
+   $O\UpdatePair.obj \
+   $O\UpdateProduce.obj \
+ 
+-#
++C_OBJS = $(C_OBJS) \
++  $O\DllSecur.obj \

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Console/MainAr.cpp b/CPP/7zip/UI/Console/MainAr.cpp
+index 68e5fe9..87bf57e 100644
+--- a/CPP/7zip/UI/Console/MainAr.cpp
++++ b/CPP/7zip/UI/Console/MainAr.cpp
+@@ -79,7 +79,7 @@ Hunk #3, a/CPP/7zip/UI/Console/MainAr.cpp int MY_CDECL main
+     PrintError(kUserBreakMessage);
+     return (NExitCode::kUserBreak);
+   }
+-  catch(const CArcCmdLineException &e)
++  catch(const CMessagePathException &e)
+   {
+     PrintError(kException_CmdLine_Error_Message);
+     if (g_ErrStream)

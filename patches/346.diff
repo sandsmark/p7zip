@@ -1,0 +1,24 @@
+diff --git a/CPP/7zip/Archive/7z/7zEncode.cpp b/CPP/7zip/Archive/7z/7zEncode.cpp
+index 8700d72..7d8270f 100644
+--- a/CPP/7zip/Archive/7z/7zEncode.cpp
++++ b/CPP/7zip/Archive/7z/7zEncode.cpp
+@@ -154,9 +154,18 @@ Hunk #1, a/CPP/7zip/Archive/7z/7zEncode.cpp HRESULT CEncoder::CreateMixerCoder(
+ 
+     CCreatedCoder cod;
+     
+-    RINOK(CreateCoder(
++    if (methodFull.CodecIndex >= 0)
++    {
++      RINOK(CreateCoder_Index(
++        EXTERNAL_CODECS_LOC_VARS
++        methodFull.CodecIndex, true, cod));
++    }
++    else
++    {
++      RINOK(CreateCoder_Id(
+         EXTERNAL_CODECS_LOC_VARS
+         methodFull.Id, true, cod));
++    }
+ 
+     if (cod.NumStreams != methodFull.NumStreams)
+       return E_FAIL;

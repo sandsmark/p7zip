@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.cpp b/CPP/7zip/UI/GUI/GUI.cpp
+index 6bbfb74..2674ec9 100644
+--- a/CPP/7zip/UI/GUI/GUI.cpp
++++ b/CPP/7zip/UI/GUI/GUI.cpp
+@@ -37,8 +37,6 @@ Hunk #3, a/CPP/7zip/UI/GUI/GUI.cpp using namespace NWindows;
+ 
+ HINSTANCE g_hInstance;
+ 
+-bool g_LargePagesMode = false;
+-
+ #ifndef UNDER_CE
+ 
+ DWORD g_ComCtl32Version;

@@ -1,0 +1,21 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -1824,13 +1824,13 @@ Hunk #27, a/C/LzmaEnc.c static SRes LzmaEnc_CodeOneBlock(CLzmaEnc *p, Bool useLimits, UInt32 maxPackSize
+ 
+   if (p->nowPos64 == 0)
+   {
+-    UInt32 numPairs;
++    unsigned numPairs;
+     Byte curByte;
+     if (p->matchFinder.GetNumAvailableBytes(p->matchFinderObj) == 0)
+       return Flush(p, nowPos32);
+     ReadMatchDistances(p, &numPairs);
+-    RangeEnc_EncodeBit(&p->rc, &p->isMatch[p->state][0], 0);
+-    p->state = kLiteralNextStates[p->state];
++    RangeEnc_EncodeBit_0(&p->rc, &p->isMatch[kState_Start][0]);
++    // p->state = kLiteralNextStates[p->state];
+     curByte = *(p->matchFinder.GetPointerToCurrentPos(p->matchFinderObj) - p->additionalOffset);
+     LitEnc_Encode(&p->rc, p->litProbs, curByte);
+     p->additionalOffset--;

@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelCopy.cpp b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+index d07def1..c3416cc 100644
+--- a/CPP/7zip/UI/FileManager/PanelCopy.cpp
++++ b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+@@ -199,8 +199,9 @@ Hunk #9, a/CPP/7zip/UI/FileManager/PanelCopy.cpp HRESULT CPanel::CopyTo(CCopyToOptions &options, const CRecordVector<UInt32> &ind
+   
+   RINOK(extracter.Create(title, GetParent()));
+   
+-  if (messages != 0)
+-    *messages = extracter.ProgressDialog.Sync.Messages;
++
++  if (messages)
++    *messages = extracter.Sync.Messages;
+   res = extracter.Result;
+ 
+   if (res == S_OK && extracter.ExtractCallbackSpec->IsOK())

@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.dsp b/CPP/7zip/UI/GUI/GUI.dsp
+index c022088..b70e284 100644
+--- a/CPP/7zip/UI/GUI/GUI.dsp
++++ b/CPP/7zip/UI/GUI/GUI.dsp
+@@ -425,6 +425,14 @@ Hunk #1, a/CPP/7zip/UI/GUI/GUI.dsp SOURCE=.\CompressDialog.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\FileManager\EditDialog.cpp
++# End Source File
++# Begin Source File
++
++SOURCE=..\FileManager\EditDialog.h
++# End Source File
++# Begin Source File
++
+ SOURCE=.\ExtractDialog.cpp
+ # End Source File
+ # Begin Source File

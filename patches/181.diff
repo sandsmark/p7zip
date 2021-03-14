@@ -1,0 +1,13 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -554,7 +554,7 @@ Hunk #17, a/C/LzmaEnc.c static void RangeEnc_Init(CRangeEnc *p)
+   p->res = SZ_OK;
+ }
+ 
+-static void RangeEnc_FlushStream(CRangeEnc *p)
++MY_NO_INLINE static void RangeEnc_FlushStream(CRangeEnc *p)
+ {
+   size_t num;
+   if (p->res != SZ_OK)

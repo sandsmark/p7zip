@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipHandler.h b/CPP/7zip/Archive/Zip/ZipHandler.h
+index 53e6a46..bee57c0 100644
+--- a/CPP/7zip/Archive/Zip/ZipHandler.h
++++ b/CPP/7zip/Archive/Zip/ZipHandler.h
+@@ -39,6 +39,7 @@ Hunk #3, a/CPP/7zip/Archive/Zip/ZipHandler.h class CHandler:
+   MY_ADDREF_RELEASE
+ 
+   INTERFACE_IInArchive(;)
++  // INTERFACE_IArchiveGetRawProps(;)
+   INTERFACE_IOutArchive(;)
+ 
+   STDMETHOD(SetProperties)(const wchar_t * const *names, const PROPVARIANT *values, UInt32 numProps);

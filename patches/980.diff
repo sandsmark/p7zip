@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -862,11 +862,11 @@ Hunk #5, a/CPP/7zip/UI/Console/List.cpp static void ErrorInfo_Print(CStdOutStream &so, const CArcErrorInfo &er)
+ {
+   PrintErrorFlags(so, "ERRORS:", er.GetErrorFlags());
+   if (!er.ErrorMessage.IsEmpty())
+-    PrintPropPair(so, "ERROR", er.ErrorMessage);
++    PrintPropPair(so, "ERROR", er.ErrorMessage, true);
+   
+   PrintErrorFlags(so, "WARNINGS:", er.GetWarningFlags());
+   if (!er.WarningMessage.IsEmpty())
+-    PrintPropPair(so, "WARNING", er.WarningMessage);
++    PrintPropPair(so, "WARNING", er.WarningMessage, true);
+ }
+ 
+ HRESULT Print_OpenArchive_Props(CStdOutStream &so, const CCodecs *codecs, const CArchiveLink &arcLink)

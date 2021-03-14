@@ -1,0 +1,20 @@
+diff --git a/C/LzmaDec.h b/C/LzmaDec.h
+index d6af922..1f0927a 100644
+--- a/C/LzmaDec.h
++++ b/C/LzmaDec.h
+@@ -12,11 +12,13 @@ Hunk #2, a/C/LzmaDec.h EXTERN_C_BEGIN
+ /* _LZMA_PROB32 can increase the speed on some CPUs,
+    but memory usage for CLzmaDec::probs will be doubled in that case */
+ 
++typedef
+ #ifdef _LZMA_PROB32
+-#define CLzmaProb UInt32
++  UInt32
+ #else
+-#define CLzmaProb UInt16
++  UInt16
+ #endif
++  CLzmaProb;
+ 
+ 
+ /* ---------- LZMA Properties ---------- */

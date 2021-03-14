@@ -1,0 +1,13 @@
+diff --git a/C/XzEnc.c b/C/XzEnc.c
+index 2b95a0e..d0a8b44 100644
+--- a/C/XzEnc.c
++++ b/C/XzEnc.c
+@@ -805,7 +805,7 @@ Hunk #6, a/C/XzEnc.c static SRes Xz_CompressBlock(
+     SRes res;
+     Byte *outBuf = NULL;
+     size_t outSize = 0;
+-    Bool useStream = (fp || inStream);
++    BoolInt useStream = (fp || inStream);
+     // useStream = True;
+     
+     if (!useStream)

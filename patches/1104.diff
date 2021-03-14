@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -205,15 +205,12 @@ Hunk #5, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::Properties()
+                 }
+               }
+             }
+-            message += GetNameOfProperty(propID, name);
+-            message += kPropValueSeparator;
+-            message += s.Ptr();
+-            message.Add_LF();
++            AddPropertyPair(GetNameOfProperty(propID, name), (UString)s.Ptr(), message);
+           }
+         }
+       }
+ 
+-      message += kSeparator;
++      AddSeparator(message);
+     }
+     else if (operatedIndices.Size() >= 1)
+     {

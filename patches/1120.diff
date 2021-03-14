@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp b/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
+index 3f7111a..7c63332 100644
+--- a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
++++ b/CPP/7zip/UI/FileManager/PanelSplitFile.cpp
+@@ -463,7 +463,7 @@ Hunk #6, a/CPP/7zip/UI/FileManager/PanelSplitFile.cpp void CApp::Combine()
+     return;
+   }
+   
+-    CProgressDialog &progressDialog = combiner.ProgressDialog;
++    CProgressDialog &progressDialog = combiner;
+     progressDialog.ShowCompressionInfo = false;
+   
+     UString progressWindowTitle ("7-Zip"); // LangString(IDS_APP_TITLE, 0x03000000);

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.cpp b/CPP/7zip/Archive/Zip/ZipIn.cpp
+index 9e9918d..509753c 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.cpp
++++ b/CPP/7zip/Archive/Zip/ZipIn.cpp
+@@ -2090,6 +2090,8 @@ Hunk #7, a/CPP/7zip/Archive/Zip/ZipIn.cpp HRESULT CInArchive::ReadVols2(IArchiveOpenVolumeCallback *volCallback,
+       }
+       if (res == S_FALSE || !stream)
+       {
++        if (i == 1 && Vols.StartIsExe)
++          return S_OK;
+         if (Vols.MissingName.IsEmpty())
+           Vols.MissingName = volName;
+         numMissingVols++;

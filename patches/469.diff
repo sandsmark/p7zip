@@ -1,0 +1,47 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -2675,10 +2675,41 @@ Hunk #25, a/CPP/7zip/Archive/PeHandler.cpp REGISTER_ARC_I(
+   0,
+   NArcInfoFlags::kPreArc,
+   IsArc_Pe)
+- 
++
+ }
+ 
++namespace NCoff {
+ 
++API_FUNC_static_IsArc IsArc_Coff(const Byte *p, size_t size)
++{
++  if (size < NPe::kCoffHeaderSize)
++    return k_IsArc_Res_NEED_MORE;
++  NPe::CHeader header;
++  if (!header.ParseCoff(p))
++    return k_IsArc_Res_NO;
++  return k_IsArc_Res_YES;
++}
++}
++
++/*
++static const Byte k_Signature[] =
++{
++    2, 0x4C, 0x01, // x86
++    2, 0x64, 0x86, // x64
++    2, 0x64, 0xAA  // ARM64
++};
++REGISTER_ARC_I_CLS(
++*/
++
++REGISTER_ARC_I_CLS_NO_SIG(
++  NPe::CHandler(true),
++  "COFF", "obj", 0, 0xC6,
++  // k_Signature,
++  0,
++  // NArcInfoFlags::kMultiSignature |
++  NArcInfoFlags::kStartOpen,
++  IsArc_Coff)
++}
+ 
+ 
+ namespace NTe {

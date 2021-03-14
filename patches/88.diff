@@ -1,0 +1,17 @@
+diff --git a/C/LzFindMt.c b/C/LzFindMt.c
+index 65c9ffd..bb0f42c 100644
+--- a/C/LzFindMt.c
++++ b/C/LzFindMt.c
+@@ -369,8 +369,10 @@ Hunk #4, a/C/LzFindMt.c static void BtGetMatches(CMatchFinderMt *p, UInt32 *distances)
+       #else
+       {
+         UInt32 posRes;
+-        curPos = limit - GetMatchesSpecN(lenLimit, pos, p->buffer, p->son, cyclicBufferPos, p->cyclicBufferSize, p->cutValue,
+-            distances + curPos, p->numHashBytes - 1, p->hashBuf + p->hashBufPos, (Int32)(limit - curPos), size, &posRes);
++        curPos = (UInt32)(GetMatchesSpecN(lenLimit, pos, p->buffer, p->son, cyclicBufferPos, p->cyclicBufferSize, p->cutValue,
++            distances + curPos, p->numHashBytes - 1, p->hashBuf + p->hashBufPos,
++            distances + limit,
++            size, &posRes) - distances);
+         p->hashBufPos += posRes - pos;
+         cyclicBufferPos += posRes - pos;
+         p->buffer += posRes - pos;

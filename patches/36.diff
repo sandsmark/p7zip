@@ -1,0 +1,13 @@
+diff --git a/C/Bcj2Enc.c b/C/Bcj2Enc.c
+index 98b775b..bfbeb8e 100644
+--- a/C/Bcj2Enc.c
++++ b/C/Bcj2Enc.c
+@@ -254,7 +254,7 @@ Hunk #5, a/C/Bcj2Enc.c void Bcj2Enc_Encode(CBcj2Enc *p)
+     {
+       const Byte *src = p->src;
+       const Byte *srcLim = p->srcLim;
+-      unsigned finishMode = p->finishMode;
++      EBcj2Enc_FinishMode finishMode = p->finishMode;
+       
+       p->src = p->temp;
+       p->srcLim = p->temp + p->tempPos;

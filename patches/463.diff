@@ -1,0 +1,69 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -2144,32 +2144,47 @@ Hunk #19, a/CPP/7zip/Archive/PeHandler.cpp API_FUNC_static_IsArc IsArc_Pe(const Byte *p, size_t size)
+ 
+ HRESULT CHandler::Open2(IInStream *stream, IArchiveOpenCallback *callback)
+ {
++  UInt32 coffOffset = 0;
++  if (_coffMode)
+   {
+-    Byte h[kStartSize];
+-    _mainSubfile = -1;
+-    RINOK(ReadStream_FALSE(stream, h, kStartSize));
+-    if (h[0] != 'M' || h[1] != 'Z')
+-      return S_FALSE;
+-    /* most of PE files contain 0x0090 at offset 2.
+-       But some rare PE files contain another values. So we don't use that check.
+-       if (Get16(h + 2) != 0x90) return false; */
+-    _peOffset = Get32(h + 0x3C);
+-    if (!CheckPeOffset(_peOffset))
++    Byte h[kCoffHeaderSize];
++    RINOK(ReadStream_FALSE(stream, h, kCoffHeaderSize));
++    if (!_header.ParseCoff(h))
+       return S_FALSE;
+   }
++  else
+   {
+-    Byte h[kHeaderSize];
+-    RINOK(stream->Seek(_peOffset, STREAM_SEEK_SET, NULL));
+-    RINOK(ReadStream_FALSE(stream, h, kHeaderSize));
+-    if (!_header.Parse(h))
+-      return S_FALSE;
++    UInt32 _peOffset;
++    {
++      Byte h[kStartSize];
++      RINOK(ReadStream_FALSE(stream, h, kStartSize));
++      if (h[0] != 'M' || h[1] != 'Z')
++        return S_FALSE;
++        /* most of PE files contain 0x0090 at offset 2.
++        But some rare PE files contain another values. So we don't use that check.
++      if (Get16(h + 2) != 0x90) return false; */
++      _peOffset = Get32(h + 0x3C);
++      if (!CheckPeOffset(_peOffset))
++        return S_FALSE;
++      coffOffset = _peOffset + 4;
++    }
++    {
++      Byte h[kPeHeaderSize];
++      RINOK(stream->Seek(_peOffset, STREAM_SEEK_SET, NULL));
++      RINOK(ReadStream_FALSE(stream, h, kPeHeaderSize));
++      if (!_header.ParsePe(h))
++        return S_FALSE;
++    }
+   }
+ 
+-  UInt32 bufSize = _header.OptHeaderSize + (UInt32)_header.NumSections * kSectionSize;
+-  _totalSize = _peOffset + kHeaderSize + bufSize;
++  const UInt32 optStart = coffOffset + kCoffHeaderSize;
++  const UInt32 bufSize = _header.OptHeaderSize + (UInt32)_header.NumSections * kSectionSize;
++  _totalSize = optStart + bufSize;
+   CByteBuffer buffer(bufSize);
+ 
+   RINOK(ReadStream_FALSE(stream, buffer, bufSize));
++  
++  if (_header.OptHeaderSize != 0)
+   if (!_optHeader.Parse(buffer, _header.OptHeaderSize))
+     return S_FALSE;
+ 

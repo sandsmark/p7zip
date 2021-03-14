@@ -1,0 +1,17 @@
+diff --git a/DOC/Methods.txt b/DOC/Methods.txt
+index fe38c78..d4a1b1d 100644
+--- a/DOC/Methods.txt
++++ b/DOC/Methods.txt
+@@ -132,6 +132,12 @@ Hunk #2, a/DOC/Methods.txt List of defined IDs
+          04 - LZ4
+          05 - LZ5
+          06 - LIZARD
++
++      12 xx - reserverd (Denis Anisimov)
++        
++         01 - WavPack2
++         FE - eSplitter 
++         FF - RawSplitter
+  
+ 
+ 06.. - Crypto 

@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.h b/CPP/7zip/UI/Common/ArchiveExtractCallback.h
+index e458f50..dd5c98c 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.h
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.h
+@@ -241,15 +241,14 @@ Hunk #2, a/CPP/7zip/UI/Common/ArchiveExtractCallback.h class CArchiveExtractCallback:
+   UInt64 _progressTotal;
+   bool _progressTotal_Defined;
+ 
+-  FStringVector _extractedFolderPaths;
+-  CRecordVector<UInt32> _extractedFolderIndices;
++  CObjectVector<CDirPathTime> _extractedFolders;
+ 
+   #if defined(_WIN32) && !defined(UNDER_CE) && !defined(_SFX)
+   bool _saclEnabled;
+   #endif
+ 
+   void CreateComplexDirectory(const UStringVector &dirPathParts, FString &fullPath);
+-  HRESULT GetTime(int index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined);
++  HRESULT GetTime(UInt32 index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined);
+   HRESULT GetUnpackSize();
+ 
+   HRESULT SendMessageError(const char *message, const FString &path);

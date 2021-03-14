@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -824,11 +824,10 @@ Hunk #13, a/CPP/7zip/UI/Common/Bench.cpp struct CEncoderInfo
+ };
+ 
+ 
+-HRESULT CEncoderInfo::Init(
+-    const COneMethodInfo &method,
+-    unsigned generateDictBits,
+-    CBaseRandomGenerator *rgLoc)
++HRESULT CEncoderInfo::Generate()
+ {
++  const COneMethodInfo &method = _method;
++
+   // we need extra space, if input data is already compressed
+   const size_t kCompressedBufferSize =
+       kCompressedAdditionalSize +

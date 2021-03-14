@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -3399,7 +3399,7 @@ Hunk #51, a/CPP/7zip/UI/Common/Bench.cpp HRESULT Bench(
+           complexInCommands,
+           true, numThreads,
+           method2,
+-          uncompressedDataSize, fileDataBuffer.Buffer,
++          uncompressedDataSize, (const Byte *)fileDataBuffer,
+           kOldLzmaDictBits, printCallback, &callback, &callback.BenchProps);
+       f.NewLine();
+       RINOK(res);

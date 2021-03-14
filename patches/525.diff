@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -107,9 +107,9 @@ Hunk #4, a/CPP/7zip/Archive/XzHandler.cpp class CHandler:
+   MY_QUERYINTERFACE_BEGIN2(IInArchive)
+   MY_QUERYINTERFACE_ENTRY(IArchiveOpenSeq)
+   MY_QUERYINTERFACE_ENTRY(IInArchiveGetStream)
++  MY_QUERYINTERFACE_ENTRY(ISetProperties)
+   #ifndef EXTRACT_ONLY
+   MY_QUERYINTERFACE_ENTRY(IOutArchive)
+-  MY_QUERYINTERFACE_ENTRY(ISetProperties)
+   #endif
+   MY_QUERYINTERFACE_END
+   MY_ADDREF_RELEASE

@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.cpp b/CPP/7zip/UI/GUI/GUI.cpp
+index 6bbfb74..2674ec9 100644
+--- a/CPP/7zip/UI/GUI/GUI.cpp
++++ b/CPP/7zip/UI/GUI/GUI.cpp
+@@ -16,9 +16,6 @@ Hunk #2, a/CPP/7zip/UI/GUI/GUI.cpp
+ 
+ #include "../../../Windows/FileDir.h"
+ #include "../../../Windows/NtCheck.h"
+-#ifdef _WIN32
+-#include "../../../Windows/MemoryLock.h"
+-#endif
+ 
+ #include "../Common/ArchiveCommandLine.h"
+ #include "../Common/ExitCode.h"

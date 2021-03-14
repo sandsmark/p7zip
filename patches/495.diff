@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.h b/CPP/7zip/Archive/Rar/Rar5Handler.h
+index d3e33d7..3b3b940 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.h
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.h
+@@ -180,7 +180,7 @@ Hunk #1, a/CPP/7zip/Archive/Rar/Rar5Handler.h struct CItem
+ 
+   AString Name;
+ 
+-  int VolIndex;
++  unsigned VolIndex;
+   int NextItem;
+ 
+   UInt32 UnixMTime;

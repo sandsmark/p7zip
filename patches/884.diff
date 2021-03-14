@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1543,7 +1543,7 @@ Hunk #29, a/CPP/7zip/UI/Common/Bench.cpp struct CFreqThreads
+   CFreqInfo *Items;
+   UInt32 NumThreads;
+ 
+-  CFreqThreads(): Items(0), NumThreads(0) {}
++  CFreqThreads(): Items(NULL), NumThreads(0) {}
+   void WaitAll()
+   {
+     for (UInt32 i = 0; i < NumThreads; i++)

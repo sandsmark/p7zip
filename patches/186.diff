@@ -1,0 +1,195 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -1604,84 +1604,152 @@ Hunk #22, a/C/LzmaEnc.c static UInt32 GetOptimumFast(CLzmaEnc *p, UInt32 *backRes)
+     }
+   }
+ 
+-  matches = p->matches;
+   if (mainLen >= p->numFastBytes)
+   {
+-    *backRes = matches[(size_t)numPairs - 1] + LZMA_NUM_REPS;
+-    MovePos(p, mainLen - 1);
++    p->backRes = p->matches[(size_t)numPairs - 1] + LZMA_NUM_REPS;
++    MOVE_POS(p, mainLen - 1)
+     return mainLen;
+   }
+ 
+   mainDist = 0; /* for GCC */
++  
+   if (mainLen >= 2)
+   {
+-    mainDist = matches[(size_t)numPairs - 1];
+-    while (numPairs > 2 && mainLen == matches[(size_t)numPairs - 4] + 1)
++    mainDist = p->matches[(size_t)numPairs - 1];
++    while (numPairs > 2)
+     {
+-      if (!ChangePair(matches[(size_t)numPairs - 3], mainDist))
++      UInt32 dist2;
++      if (mainLen != p->matches[(size_t)numPairs - 4] + 1)
++        break;
++      dist2 = p->matches[(size_t)numPairs - 3];
++      if (!ChangePair(dist2, mainDist))
+         break;
+       numPairs -= 2;
+-      mainLen = matches[(size_t)numPairs - 2];
+-      mainDist = matches[(size_t)numPairs - 1];
++      mainLen--;
++      mainDist = dist2;
+     }
+     if (mainLen == 2 && mainDist >= 0x80)
+       mainLen = 1;
+   }
+ 
+-  if (repLen >= 2 && (
+-        (repLen + 1 >= mainLen) ||
+-        (repLen + 2 >= mainLen && mainDist >= (1 << 9)) ||
+-        (repLen + 3 >= mainLen && mainDist >= (1 << 15))))
++  if (repLen >= 2)
++    if (    repLen + 1 >= mainLen
++        || (repLen + 2 >= mainLen && mainDist >= (1 << 9))
++        || (repLen + 3 >= mainLen && mainDist >= (1 << 15)))
+   {
+-    *backRes = repIndex;
+-    MovePos(p, repLen - 1);
++    p->backRes = (UInt32)repIndex;
++    MOVE_POS(p, repLen - 1)
+     return repLen;
+   }
+   
+   if (mainLen < 2 || numAvail <= 2)
+     return 1;
+ 
+-  p->longestMatchLength = ReadMatchDistances(p, &p->numPairs);
+-  if (p->longestMatchLength >= 2)
+   {
+-    UInt32 newDistance = matches[(size_t)p->numPairs - 1];
+-    if ((p->longestMatchLength >= mainLen && newDistance < mainDist) ||
+-        (p->longestMatchLength == mainLen + 1 && !ChangePair(mainDist, newDistance)) ||
+-        (p->longestMatchLength > mainLen + 1) ||
+-        (p->longestMatchLength + 1 >= mainLen && mainLen >= 3 && ChangePair(newDistance, mainDist)))
+-      return 1;
++    unsigned len1 = ReadMatchDistances(p, &p->numPairs);
++    p->longestMatchLen = len1;
++  
++    if (len1 >= 2)
++    {
++      UInt32 newDist = p->matches[(size_t)p->numPairs - 1];
++      if (   (len1 >= mainLen && newDist < mainDist)
++          || (len1 == mainLen + 1 && !ChangePair(mainDist, newDist))
++          || (len1 >  mainLen + 1)
++          || (len1 + 1 >= mainLen && mainLen >= 3 && ChangePair(newDist, mainDist)))
++        return 1;
++    }
+   }
+   
+   data = p->matchFinder.GetPointerToCurrentPos(p->matchFinderObj) - 1;
++  
+   for (i = 0; i < LZMA_NUM_REPS; i++)
+   {
+-    UInt32 len, limit;
+-    const Byte *data2 = data - p->reps[i] - 1;
++    unsigned len, limit;
++    const Byte *data2 = data - p->reps[i];
+     if (data[0] != data2[0] || data[1] != data2[1])
+       continue;
+     limit = mainLen - 1;
+-    for (len = 2; len < limit && data[len] == data2[len]; len++);
+-    if (len >= limit)
+-      return 1;
++    for (len = 2;; len++)
++    {
++      if (len >= limit)
++        return 1;
++      if (data[len] != data2[len])
++        break;
++    }
++  }
++  
++  p->backRes = mainDist + LZMA_NUM_REPS;
++  if (mainLen != 2)
++  {
++    MOVE_POS(p, mainLen - 2)
+   }
+-  *backRes = mainDist + LZMA_NUM_REPS;
+-  MovePos(p, mainLen - 2);
+   return mainLen;
+ }
+ 
+-static void WriteEndMarker(CLzmaEnc *p, UInt32 posState)
++
++
++
++static void WriteEndMarker(CLzmaEnc *p, unsigned posState)
+ {
+-  UInt32 len;
+-  RangeEnc_EncodeBit(&p->rc, &p->isMatch[p->state][posState], 1);
+-  RangeEnc_EncodeBit(&p->rc, &p->isRep[p->state], 0);
++  UInt32 range;
++  range = p->rc.range;
++  {
++    UInt32 ttt, newBound;
++    CLzmaProb *prob = &p->isMatch[p->state][posState];
++    RC_BIT_PRE(&p->rc, prob)
++    RC_BIT_1(&p->rc, prob)
++    prob = &p->isRep[p->state];
++    RC_BIT_PRE(&p->rc, prob)
++    RC_BIT_0(&p->rc, prob)
++  }
+   p->state = kMatchNextStates[p->state];
+-  len = LZMA_MATCH_LEN_MIN;
+-  LenEnc_Encode2(&p->lenEnc, &p->rc, len - LZMA_MATCH_LEN_MIN, posState, !p->fastMode, p->ProbPrices);
+-  RcTree_Encode(&p->rc, p->posSlotEncoder[GetLenToPosState(len)], kNumPosSlotBits, (1 << kNumPosSlotBits) - 1);
+-  RangeEnc_EncodeDirectBits(&p->rc, (((UInt32)1 << 30) - 1) >> kNumAlignBits, 30 - kNumAlignBits);
+-  RcTree_ReverseEncode(&p->rc, p->posAlignEncoder, kNumAlignBits, kAlignMask);
++  
++  p->rc.range = range;
++  LenEnc_Encode(&p->lenProbs, &p->rc, 0, posState);
++  range = p->rc.range;
++
++  {
++    // RcTree_Encode_PosSlot(&p->rc, p->posSlotEncoder[0], (1 << kNumPosSlotBits) - 1);
++    CLzmaProb *probs = p->posSlotEncoder[0];
++    unsigned m = 1;
++    do
++    {
++      UInt32 ttt, newBound;
++      RC_BIT_PRE(p, probs + m)
++      RC_BIT_1(&p->rc, probs + m);
++      m = (m << 1) + 1;
++    }
++    while (m < (1 << kNumPosSlotBits));
++  }
++  {
++    // RangeEnc_EncodeDirectBits(&p->rc, ((UInt32)1 << (30 - kNumAlignBits)) - 1, 30 - kNumAlignBits);    UInt32 range = p->range;
++    unsigned numBits = 30 - kNumAlignBits;
++    do
++    {
++      range >>= 1;
++      p->rc.low += range;
++      RC_NORM(&p->rc)
++    }
++    while (--numBits);
++  }
++   
++  {
++    // RcTree_ReverseEncode(&p->rc, p->posAlignEncoder, kNumAlignBits, kAlignMask);
++    CLzmaProb *probs = p->posAlignEncoder;
++    unsigned m = 1;
++    do
++    {
++      UInt32 ttt, newBound;
++      RC_BIT_PRE(p, probs + m)
++      RC_BIT_1(&p->rc, probs + m);
++      m = (m << 1) + 1;
++    }
++    while (m < kAlignTableSize);
++  }
++  p->rc.range = range;
+ }
+ 
++
+ static SRes CheckErrors(CLzmaEnc *p)
+ {
+   if (p->result != SZ_OK)

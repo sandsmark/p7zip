@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/Archive/Wim/WimIn.cpp b/CPP/7zip/Archive/Wim/WimIn.cpp
+index b934478..3c71208 100644
+--- a/CPP/7zip/Archive/Wim/WimIn.cpp
++++ b/CPP/7zip/Archive/Wim/WimIn.cpp
+@@ -563,7 +563,13 @@ Hunk #2, a/CPP/7zip/Archive/Wim/WimIn.cpp void CDatabase::GetItemPath(unsigned index1, bool showImageNumber, NWindows::NCO
+       wchar_t *dest = s + size;
+       meta += 2;
+       for (unsigned i = 0; i < len; i++)
+-        dest[i] = Get16(meta + i * 2);
++      {
++        wchar_t c = Get16(meta + i * 2);
++        // 18.06
++        if (c == CHAR_PATH_SEPARATOR || c == '/')
++          c = '_';
++        dest[i] = c;
++      }
+     }
+     if (index < 0)
+       return;

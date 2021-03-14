@@ -1,0 +1,38 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -72,11 +72,30 @@ Hunk #3, a/CPP/7zip/Archive/PeHandler.cpp static HRESULT CalcCheckSum(ISequentialInStream *stream, UInt32 size, UInt32 exc
+       }
+     }
+ 
+-    for (size_t i = 0; i < processed; i += 2)
++    const unsigned kStep = (1 << 4);
+     {
+-      sum += Get16(buf + i);
+-      sum = (sum + (sum >> 16)) & 0xFFFF;
++      for (size_t i = processed; (i & (kStep - 1)) != 0; i++)
++        buf[i] = 0;
+     }
++    {
++      const Byte *buf2 = buf;
++      const Byte *bufLimit = buf + processed;
++      UInt64 sum2 = 0;
++      for (; buf2 < bufLimit; buf2 += kStep)
++      {
++        UInt64 sum3 = (UInt64)Get32(buf2)
++            + Get32(buf2 + 4)
++            + Get32(buf2 + 8)
++            + Get32(buf2 + 12);
++        sum2 += sum3;
++      }
++      sum2 = (UInt32)(sum2) + (UInt64)(sum2 >> 32);
++      UInt32 sum3 = ((UInt32)sum2 + (UInt32)(sum2 >> 32));
++      sum += (sum3 & 0xFFFF) + (sum3 >> 16);
++      sum = (sum & 0xFFFF) + (sum >> 16);
++      sum = (sum & 0xFFFF) + (sum >> 16);
++    }
++
+     pos += (UInt32)processed;
+     if (rem != processed)
+       break;

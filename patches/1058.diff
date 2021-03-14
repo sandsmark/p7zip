@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/FileManager/ListViewDialog.rc b/CPP/7zip/UI/FileManager/ListViewDialog.rc
+index 14d3b2e..961d224 100644
+--- a/CPP/7zip/UI/FileManager/ListViewDialog.rc
++++ b/CPP/7zip/UI/FileManager/ListViewDialog.rc
+@@ -1,8 +1,8 @@ Hunk #1, a/CPP/7zip/UI/FileManager/ListViewDialog.rc
+ #include "ListViewDialogRes.h"
+ #include "../../GuiCommon.rc"
+ 
+-#define xc 320
+-#define yc 240
++#define xc 440
++#define yc 320
+ 
+ IDD_LISTVIEW  DIALOG  0, 0, xs, ys  MY_MODAL_RESIZE_DIALOG_STYLE  MY_FONT
+ CAPTION "ListView"

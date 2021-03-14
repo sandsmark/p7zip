@@ -1,0 +1,14 @@
+diff --git a/C/Lzma2Enc.c b/C/Lzma2Enc.c
+index e970944..5c1ad49 100644
+--- a/C/Lzma2Enc.c
++++ b/C/Lzma2Enc.c
+@@ -674,7 +674,8 @@ Hunk #6, a/C/Lzma2Enc.c static SRes Lzma2Enc_MtCallback_Code(void *pp, unsigned coderIndex, unsigned out
+ 
+   MtProgressThunk_CreateVTable(&progressThunk);
+   progressThunk.mtProgress = &me->mtCoder.mtProgress;
+-  progressThunk.index = coderIndex;
++  progressThunk.inSize = 0;
++  progressThunk.outSize = 0;
+ 
+   res = Lzma2Enc_EncodeMt1(me,
+       &me->coders[coderIndex],

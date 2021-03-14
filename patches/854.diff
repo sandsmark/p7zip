@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveName.h b/CPP/7zip/UI/Common/ArchiveName.h
+index ec2f1e8..0d32645 100644
+--- a/CPP/7zip/UI/Common/ArchiveName.h
++++ b/CPP/7zip/UI/Common/ArchiveName.h
+@@ -3,11 +3,8 @@ Hunk #1, a/CPP/7zip/UI/Common/ArchiveName.h
+ #ifndef __ARCHIVE_NAME_H
+ #define __ARCHIVE_NAME_H
+ 
+-#include "../../../Common/MyString.h"
+-
+ #include "../../../Windows/FileFind.h"
+ 
+-UString CreateArchiveName(const UString &path, bool fromPrev, bool keepName);
+-UString CreateArchiveName(const NWindows::NFile::NFind::CFileInfo &fileInfo, bool keepName);
++UString CreateArchiveName(const UStringVector &paths, const NWindows::NFile::NFind::CFileInfo *fi = NULL);
+ 
+ #endif

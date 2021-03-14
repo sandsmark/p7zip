@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/7z/7zUpdate.cpp b/CPP/7zip/Archive/7z/7zUpdate.cpp
+index 53ea3a5..6705fc0 100644
+--- a/CPP/7zip/Archive/7z/7zUpdate.cpp
++++ b/CPP/7zip/Archive/7z/7zUpdate.cpp
+@@ -1507,7 +1507,8 @@ Hunk #6, a/CPP/7zip/Archive/7z/7zUpdate.cpp void CThreadDecoder::Execute()
+ 
+       _7Z_DECODER_CRYPRO_VARS
+       #ifndef _7ZIP_ST
+-        , MtMode, NumThreads
++        , MtMode, NumThreads,
++        0 // MemUsage
+       #endif
+ 
+       );

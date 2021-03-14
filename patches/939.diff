@@ -1,0 +1,64 @@
+diff --git a/CPP/7zip/UI/Common/PropIDUtils.cpp b/CPP/7zip/UI/Common/PropIDUtils.cpp
+index 4b796f0..7702e22 100644
+--- a/CPP/7zip/UI/Common/PropIDUtils.cpp
++++ b/CPP/7zip/UI/Common/PropIDUtils.cpp
+@@ -593,19 +593,48 @@ Hunk #9, a/CPP/7zip/UI/Common/PropIDUtils.cpp bool ConvertNtReparseToString(const Byte *data, UInt32 size, UString &s)
+   if (Get16(data + 6) != 0) // padding
+     return false;
+ 
+-  char hex[16];
+-  ConvertUInt32ToHex8Digits(tag, hex);
+-  s += hex;
+-  s.Add_Space();
+-
+-  data += 8;
+-
+-  for (UInt32 i = 0; i < len; i++)
++  /*
++  #define _my_IO_REPARSE_TAG_DEDUP        (0x80000013L)
++  if (tag == _my_IO_REPARSE_TAG_DEDUP)
+   {
+-    unsigned b = ((const Byte *)data)[i];
+-    s += (char)GetHex((b >> 4) & 0xF);
+-    s += (char)GetHex(b & 0xF);
+   }
++  */
++
++  {
++    int index = FindPairIndex(k_ReparseTags, ARRAY_SIZE(k_ReparseTags), tag);
++    if (index >= 0)
++      s += k_ReparseTags[(unsigned)index].sz;
++    else
++    {
++      s += "REPARSE:";
++      char hex[16];
++      ConvertUInt32ToHex8Digits(tag, hex);
++      s += hex;
++    }
++  }
++
++  s += ":";
++  s.Add_UInt32(len);
++
++  if (len != 0)
++  {
++    s.Add_Space();
++    
++    data += 8;
++    
++    for (UInt32 i = 0; i < len; i++)
++    {
++      if (i >= 8)
++      {
++        s += "...";
++        break;
++      }
++      unsigned b = data[i];
++      s += (char)GetHex((b >> 4) & 0xF);
++      s += (char)GetHex(b & 0xF);
++    }
++  }
++
+   return true;
+ }
+ 

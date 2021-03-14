@@ -1,0 +1,28 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -50,18 +50,16 @@ Hunk #5, a/C/Alloc.c void *MidAlloc(size_t size)
+ {
+   if (size == 0)
+     return NULL;
+-  #ifdef _SZ_ALLOC_DEBUG
+-  fprintf(stderr, "\nAlloc_Mid %10d bytes;  count = %10d", size, g_allocCountMid++);
+-  #endif
++  
++  PRINT_ALLOC("Alloc-Mid", g_allocCountMid, size, NULL);
++  
+   return VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
+ }
+ 
+ void MidFree(void *address)
+ {
+-  #ifdef _SZ_ALLOC_DEBUG
+-  if (address)
+-    fprintf(stderr, "\nFree_Mid; count = %10d", --g_allocCountMid);
+-  #endif
++  PRINT_FREE("Free-Mid", g_allocCountMid, address);
++
+   if (!address)
+     return;
+   VirtualFree(address, 0, MEM_RELEASE);

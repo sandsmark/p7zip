@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Common/CompressCall2.cpp b/CPP/7zip/UI/Common/CompressCall2.cpp
+index fb67ed1..5bad774 100644
+--- a/CPP/7zip/UI/Common/CompressCall2.cpp
++++ b/CPP/7zip/UI/Common/CompressCall2.cpp
+@@ -1,10 +1,10 @@ Hunk #1, a/CPP/7zip/UI/Common/CompressCall2.cpp
+-// CompressCall.cpp
++// CompressCall2.cpp
+ 
+ #include "StdAfx.h"
+ 
+ #include "../../../Common/MyException.h"
+ 
+-#include "../../UI/common/ArchiveCommandLine.h"
++#include "../../UI/Common/EnumDirItems.h"
+ 
+ #include "../../UI/GUI/BenchmarkDialog.h"
+ #include "../../UI/GUI/ExtractGUI.h"

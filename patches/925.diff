@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/OpenArchive.cpp b/CPP/7zip/UI/Common/OpenArchive.cpp
+index 6981717..419c29e 100644
+--- a/CPP/7zip/UI/Common/OpenArchive.cpp
++++ b/CPP/7zip/UI/Common/OpenArchive.cpp
+@@ -857,7 +857,7 @@ Hunk #3, a/CPP/7zip/UI/Common/OpenArchive.cpp HRESULT CArc::GetItem(UInt32 index, CReadArcItem &item) const
+ 
+   if (item.WriteToAltStreamIfColon || needFindAltStream)
+   {
+-    /* Good handler must support GetRawProps::GetParent for alt streams./
++    /* Good handler must support GetRawProps::GetParent for alt streams.
+        So the following code currently is not used */
+     int colon = FindAltStreamColon_in_Path(item.Path);
+     if (colon >= 0)

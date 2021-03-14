@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/FM.cpp b/CPP/7zip/UI/FileManager/FM.cpp
+index ddde804..3e7f104 100644
+--- a/CPP/7zip/UI/FileManager/FM.cpp
++++ b/CPP/7zip/UI/FileManager/FM.cpp
+@@ -659,6 +659,9 @@ Hunk #3, a/CPP/7zip/UI/FileManager/FM.cpp int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /* hPrevInstance */,
+   {
+     try
+     {
++      #ifdef _WIN32
++      My_SetDefaultDllDirectories();
++      #endif
+       return WinMain2(nCmdShow);
+     }
+     catch (...)

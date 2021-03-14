@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1608,7 +1608,7 @@ Hunk #10, a/CPP/7zip/UI/Common/Update.cpp HRESULT UpdateArchive(
+ 
+   if (options.DeleteAfterCompressing)
+   {
+-    CRecordVector<CRefSortPair> pairs;
++    CRecordVector<CDirPathSortPair> pairs;
+     FStringVector foldersNames;
+ 
+     unsigned i;

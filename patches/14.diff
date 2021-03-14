@@ -1,0 +1,13 @@
+diff --git a/C/7zDec.c b/C/7zDec.c
+index 1ae87df..7c46352 100644
+--- a/C/7zDec.c
++++ b/C/7zDec.c
+@@ -269,7 +269,7 @@ Hunk #5, a/C/7zDec.c static SRes SzDecodeCopy(UInt64 inSize, ILookInStream *inStream, Byte *outBuffer
+   return SZ_OK;
+ }
+ 
+-static Bool IS_MAIN_METHOD(UInt32 m)
++static BoolInt IS_MAIN_METHOD(UInt32 m)
+ {
+   switch (m)
+   {

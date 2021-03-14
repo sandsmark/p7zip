@@ -1,0 +1,28 @@
+diff --git a/CPP/7zip/UI/Agent/Agent.cpp b/CPP/7zip/UI/Agent/Agent.cpp
+index dbcd6ff..1c2e339 100644
+--- a/CPP/7zip/UI/Agent/Agent.cpp
++++ b/CPP/7zip/UI/Agent/Agent.cpp
+@@ -1507,11 +1507,18 @@ Hunk #2, a/CPP/7zip/UI/Agent/Agent.cpp STDMETHODIMP CAgentFolder::Extract(const UInt32 *indices,
+     
+   #endif
+ 
+-  HRESULT result = _agentSpec->GetArchive()->Extract(&realIndices.Front(),
+-      realIndices.Size(), testMode, extractCallback);
+-  if (result == S_OK)
+-    result = extractCallbackSpec->SetDirsTimes();
+-  return result;
++  {
++    CArchiveExtractCallback_Closer ecsCloser(extractCallbackSpec);
++    
++    HRESULT res = _agentSpec->GetArchive()->Extract(&realIndices.Front(),
++        realIndices.Size(), testMode, extractCallback);
++    
++    HRESULT res2 = ecsCloser.Close();
++    if (res == S_OK)
++      res = res2;
++    return res;
++  }
++
+   COM_TRY_END
+ }
+ 

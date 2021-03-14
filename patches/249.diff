@@ -1,0 +1,16 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -1101,9 +1101,9 @@ Hunk #11, a/C/Util/7zipInstall/7zipInstall.c int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+ }
+ 
+ 
+-static Bool GetErrorMessage(DWORD errorCode, WCHAR *message)
++static BoolInt GetErrorMessage(DWORD errorCode, WCHAR *message)
+ {
+-  LPVOID msgBuf;
++  LPWSTR msgBuf;
+   if (FormatMessageW(
+           FORMAT_MESSAGE_ALLOCATE_BUFFER
+         | FORMAT_MESSAGE_FROM_SYSTEM

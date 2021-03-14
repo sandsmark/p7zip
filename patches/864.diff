@@ -1,0 +1,44 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -687,20 +687,39 @@ Hunk #9, a/CPP/7zip/UI/Common/Bench.cpp UInt64 GetDecompressRating(UInt64 elapsedTime, UInt64 freq, UInt64 outSize, UInt
+   return props.GetDecompressRating(elapsedTime, freq, outSize, inSize, numIterations);
+ }
+ 
++
++
++
++#ifndef _7ZIP_ST
++struct CBenchSyncCommon
++{
++  bool ExitMode;
++  NSynchronization::CManualResetEvent StartEvent;
++
++  CBenchSyncCommon(): ExitMode(false) {}
++};
++#endif
++
++
+ struct CEncoderInfo;
+ 
+ struct CEncoderInfo
+ {
+   #ifndef _7ZIP_ST
+   NWindows::CThread thread[2];
++  NSynchronization::CManualResetEvent ReadyEvent;
+   UInt32 NumDecoderSubThreads;
++  CBenchSyncCommon *Common;
+   #endif
++
+   CMyComPtr<ICompressCoder> _encoder;
+   CMyComPtr<ICompressFilter> _encoderFilter;
+   CBenchProgressInfo *progressInfoSpec[2];
+   CMyComPtr<ICompressProgressInfo> progressInfo[2];
+   UInt64 NumIterations;
+ 
++  UInt32 Salt;
++
+   #ifdef USE_ALLOCA
+   size_t AllocaSize;
+   #endif

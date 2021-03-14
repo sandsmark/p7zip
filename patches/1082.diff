@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -261,7 +261,7 @@ Hunk #4, a/CPP/7zip/UI/FileManager/PanelDrag.cpp static bool CopyNamesToHGlobal(NMemory::CGlobal &hgDrop, const UStringVector &na
+     
+     NMemory::CGlobalLock dropLock(hgDrop);
+     DROPFILES* dropFiles = (DROPFILES*)dropLock.GetPointer();
+-    if (dropFiles == 0)
++    if (!dropFiles)
+       return false;
+     dropFiles->fNC = FALSE;
+     dropFiles->pt.x = 0;

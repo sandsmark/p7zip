@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Compress/LzmaDecoder.h b/CPP/7zip/Compress/LzmaDecoder.h
+index e73925e..37dec02 100644
+--- a/CPP/7zip/Compress/LzmaDecoder.h
++++ b/CPP/7zip/Compress/LzmaDecoder.h
+@@ -45,6 +45,10 @@ Hunk #3, a/CPP/7zip/Compress/LzmaDecoder.h class CDecoder:
+   UInt32 _inBufSize;
+   UInt32 _inBufSizeNew;
+ 
++  // CAlignOffsetAlloc _alloc;
++
++  CLzmaDec _state;
++
+   HRESULT CreateInputBuffer();
+   HRESULT CodeSpec(ISequentialInStream *inStream, ISequentialOutStream *outStream, ICompressProgressInfo *progress);
+   void SetOutStreamSizeResume(const UInt64 *outSize);

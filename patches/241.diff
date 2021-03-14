@@ -1,0 +1,58 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -121,13 +121,51 @@ Hunk #3, a/C/Util/7zipInstall/7zipInstall.c static void PrintErrorMessage(const char *s)
+ }
+ 
+ 
++typedef DWORD (WINAPI * Func_GetFileVersionInfoSizeW)(LPCWSTR lptstrFilename, LPDWORD lpdwHandle);
++typedef BOOL (WINAPI * Func_GetFileVersionInfoW)(LPCWSTR lptstrFilename, DWORD dwHandle, DWORD dwLen, LPVOID lpData);
++typedef BOOL (WINAPI * Func_VerQueryValueW)(const LPVOID pBlock, LPWSTR lpSubBlock, LPVOID * lplpBuffer, PUINT puLen);
++
++static HMODULE g_version_dll_hModule;
++
+ static DWORD GetFileVersion(LPCWSTR s)
+ {
+   DWORD size = 0;
+-  BYTE *vi = NULL;
++  void *vi = NULL;
+   DWORD version = 0;
++
++  Func_GetFileVersionInfoSizeW my_GetFileVersionInfoSizeW;
++  Func_GetFileVersionInfoW my_GetFileVersionInfoW;
++  Func_VerQueryValueW my_VerQueryValueW;
++
++  if (!g_version_dll_hModule)
++  {
++    wchar_t buf[MAX_PATH + 100];
++    {
++      unsigned len = GetSystemDirectoryW(buf, MAX_PATH + 2);
++      if (len == 0 || len > MAX_PATH)
++        return 0;
++    }
++    {
++      unsigned pos = (unsigned)lstrlenW(buf);
++      if (buf[pos - 1] != '\\')
++        buf[pos++] = '\\';
++      lstrcpyW(buf + pos, L"version.dll");
++    }
++    g_version_dll_hModule = LoadLibraryW(buf);
++    if (!g_version_dll_hModule)
++      return 0;
++  }
++
++  my_GetFileVersionInfoSizeW = (Func_GetFileVersionInfoSizeW)GetProcAddress(g_version_dll_hModule, "GetFileVersionInfoSizeW");
++  my_GetFileVersionInfoW = (Func_GetFileVersionInfoW)GetProcAddress(g_version_dll_hModule, "GetFileVersionInfoW");
++  my_VerQueryValueW = (Func_VerQueryValueW)GetProcAddress(g_version_dll_hModule, "VerQueryValueW");
++
++  if (!my_GetFileVersionInfoSizeW
++     || !my_GetFileVersionInfoW
++     || !my_VerQueryValueW)
++    return 0;
+   
+-  size = GetFileVersionInfoSizeW(s, NULL);
++  size = my_GetFileVersionInfoSizeW(s, NULL);
+   if (size == 0)
+     return 0;
+   

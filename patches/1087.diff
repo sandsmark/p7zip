@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -475,7 +475,7 @@ Hunk #9, a/CPP/7zip/UI/FileManager/PanelDrag.cpp static void MySetDropHighlighted(HWND hWnd, int index, bool enable)
+ 
+ void CDropTarget::RemoveSelection()
+ {
+-  if (m_SelectionIndex >= 0 && m_Panel != 0)
++  if (m_SelectionIndex >= 0 && m_Panel)
+     MySetDropHighlighted(m_Panel->_listView, m_SelectionIndex, false);
+   m_SelectionIndex = -1;
+ }

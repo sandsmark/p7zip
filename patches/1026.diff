@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Far/Far.cpp b/CPP/7zip/UI/Far/Far.cpp
+index cec4af5..5d92bc4 100644
+--- a/CPP/7zip/UI/Far/Far.cpp
++++ b/CPP/7zip/UI/Far/Far.cpp
+@@ -423,7 +423,7 @@ Hunk #5, a/CPP/7zip/UI/Far/Far.cpp EXTERN_C HANDLE WINAPI OpenFilePlugin(char *name, const unsigned char * /* data
+     // if (!Opt.ProcessShiftF1)
+       return(INVALID_HANDLE_VALUE);
+   }
+-  return MyOpenFilePlugin(name);
++  return MyOpenFilePlugin(name, true); // isAbortCodeSupported
+   MY_TRY_END2("OpenFilePlugin", INVALID_HANDLE_VALUE);
+ }
+ 

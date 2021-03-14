@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -109,13 +109,13 @@ Hunk #2, a/CPP/7zip/UI/FileManager/PanelDrag.cpp static HGLOBAL DuplicateGlobalMem(HGLOBAL srcGlobal)
+ {
+   SIZE_T size = GlobalSize(srcGlobal);
+   const void *src = GlobalLock(srcGlobal);
+-  if (src == 0)
++  if (!src)
+     return 0;
+   HGLOBAL destGlobal = GlobalAlloc(GHND | GMEM_SHARE, size);
+-  if (destGlobal != 0)
++  if (destGlobal)
+   {
+     void *dest = GlobalLock(destGlobal);
+-    if (dest == 0)
++    if (!dest)
+     {
+       GlobalFree(destGlobal);
+       destGlobal = 0;

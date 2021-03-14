@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/Explorer/ContextMenu.cpp b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+index 21de12a..a99ca81 100644
+--- a/CPP/7zip/UI/Explorer/ContextMenu.cpp
++++ b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+@@ -639,12 +639,8 @@ Hunk #4, a/CPP/7zip/UI/Explorer/ContextMenu.cpp STDMETHODIMP CZipContextMenu::QueryContextMenu(HMENU hMenu, UINT indexMenu,
+       }
+     }
+     
+-    UString arcName;
+-    if (_fileNames.Size() == 1)
+-      arcName = CreateArchiveName(fi0, false);
+-    else
+-      arcName = CreateArchiveName(fileName, _fileNames.Size() > 1, false);
+-    
++    const UString arcName = CreateArchiveName(_fileNames, _fileNames.Size() == 1 ? &fi0 : NULL);
++
+     UString arcName7z = arcName;
+     arcName7z += ".7z";
+     UString arcNameZip = arcName;

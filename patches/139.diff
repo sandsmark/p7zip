@@ -1,0 +1,13 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -519,7 +519,7 @@ Hunk #19, a/C/LzmaDec.c static void MY_FAST_CALL LzmaDec_WriteRem(CLzmaDec *p, SizeT limit)
+     Byte *dic = p->dic;
+     SizeT dicPos = p->dicPos;
+     SizeT dicBufSize = p->dicBufSize;
+-    unsigned len = p->remainLen;
++    unsigned len = (unsigned)p->remainLen;
+     SizeT rep0 = p->reps[0]; /* we use SizeT to avoid the BUG of VC14 for AMD64 */
+     SizeT rem = limit - dicPos;
+     if (rem < len)

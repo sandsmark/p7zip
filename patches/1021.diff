@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Far/ExtractEngine.cpp b/CPP/7zip/UI/Far/ExtractEngine.cpp
+index 04bad72..3567c04 100644
+--- a/CPP/7zip/UI/Far/ExtractEngine.cpp
++++ b/CPP/7zip/UI/Far/ExtractEngine.cpp
+@@ -209,6 +209,8 @@ Hunk #1, a/CPP/7zip/UI/Far/ExtractEngine.cpp void SetExtractErrorMessage(Int32 opRes, Int32 encrypted, AString &s)
+         s = "Is not archive";
+       else if (opRes == NArchive::NExtract::NOperationResult::kHeadersError)
+         s = "kHeaders Error";
++      else if (opRes == NArchive::NExtract::NOperationResult::kWrongPassword)
++        s = "Wrong Password";
+       else
+       {
+         s = "Error #";

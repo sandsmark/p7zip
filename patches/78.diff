@@ -1,0 +1,13 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -791,7 +791,7 @@ Hunk #26, a/C/LzFind.c static UInt32 Hc4_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+   if (maxLen < 3)
+     maxLen = 3;
+ 
+-  offset = (UInt32)(Hc_GetMatchesSpec(lenLimit, curMatch, MF_PARAMS(p),
++  offset = (unsigned)(Hc_GetMatchesSpec(lenLimit, curMatch, MF_PARAMS(p),
+       distances + offset, maxLen) - (distances));
+   MOVE_POS_RET
+ }

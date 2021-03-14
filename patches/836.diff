@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveCommandLine.h b/CPP/7zip/UI/Common/ArchiveCommandLine.h
+index 1c96601..9ed0825 100644
+--- a/CPP/7zip/UI/Common/ArchiveCommandLine.h
++++ b/CPP/7zip/UI/Common/ArchiveCommandLine.h
+@@ -134,13 +134,4 @@ Hunk #4, a/CPP/7zip/UI/Common/ArchiveCommandLine.h class CArcCmdLineParser
+   void Parse2(CArcCmdLineOptions &options);
+ };
+ 
+-HRESULT EnumerateDirItemsAndSort(
+-    NWildcard::CCensor &censor,
+-    NWildcard::ECensorPathMode pathMode,
+-    const UString &addPathPrefix,
+-    UStringVector &sortedPaths,
+-    UStringVector &sortedFullPaths,
+-    CDirItemsStat &st,
+-    IDirItemsCallback *callback);
+-
+ #endif

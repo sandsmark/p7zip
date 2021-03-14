@@ -1,0 +1,33 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -969,12 +969,26 @@ Hunk #26, a/C/XzDec.c SRes XzUnpacker_Code(CXzUnpacker *p, Byte *dest, SizeT *destLen,
+ }
+ 
+ 
+-Bool XzUnpacker_IsBlockFinished(const CXzUnpacker *p)
++SRes XzUnpacker_CodeFull(CXzUnpacker *p, Byte *dest, SizeT *destLen,
++    const Byte *src, SizeT *srcLen,
++    ECoderFinishMode finishMode, ECoderStatus *status)
++{
++  XzUnpacker_Init(p);
++  XzUnpacker_SetOutBuf(p, dest, *destLen);
++
++  return XzUnpacker_Code(p,
++      NULL, destLen,
++      src, srcLen, True,
++      finishMode, status);
++}
++
++
++BoolInt XzUnpacker_IsBlockFinished(const CXzUnpacker *p)
+ {
+   return (p->state == XZ_STATE_BLOCK_HEADER) && (p->pos == 0);
+ }
+ 
+-Bool XzUnpacker_IsStreamWasFinished(const CXzUnpacker *p)
++BoolInt XzUnpacker_IsStreamWasFinished(const CXzUnpacker *p)
+ {
+   return (p->state == XZ_STATE_STREAM_PADDING) && (((UInt32)p->padSize & 3) == 0);
+ }

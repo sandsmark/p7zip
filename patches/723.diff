@@ -1,0 +1,41 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -202,24 +202,26 @@ Hunk #8, a/CPP/7zip/Compress/Rar1Decoder.cpp HRESULT CDecoder::LongLZ()
+   AvrLn2 += len;
+   AvrLn2 -= AvrLn2 >> 5;
+ 
+-  if (AvrPlcB > 0x28ff)
+-    distancePlace = DecodeNum(PosHf2);
+-  else if (AvrPlcB > 0x6ff)
+-    distancePlace = DecodeNum(PosHf1);
+-  else
+-    distancePlace = DecodeNum(PosHf0);
++  {
++    const Byte *tab;
++         if (AvrPlcB >= 0x2900) tab = PosHf2;
++    else if (AvrPlcB >= 0x0700) tab = PosHf1;
++    else                        tab = PosHf0;
++    distancePlace = DecodeNum(tab); // [0, 256]
++  }
+ 
+   AvrPlcB += distancePlace;
+   AvrPlcB -= AvrPlcB >> 8;
++
++  distancePlace &= 0xff;
+   
+   for (;;)
+   {
+-    dist = ChSetB[distancePlace & 0xff];
++    dist = ChSetB[distancePlace];
+     newDistancePlace = NToPlB[dist++ & 0xff]++;
+-    if (!(dist & 0xff))
+-      CorrHuff(ChSetB,NToPlB);
+-    else
++    if (dist & 0xff)
+       break;
++    CorrHuff(ChSetB,NToPlB);
+   }
+ 
+   ChSetB[distancePlace] = ChSetB[newDistancePlace];

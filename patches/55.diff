@@ -1,0 +1,13 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -147,7 +147,7 @@ Hunk #3, a/C/LzFind.c void MatchFinder_Construct(CMatchFinder *p)
+ 
+   for (i = 0; i < 256; i++)
+   {
+-    UInt32 r = i;
++    UInt32 r = (UInt32)i;
+     unsigned j;
+     for (j = 0; j < 8; j++)
+       r = (r >> 1) ^ (kCrcPoly & ((UInt32)0 - (r & 1)));

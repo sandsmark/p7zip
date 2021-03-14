@@ -1,0 +1,31 @@
+diff --git a/CPP/7zip/Bundles/Format7zF/Format7z.dsp b/CPP/7zip/Bundles/Format7zF/Format7z.dsp
+index f2a8fcc..3e202fe 100644
+--- a/CPP/7zip/Bundles/Format7zF/Format7z.dsp
++++ b/CPP/7zip/Bundles/Format7zF/Format7z.dsp
+@@ -1856,6 +1856,26 @@ Hunk #3, a/CPP/7zip/Bundles/Format7zF/Format7z.dsp SOURCE=..\..\..\..\C\MtCoder.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\..\..\C\MtDec.c
++
++!IF  "$(CFG)" == "7z - Win32 Release"
++
++# ADD CPP /O2
++# SUBTRACT CPP /YX /Yc /Yu
++
++!ELSEIF  "$(CFG)" == "7z - Win32 Debug"
++
++# SUBTRACT CPP /YX /Yc /Yu
++
++!ENDIF 
++
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\..\..\C\MtDec.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\..\..\C\Ppmd.h
+ # End Source File
+ # Begin Source File

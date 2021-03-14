@@ -1,0 +1,8 @@
+--- /dev/null
++++ b/CPP/7zip/LzmaDec.mak
+@@ -0,0 +1,5 @@ Hunk #1, b/CPP/7zip/LzmaDec.mak
++!IF "$(PLATFORM)" == "x64"
++CFLAGS_C_SPEC = -D_LZMA_DEC_OPT
++ASM_OBJS = $(ASM_OBJS) \
++  $O\LzmaDecOpt.obj
++!ENDIF

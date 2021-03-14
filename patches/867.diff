@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -799,7 +799,12 @@ Hunk #12, a/CPP/7zip/UI/Common/Bench.cpp struct CEncoderInfo
+ 
+   HRESULT CreateEncoderThread()
+   {
+-    return thread[0].Create(EncodeThreadFunction, this);
++    WRes res = 0;
++    if (!ReadyEvent.IsCreated())
++      res = ReadyEvent.Create();
++    if (res == 0)
++      res = thread[0].Create(EncodeThreadFunction, this);
++    return HRESULT_FROM_WIN32(res);
+   }
+ 
+   HRESULT CreateDecoderThread(unsigned index, bool callbackMode

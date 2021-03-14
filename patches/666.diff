@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/Bundles/SFXWin/SFXWin.dsp b/CPP/7zip/Bundles/SFXWin/SFXWin.dsp
+index 301a6c5..14492ca 100644
+--- a/CPP/7zip/Bundles/SFXWin/SFXWin.dsp
++++ b/CPP/7zip/Bundles/SFXWin/SFXWin.dsp
+@@ -915,6 +915,15 @@ Hunk #3, a/CPP/7zip/Bundles/SFXWin/SFXWin.dsp SOURCE=..\..\..\..\C\LzmaDec.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\..\..\C\MtDec.c
++# SUBTRACT CPP /YX /Yc /Yu
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\..\..\C\MtDec.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\..\..\C\Ppmd7.c
+ # SUBTRACT CPP /YX /Yc /Yu
+ # End Source File

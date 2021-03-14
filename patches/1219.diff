@@ -1,0 +1,12 @@
+diff --git a/DOC/7zip.nsi b/DOC/7zip.nsi
+index 5ba331d..5a806ae 100644
+--- a/DOC/7zip.nsi
++++ b/DOC/7zip.nsi
+@@ -220,6 +220,7 @@ Hunk #2, a/DOC/7zip.nsi Section
+   File ja.txt
+   File ka.txt
+   File kaa.txt
++  File kab.txt
+   File kk.txt
+   File ko.txt
+   File ku.txt

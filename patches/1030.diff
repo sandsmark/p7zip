@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/AltStreamsFolder.cpp b/CPP/7zip/UI/FileManager/AltStreamsFolder.cpp
+index b7fbb23..7069e1a 100644
+--- a/CPP/7zip/UI/FileManager/AltStreamsFolder.cpp
++++ b/CPP/7zip/UI/FileManager/AltStreamsFolder.cpp
+@@ -468,7 +468,7 @@ Hunk #1, a/CPP/7zip/UI/FileManager/AltStreamsFolder.cpp static HRESULT UpdateFile(NFsFolder::CCopyStateIO &state, CFSTR inPath, CFSTR ou
+ {
+   if (NFind::DoesFileOrDirExist(outPath))
+   {
+-    RINOK(SendMessageError(callback, NError::MyFormatMessage(ERROR_ALREADY_EXISTS), outPath));
++    RINOK(SendMessageError(callback, NError::MyFormatMessage(ERROR_ALREADY_EXISTS), FString(outPath)));
+     CFileInfo fi;
+     if (fi.Find(inPath))
+     {

@@ -1,0 +1,26 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -81,15 +81,17 @@ Hunk #1, a/CPP/7zip/UI/FileManager/PanelDrag.cpp CDataObject::CDataObject()
+ 
+ STDMETHODIMP CDataObject::SetData(LPFORMATETC etc, STGMEDIUM *medium, BOOL /* release */)
+ {
+-  if (etc->cfFormat == m_SetFolderFormat && etc->tymed == TYMED_HGLOBAL &&
+-      etc->dwAspect == DVASPECT_CONTENT && medium->tymed == TYMED_HGLOBAL)
++  if (etc->cfFormat == m_SetFolderFormat
++      && etc->tymed == TYMED_HGLOBAL
++      && etc->dwAspect == DVASPECT_CONTENT
++      && medium->tymed == TYMED_HGLOBAL)
+   {
+     Path.Empty();
+-    if (medium->hGlobal == 0)
++    if (!medium->hGlobal)
+       return S_OK;
+     size_t size = GlobalSize(medium->hGlobal) / sizeof(wchar_t);
+     const wchar_t *src = (const wchar_t *)GlobalLock(medium->hGlobal);
+-    if (src != 0)
++    if (src)
+     {
+       for (size_t i = 0; i < size; i++)
+       {

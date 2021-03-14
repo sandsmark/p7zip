@@ -1,0 +1,57 @@
+diff --git a/CPP/7zip/Common/CreateCoder.cpp b/CPP/7zip/Common/CreateCoder.cpp
+index 75074ad..bf525dc 100644
+--- a/CPP/7zip/Common/CreateCoder.cpp
++++ b/CPP/7zip/Common/CreateCoder.cpp
+@@ -371,13 +371,50 @@ Hunk #6, a/CPP/7zip/Common/CreateCoder.cpp HRESULT CreateCoder(
+   return S_OK;
+ }
+ 
+-HRESULT CreateCoder(
++
++HRESULT CreateCoder_Index(
++    DECL_EXTERNAL_CODECS_LOC_VARS
++    unsigned index, bool encode,
++    CCreatedCoder &cod)
++{
++  CMyComPtr<ICompressFilter> filter;
++  HRESULT res = CreateCoder_Index(
++      EXTERNAL_CODECS_LOC_VARS
++      index, encode,
++      filter, cod);
++  
++  if (filter)
++  {
++    cod.IsFilter = true;
++    CFilterCoder *coderSpec = new CFilterCoder(encode);
++    cod.Coder = coderSpec;
++    coderSpec->Filter = filter;
++  }
++  
++  return res;
++}
++
++
++HRESULT CreateCoder_Id(
++    DECL_EXTERNAL_CODECS_LOC_VARS
++    CMethodId methodId, bool encode,
++    CMyComPtr<ICompressFilter> &filter,
++    CCreatedCoder &cod)
++{
++  int index = FindMethod_Index(EXTERNAL_CODECS_LOC_VARS methodId, encode);
++  if (index < 0)
++    return S_OK;
++  return CreateCoder_Index(EXTERNAL_CODECS_LOC_VARS index, encode, filter, cod);
++}
++
++
++HRESULT CreateCoder_Id(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+     CMethodId methodId, bool encode,
+     CCreatedCoder &cod)
+ {
+   CMyComPtr<ICompressFilter> filter;
+-  HRESULT res = CreateCoder(
++  HRESULT res = CreateCoder_Id(
+       EXTERNAL_CODECS_LOC_VARS
+       methodId, encode,
+       filter, cod);

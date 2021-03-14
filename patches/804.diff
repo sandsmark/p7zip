@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Crypto/Rar5Aes.cpp b/CPP/7zip/Crypto/Rar5Aes.cpp
+index 648a3d4..005fa6b 100644
+--- a/CPP/7zip/Crypto/Rar5Aes.cpp
++++ b/CPP/7zip/Crypto/Rar5Aes.cpp
+@@ -162,8 +162,9 @@ Hunk #2, a/CPP/7zip/Crypto/Rar5Aes.cpp void CDecoder::Hmac_Convert_32Bytes(Byte *data) const
+ };
+ 
+ 
++static CKey g_Key;
++
+ #ifndef _7ZIP_ST
+-  static CKey g_Key;
+   static NWindows::NSynchronization::CCriticalSection g_GlobalKeyCacheCriticalSection;
+   #define MT_LOCK NWindows::NSynchronization::CCriticalSectionLock lock(g_GlobalKeyCacheCriticalSection);
+ #else

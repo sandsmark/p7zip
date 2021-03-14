@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+index a4bfc1c..21c2f07 100644
+--- a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
++++ b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+@@ -700,7 +700,9 @@ Hunk #11, a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp HRESULT CExtractCallbackConsole::OpenResult(
+       _so->Flush();
+     if (_se)
+     {
+-      *_se << kError << name << endl;
++      *_se << kError;
++      _se->NormalizePrint_wstr(name);
++      *_se << endl;
+       HRESULT res = Print_OpenArchive_Error(*_se, codecs, arcLink);
+       RINOK(res);
+       if (result == S_FALSE)

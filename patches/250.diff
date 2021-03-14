@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -1201,7 +1201,7 @@ Hunk #12, a/C/Util/7zipInstall/7zipInstall.c if (res == SZ_OK)
+ 
+   if (res == SZ_OK)
+   {
+-    lookStream.buf = ISzAlloc_Alloc(&allocImp, kInputBufSize);
++    lookStream.buf = (Byte *)ISzAlloc_Alloc(&allocImp, kInputBufSize);
+     if (!lookStream.buf)
+       res = SZ_ERROR_MEM;
+     else

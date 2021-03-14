@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -2207,7 +2207,9 @@ Hunk #20, a/CPP/7zip/Archive/PeHandler.cpp HRESULT CHandler::Open2(IInStream *stream, IArchiveOpenCallback *callback)
+   for (i = 0; i < _sections.Size(); i++)
+     _sections[i].UpdateTotalSize(_totalSize);
+ 
+-  bool thereISDebug;
++  bool thereISDebug = false;
++  if (IsOpt())
++  {
+   RINOK(LoadDebugSections(stream, thereISDebug));
+ 
+   const CDirLink &certLink = _optHeader.DirItems[kDirLink_Certificate];

@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Compress/Rar3Decoder.h b/CPP/7zip/Compress/Rar3Decoder.h
+index f2a9e34..3d319de 100644
+--- a/CPP/7zip/Compress/Rar3Decoder.h
++++ b/CPP/7zip/Compress/Rar3Decoder.h
+@@ -189,9 +189,12 @@ Hunk #3, a/CPP/7zip/Compress/Rar3Decoder.h class CDecoder:
+   NVm::CVm _vm;
+   CRecordVector<CFilter *> _filters;
+   CRecordVector<CTempFilter *>  _tempFilters;
++  unsigned _numEmptyTempFilters;
+   UInt32 _lastFilter;
+ 
+-  bool m_IsSolid;
++  bool _isSolid;
++  bool _solidAllowed;
++  // bool _errorMode;
+ 
+   bool _lzMode;
+   bool _unsupportedFilter;

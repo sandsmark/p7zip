@@ -1,0 +1,13 @@
+diff --git a/CPP/Windows/MemoryLock.h b/CPP/Windows/MemoryLock.h
+index 4a5dafc..dcaf182 100644
+--- a/CPP/Windows/MemoryLock.h
++++ b/CPP/Windows/MemoryLock.h
+@@ -31,6 +31,8 @@ Hunk #1, a/CPP/Windows/MemoryLock.h inline void EnablePrivilege_SymLink()
+   // Do we need to set SE_BACKUP_NAME ?
+ }
+ 
++unsigned Get_LargePages_RiskLevel();
++
+ #endif
+ 
+ }}

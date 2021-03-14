@@ -1,0 +1,50 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -566,25 +566,36 @@ Hunk #18, a/C/LzmaEnc.c static void RangeEnc_FlushStream(CRangeEnc *p)
+   p->buf = p->bufBase;
+ }
+ 
+-static void MY_FAST_CALL RangeEnc_ShiftLow(CRangeEnc *p)
++MY_NO_INLINE static void MY_FAST_CALL RangeEnc_ShiftLow(CRangeEnc *p)
+ {
+-  if ((UInt32)p->low < (UInt32)0xFF000000 || (unsigned)(p->low >> 32) != 0)
++  UInt32 low = (UInt32)p->low;
++  unsigned high = (unsigned)(p->low >> 32);
++  p->low = (UInt32)(low << 8);
++  if (low < (UInt32)0xFF000000 || high != 0)
+   {
+-    Byte temp = p->cache;
+-    do
+     {
+       Byte *buf = p->buf;
+-      *buf++ = (Byte)(temp + (Byte)(p->low >> 32));
++      *buf++ = (Byte)(p->cache + high);
++      p->cache = (unsigned)(low >> 24);
+       p->buf = buf;
+       if (buf == p->bufLim)
+         RangeEnc_FlushStream(p);
+-      temp = 0xFF;
++      if (p->cacheSize == 0)
++        return;
++    }
++    high += 0xFF;
++    for (;;)
++    {
++      Byte *buf = p->buf;
++      *buf++ = (Byte)(high);
++      p->buf = buf;
++      if (buf == p->bufLim)
++        RangeEnc_FlushStream(p);
++      if (--p->cacheSize == 0)
++        return;
+     }
+-    while (--p->cacheSize != 0);
+-    p->cache = (Byte)((UInt32)p->low >> 24);
+   }
+   p->cacheSize++;
+-  p->low = (UInt32)p->low << 8;
+ }
+ 
+ static void RangeEnc_FlushData(CRangeEnc *p)

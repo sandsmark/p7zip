@@ -1,0 +1,59 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -842,40 +842,39 @@ Hunk #14, a/CPP/7zip/UI/Common/Bench.cpp HRESULT CEncoderInfo::Init(
+   
+   if (!fileData)
+   {
+-    if (!rg.Alloc(kBufferSize))
+-      return E_OUTOFMEMORY;
++    ALLOC_WITH_HRESULT(&rg, kBufferSize);
+     
+     // DWORD ttt = GetTickCount();
+     if (generateDictBits == 0)
+-      rg.GenerateSimpleRandom(rgLoc);
++      rg.GenerateSimpleRandom(Salt);
+     else
+-      rg.GenerateLz(generateDictBits, rgLoc);
++      rg.GenerateLz(generateDictBits, Salt);
+     // printf("\n%d\n            ", GetTickCount() - ttt);
+ 
+-    crc = CrcCalc(rg.Buffer, rg.BufferSize);
+-    uncompressedDataPtr = rg.Buffer;
++    crc = CrcCalc((const Byte *)rg, rg.Size());
++    uncompressedDataPtr = (const Byte *)rg;
+   }
+   
+   if (_encoderFilter)
+   {
+-    if (!rgCopy.Alloc(kBufferSize))
+-      return E_OUTOFMEMORY;
++    ALLOC_WITH_HRESULT(&rgCopy, kBufferSize);
+   }
+ 
+ 
+-  outStreamSpec = new CBenchmarkOutStream;
+-  outStream = outStreamSpec;
+-  if (!outStreamSpec->Alloc(kCompressedBufferSize))
+-    return E_OUTOFMEMORY;
++  if (!outStream)
++  {
++    outStreamSpec = new CBenchmarkOutStream;
++    outStream = outStreamSpec;
++  }
++
++  ALLOC_WITH_HRESULT(outStreamSpec, kCompressedBufferSize)
+ 
+-  propStreamSpec = 0;
+   if (!propStream)
+   {
+     propStreamSpec = new CBenchmarkOutStream;
+     propStream = propStreamSpec;
+   }
+-  if (!propStreamSpec->Alloc(kMaxLzmaPropSize))
+-    return E_OUTOFMEMORY;
++  ALLOC_WITH_HRESULT(propStreamSpec, kMaxLzmaPropSize);
+   propStreamSpec->Init(true, false);
+   
+  

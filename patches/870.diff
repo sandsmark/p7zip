@@ -1,0 +1,33 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -962,6 +962,28 @@ Hunk #15, a/CPP/7zip/UI/Common/Bench.cpp static void My_FilterBench(ICompressFilter *filter, Byte *data, size_t size)
+ 
+ HRESULT CEncoderInfo::Encode()
+ {
++  RINOK(Generate());
++
++  #ifndef _7ZIP_ST
++  if (Common)
++  {
++    Results[0] = S_OK;
++    WRes wres = ReadyEvent.Set();
++    if (wres == 0)
++      wres = Common->StartEvent.Lock();
++    if (wres != 0)
++      return HRESULT_FROM_WIN32(wres);
++    if (Common->ExitMode)
++      return S_OK;
++  }
++  else
++  #endif
++  {
++    CBenchProgressInfo *bpi = progressInfoSpec[0];
++    bpi->SetStartTime();
++  }
++
++
+   CBenchInfo &bi = progressInfoSpec[0]->BenchInfo;
+   bi.UnpackSize = 0;
+   bi.PackSize = 0;

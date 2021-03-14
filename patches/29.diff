@@ -1,0 +1,25 @@
+diff --git a/C/Alloc.h b/C/Alloc.h
+index 3b88ef7..6482376 100644
+--- a/C/Alloc.h
++++ b/C/Alloc.h
+@@ -31,6 +31,20 @@ Hunk #2, a/C/Alloc.h void BigFree(void *address);
+ 
+ extern const ISzAlloc g_Alloc;
+ extern const ISzAlloc g_BigAlloc;
++extern const ISzAlloc g_MidAlloc;
++extern const ISzAlloc g_AlignedAlloc;
++
++
++typedef struct
++{
++  ISzAlloc vt;
++  ISzAllocPtr baseAlloc;
++  unsigned numAlignBits; /* ((1 << numAlignBits) >= sizeof(void *)) */
++  size_t offset;         /* (offset == (k * sizeof(void *)) && offset < (1 << numAlignBits) */
++} CAlignOffsetAlloc;
++
++void AlignOffsetAlloc_CreateVTable(CAlignOffsetAlloc *p);
++
+ 
+ EXTERN_C_END
+ 

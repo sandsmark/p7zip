@@ -1,0 +1,14 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -561,9 +561,6 @@ Hunk #23, a/C/LzmaDec.c static int MY_FAST_CALL LzmaDec_DecodeReal2(CLzmaDec *p, SizeT limit, const Byte
+   }
+   while (p->dicPos < limit && p->buf < bufLimit && p->remainLen < kMatchSpecLenStart);
+ 
+-  if (p->remainLen > kMatchSpecLenStart)
+-    p->remainLen = kMatchSpecLenStart;
+-
+   return 0;
+ }
+ 

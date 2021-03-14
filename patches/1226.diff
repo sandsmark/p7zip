@@ -1,0 +1,15 @@
+diff --git a/DOC/Methods.txt b/DOC/Methods.txt
+index fe38c78..d4a1b1d 100644
+--- a/DOC/Methods.txt
++++ b/DOC/Methods.txt
+@@ -1,8 +1,8 @@ Hunk #1, a/DOC/Methods.txt
+ 7-Zip method IDs for 7z and xz archives
+ ---------------------------------------
+ 
+-Version: 17.01
+-Date: 2017-05-27
++Version: 18.06
++Date: 2018-06-30
+ 
+ Each compression or crypto method in 7z is associated with unique binary value (ID).
+ The length of ID in bytes is arbitrary but it can not exceed 63 bits (8 bytes).

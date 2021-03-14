@@ -1,0 +1,124 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -14,12 +14,119 @@ Hunk #2, a/C/Alloc.c
+ 
+ /* use _SZ_ALLOC_DEBUG to debug alloc/free operations */
+ #ifdef _SZ_ALLOC_DEBUG
++
+ #include <stdio.h>
+ int g_allocCount = 0;
+ int g_allocCountMid = 0;
+ int g_allocCountBig = 0;
++
++
++#define CONVERT_INT_TO_STR(charType, tempSize) \
++  unsigned char temp[tempSize]; unsigned i = 0; \
++  while (val >= 10) { temp[i++] = (unsigned char)('0' + (unsigned)(val % 10)); val /= 10; } \
++  *s++ = (charType)('0' + (unsigned)val); \
++  while (i != 0) { i--; *s++ = temp[i]; } \
++  *s = 0;
++
++static void ConvertUInt64ToString(UInt64 val, char *s)
++{
++  CONVERT_INT_TO_STR(char, 24);
++}
++
++#define GET_HEX_CHAR(t) ((char)(((t < 10) ? ('0' + t) : ('A' + (t - 10)))))
++
++static void ConvertUInt64ToHex(UInt64 val, char *s)
++{
++  UInt64 v = val;
++  unsigned i;
++  for (i = 1;; i++)
++  {
++    v >>= 4;
++    if (v == 0)
++      break;
++  }
++  s[i] = 0;
++  do
++  {
++    unsigned t = (unsigned)(val & 0xF);
++    val >>= 4;
++    s[--i] = GET_HEX_CHAR(t);
++  }
++  while (i);
++}
++
++#define DEBUG_OUT_STREAM stderr
++
++static void Print(const char *s)
++{
++  fputs(s, DEBUG_OUT_STREAM);
++}
++
++static void PrintAligned(const char *s, size_t align)
++{
++  size_t len = strlen(s);
++  for(;;)
++  {
++    fputc(' ', DEBUG_OUT_STREAM);
++    if (len >= align)
++      break;
++    ++len;
++  }
++  Print(s);
++}
++
++static void PrintLn()
++{
++  Print("\n");
++}
++
++static void PrintHex(UInt64 v, size_t align)
++{
++  char s[32];
++  ConvertUInt64ToHex(v, s);
++  PrintAligned(s, align);
++}
++
++static void PrintDec(UInt64 v, size_t align)
++{
++  char s[32];
++  ConvertUInt64ToString(v, s);
++  PrintAligned(s, align);
++}
++
++static void PrintAddr(void *p)
++{
++  PrintHex((UInt64)(size_t)(ptrdiff_t)p, 12);
++}
++
++
++#define PRINT_ALLOC(name, cnt, size, ptr) \
++    Print(name " "); \
++    PrintDec(cnt++, 10); \
++    PrintHex(size, 10); \
++    PrintAddr(ptr); \
++    PrintLn();
++ 
++#define PRINT_FREE(name, cnt, ptr) if (ptr) { \
++    Print(name " "); \
++    PrintDec(--cnt, 10); \
++    PrintAddr(ptr); \
++    PrintLn(); }
++ 
++#else
++
++#define PRINT_ALLOC(name, cnt, size, ptr)
++#define PRINT_FREE(name, cnt, ptr)
++#define Print(s)
++#define PrintLn()
++#define PrintHex(v, align)
++#define PrintDec(v, align)
++#define PrintAddr(p)
++
+ #endif
+ 
++
++
+ void *MyAlloc(size_t size)
+ {
+   if (size == 0)

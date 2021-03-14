@@ -1,0 +1,13 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -138,7 +138,7 @@ Hunk #2, a/C/LzFind.c static void MatchFinder_SetDefaultSettings(CMatchFinder *p)
+ 
+ void MatchFinder_Construct(CMatchFinder *p)
+ {
+-  UInt32 i;
++  unsigned i;
+   p->bufferBase = NULL;
+   p->directInput = 0;
+   p->hash = NULL;

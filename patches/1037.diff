@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/FileManager/FM.cpp b/CPP/7zip/UI/FileManager/FM.cpp
+index ddde804..3e7f104 100644
+--- a/CPP/7zip/UI/FileManager/FM.cpp
++++ b/CPP/7zip/UI/FileManager/FM.cpp
+@@ -383,6 +383,7 @@ Hunk #2, a/CPP/7zip/UI/FileManager/FM.cpp static void SetMemoryLock()
+     NSecurity::AddLockMemoryPrivilege();
+ 
+   if (ReadLockMemoryEnable())
++  if (NSecurity::Get_LargePages_RiskLevel() == 0)
+   {
+     // note: child processes can inherit that Privilege
+     g_LargePagesMode = NSecurity::EnablePrivilege_LockMemory();

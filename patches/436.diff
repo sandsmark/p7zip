@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/Archive/LzmaHandler.cpp b/CPP/7zip/Archive/LzmaHandler.cpp
+index afdc2bf..9eac3ca 100644
+--- a/CPP/7zip/Archive/LzmaHandler.cpp
++++ b/CPP/7zip/Archive/LzmaHandler.cpp
+@@ -131,13 +131,7 @@ Hunk #1, a/CPP/7zip/Archive/LzmaHandler.cpp HRESULT CDecoder::Code(const CHeader &header, ISequentialOutStream *outStream,
+   if (header.FilterID > 1)
+     return E_NOTIMPL;
+ 
+-  {
+-    CMyComPtr<ICompressSetDecoderProperties2> setDecoderProperties;
+-    _lzmaDecoder.QueryInterface(IID_ICompressSetDecoderProperties2, &setDecoderProperties);
+-    if (!setDecoderProperties)
+-      return E_NOTIMPL;
+-    RINOK(setDecoderProperties->SetDecoderProperties2(header.LzmaProps, 5));
+-  }
++  RINOK(_lzmaDecoderSpec->SetDecoderProperties2(header.LzmaProps, 5));
+ 
+   bool filteredMode = (header.FilterID == 1);
+ 

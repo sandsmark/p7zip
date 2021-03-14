@@ -1,0 +1,13 @@
+diff --git a/CPP/Common/MyString.h b/CPP/Common/MyString.h
+index 1c7357e..40de52c 100644
+--- a/CPP/Common/MyString.h
++++ b/CPP/Common/MyString.h
+@@ -545,6 +545,8 @@ Hunk #2, a/CPP/Common/MyString.h class UString
+ 
+   void ReplaceOneCharAtPos(unsigned pos, wchar_t c) { _chars[pos] = c; }
+ 
++  wchar_t *GetBuf() { return _chars; }
++
+   wchar_t *GetBuf(unsigned minLen)
+   {
+     if (minLen > _limit)

@@ -1,0 +1,21 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -224,15 +224,11 @@ Hunk #8, a/C/LzmaEnc.c typedef struct
+ 
+ #define LZMA_NUM_PB_STATES_MAX (1 << LZMA_PB_MAX)
+ 
+-
+ #define kLenNumLowBits 3
+ #define kLenNumLowSymbols (1 << kLenNumLowBits)
+-#define kLenNumMidBits 3
+-#define kLenNumMidSymbols (1 << kLenNumMidBits)
+ #define kLenNumHighBits 8
+ #define kLenNumHighSymbols (1 << kLenNumHighBits)
+-
+-#define kLenNumSymbolsTotal (kLenNumLowSymbols + kLenNumMidSymbols + kLenNumHighSymbols)
++#define kLenNumSymbolsTotal (kLenNumLowSymbols * 2 + kLenNumHighSymbols)
+ 
+ #define LZMA_MATCH_LEN_MIN 2
+ #define LZMA_MATCH_LEN_MAX (LZMA_MATCH_LEN_MIN + kLenNumSymbolsTotal - 1)

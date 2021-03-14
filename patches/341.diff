@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/7z/7zDecode.cpp b/CPP/7zip/Archive/7z/7zDecode.cpp
+index d268747..9df531e 100644
+--- a/CPP/7zip/Archive/7z/7zDecode.cpp
++++ b/CPP/7zip/Archive/7z/7zDecode.cpp
+@@ -236,8 +236,8 @@ Hunk #1, a/CPP/7zip/Archive/7z/7zDecode.cpp HRESULT CDecoder::Decode(
+     
+     _7Z_DECODER_CRYPRO_VARS_DECL
+ 
+-    #if !defined(_7ZIP_ST) && !defined(_SFX)
+-    , bool mtMode, UInt32 numThreads
++    #if !defined(_7ZIP_ST)
++    , bool mtMode, UInt32 numThreads, UInt64 memUsage
+     #endif
+     )
+ {

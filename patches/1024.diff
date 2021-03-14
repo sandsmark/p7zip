@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Far/Far.cpp b/CPP/7zip/UI/Far/Far.cpp
+index cec4af5..5d92bc4 100644
+--- a/CPP/7zip/UI/Far/Far.cpp
++++ b/CPP/7zip/UI/Far/Far.cpp
+@@ -403,7 +403,7 @@ Hunk #3, a/CPP/7zip/UI/Far/Far.cpp static HANDLE MyOpenFilePluginW(const wchar_t *name)
+   return (HANDLE)(plugin);
+ }
+ 
+-static HANDLE MyOpenFilePlugin(const char *name)
++static HANDLE MyOpenFilePlugin(const char *name, bool isAbortCodeSupported)
+ {
+   UINT codePage =
+   #ifdef UNDER_CE

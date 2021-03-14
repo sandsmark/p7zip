@@ -1,0 +1,23 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -379,10 +379,16 @@ Hunk #5, a/C/LzFind.c static void MatchFinder_CheckLimits(CMatchFinder *p)
+   MatchFinder_SetLimits(p);
+ }
+ 
+-static UInt32 * Hc_GetMatchesSpec(UInt32 lenLimit, UInt32 curMatch, UInt32 pos, const Byte *cur, CLzRef *son,
++
++/*
++  (lenLimit > maxLen)
++*/
++MY_FORCE_INLINE
++static UInt32 * Hc_GetMatchesSpec(unsigned lenLimit, UInt32 curMatch, UInt32 pos, const Byte *cur, CLzRef *son,
+     UInt32 _cyclicBufferPos, UInt32 _cyclicBufferSize, UInt32 cutValue,
+-    UInt32 *distances, UInt32 maxLen)
++    UInt32 *distances, unsigned maxLen)
+ {
++  /*
+   son[_cyclicBufferPos] = curMatch;
+   for (;;)
+   {

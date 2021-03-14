@@ -1,0 +1,15 @@
+diff --git a/Asm/x86/7zAsm.asm b/Asm/x86/7zAsm.asm
+index 3707e90..067db82 100644
+--- a/Asm/x86/7zAsm.asm
++++ b/Asm/x86/7zAsm.asm
+@@ -63,6 +63,10 @@ Hunk #3, a/Asm/x86/7zAsm.asm endif
+   x3_H equ BH
+ 
+ ifdef x64
++  x5_L equ BPL
++  x6_L equ SIL
++  x7_L equ DIL
++
+   r0 equ RAX
+   r1 equ RCX
+   r2 equ RDX

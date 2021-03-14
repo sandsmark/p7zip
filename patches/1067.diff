@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelCopy.cpp b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+index d07def1..c3416cc 100644
+--- a/CPP/7zip/UI/FileManager/PanelCopy.cpp
++++ b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+@@ -185,9 +185,9 @@ Hunk #8, a/CPP/7zip/UI/FileManager/PanelCopy.cpp HRESULT CPanel::CopyTo(CCopyToOptions &options, const CRecordVector<UInt32> &ind
+ 
+   UString progressWindowTitle ("7-Zip"); // LangString(IDS_APP_TITLE);
+   
+-  extracter.ProgressDialog.MainWindow = GetParent();
+-  extracter.ProgressDialog.MainTitle = progressWindowTitle;
+-  extracter.ProgressDialog.MainAddTitle = title + L' ';
++  extracter.MainWindow = GetParent();
++  extracter.MainTitle = progressWindowTitle;
++  extracter.MainAddTitle = title + L' ';
+     
+   extracter.ExtractCallbackSpec->OverwriteMode = NExtract::NOverwriteMode::kAsk;
+   extracter.ExtractCallbackSpec->Init();

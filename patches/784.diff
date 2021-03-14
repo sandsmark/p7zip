@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Compress/ShrinkDecoder.h b/CPP/7zip/Compress/ShrinkDecoder.h
+index 2f01596..b095b5f 100644
+--- a/CPP/7zip/Compress/ShrinkDecoder.h
++++ b/CPP/7zip/Compress/ShrinkDecoder.h
+@@ -19,8 +19,8 @@ Hunk #1, a/CPP/7zip/Compress/ShrinkDecoder.h class CDecoder :
+   public ICompressGetInStreamProcessedSize,
+   public CMyUnknownImp
+ {
+-  UInt64 _inProcessed;
+   bool _fullStreamMode;
++  UInt64 _inProcessed;
+ 
+   UInt16 _parents[kNumItems];
+   Byte _suffixes[kNumItems];

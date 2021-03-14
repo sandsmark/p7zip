@@ -1,0 +1,150 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -294,60 +294,123 @@ Hunk #8, a/C/XzDec.c static SRes Lzma2State_SetProps(void *pp, const Byte *props, size_t propSize, IS
+ {
+   if (propSize != 1)
+     return SZ_ERROR_UNSUPPORTED;
+-  return Lzma2Dec_Allocate((CLzma2Dec *)pp, props[0], alloc);
++  {
++    CLzma2Dec_Spec *p = (CLzma2Dec_Spec *)pp;
++    if (p->outBufMode)
++      return Lzma2Dec_AllocateProbs(&p->decoder, props[0], alloc);
++    else
++      return Lzma2Dec_Allocate(&p->decoder, props[0], alloc);
++  }
+ }
+ 
+ static void Lzma2State_Init(void *pp)
+ {
+-  Lzma2Dec_Init((CLzma2Dec *)pp);
++  Lzma2Dec_Init(&((CLzma2Dec_Spec *)pp)->decoder);
+ }
+ 
+-static SRes Lzma2State_Code(void *pp, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen,
+-    int srcWasFinished, ECoderFinishMode finishMode, int *wasFinished)
++
++/*
++  if (outBufMode), then (dest) is not used. Use NULL.
++         Data is unpacked to (spec->decoder.decoder.dic) output buffer.
++*/
++
++static SRes Lzma2State_Code2(void *pp, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen,
++    int srcWasFinished, ECoderFinishMode finishMode,
++    // int *wasFinished,
++    ECoderStatus *status)
+ {
+-  ELzmaStatus status;
++  CLzma2Dec_Spec *spec = (CLzma2Dec_Spec *)pp;
++  ELzmaStatus status2;
+   /* ELzmaFinishMode fm = (finishMode == LZMA_FINISH_ANY) ? LZMA_FINISH_ANY : LZMA_FINISH_END; */
+-  SRes res = Lzma2Dec_DecodeToBuf((CLzma2Dec *)pp, dest, destLen, src, srcLen, (ELzmaFinishMode)finishMode, &status);
++  SRes res;
+   UNUSED_VAR(srcWasFinished);
+-  *wasFinished = (status == LZMA_STATUS_FINISHED_WITH_MARK);
++  if (spec->outBufMode)
++  {
++    SizeT dicPos = spec->decoder.decoder.dicPos;
++    SizeT dicLimit = dicPos + *destLen;
++    res = Lzma2Dec_DecodeToDic(&spec->decoder, dicLimit, src, srcLen, (ELzmaFinishMode)finishMode, &status2);
++    *destLen = spec->decoder.decoder.dicPos - dicPos;
++  }
++  else
++    res = Lzma2Dec_DecodeToBuf(&spec->decoder, dest, destLen, src, srcLen, (ELzmaFinishMode)finishMode, &status2);
++  // *wasFinished = (status2 == LZMA_STATUS_FINISHED_WITH_MARK);
++  // ECoderStatus values are identical to ELzmaStatus values of LZMA2 decoder
++  *status = (ECoderStatus)status2;
+   return res;
+ }
+ 
+-static SRes Lzma2State_SetFromMethod(IStateCoder *p, ISzAllocPtr alloc)
++
++static SRes Lzma2State_SetFromMethod(IStateCoder *p, Byte *outBuf, size_t outBufSize, ISzAllocPtr alloc)
+ {
+-  CLzma2Dec *decoder = (CLzma2Dec *)ISzAlloc_Alloc(alloc, sizeof(CLzma2Dec));
+-  p->p = decoder;
+-  if (!decoder)
+-    return SZ_ERROR_MEM;
+-  p->Free = Lzma2State_Free;
+-  p->SetProps = Lzma2State_SetProps;
+-  p->Init = Lzma2State_Init;
+-  p->Code = Lzma2State_Code;
+-  Lzma2Dec_Construct(decoder);
++  CLzma2Dec_Spec *spec = (CLzma2Dec_Spec *)p->p;
++  if (!spec)
++  {
++    spec = (CLzma2Dec_Spec *)ISzAlloc_Alloc(alloc, sizeof(CLzma2Dec_Spec));
++    if (!spec)
++      return SZ_ERROR_MEM;
++    p->p = spec;
++    p->Free = Lzma2State_Free;
++    p->SetProps = Lzma2State_SetProps;
++    p->Init = Lzma2State_Init;
++    p->Code2 = Lzma2State_Code2;
++    p->Filter = NULL;
++    Lzma2Dec_Construct(&spec->decoder);
++  }
++  spec->outBufMode = False;
++  if (outBuf)
++  {
++    spec->outBufMode = True;
++    spec->decoder.decoder.dic = outBuf;
++    spec->decoder.decoder.dicBufSize = outBufSize;
++  }
+   return SZ_OK;
+ }
+ 
+ 
+-void MixCoder_Construct(CMixCoder *p, ISzAllocPtr alloc)
++static SRes Lzma2State_ResetOutBuf(IStateCoder *p, Byte *outBuf, size_t outBufSize)
++{
++  CLzma2Dec_Spec *spec = (CLzma2Dec_Spec *)p->p;
++  if ((spec->outBufMode && !outBuf) || (!spec->outBufMode && outBuf))
++    return SZ_ERROR_FAIL;
++  if (outBuf)
++  {
++    spec->decoder.decoder.dic = outBuf;
++    spec->decoder.decoder.dicBufSize = outBufSize;
++  }
++  return SZ_OK;
++}
++
++
++
++static void MixCoder_Construct(CMixCoder *p, ISzAllocPtr alloc)
+ {
+   unsigned i;
+   p->alloc = alloc;
+   p->buf = NULL;
+   p->numCoders = 0;
++  
++  p->outBufSize = 0;
++  p->outBuf = NULL;
++  // p->SingleBufMode = False;
++
+   for (i = 0; i < MIXCODER_NUM_FILTERS_MAX; i++)
+     p->coders[i].p = NULL;
+ }
+ 
+-void MixCoder_Free(CMixCoder *p)
++
++static void MixCoder_Free(CMixCoder *p)
+ {
+   unsigned i;
+-  for (i = 0; i < p->numCoders; i++)
++  p->numCoders = 0;
++  for (i = 0; i < MIXCODER_NUM_FILTERS_MAX; i++)
+   {
+     IStateCoder *sc = &p->coders[i];
+-    if (p->alloc && sc->p)
++    if (sc->p)
++    {
+       sc->Free(sc->p, p->alloc);
++      sc->p = NULL;
++    }
+   }
+-  p->numCoders = 0;
+   if (p->buf)
+   {
+     ISzAlloc_Free(p->alloc, p->buf);

@@ -1,0 +1,39 @@
+diff --git a/CPP/7zip/Archive/PeHandler.cpp b/CPP/7zip/Archive/PeHandler.cpp
+index 30a6084..675293b 100644
+--- a/CPP/7zip/Archive/PeHandler.cpp
++++ b/CPP/7zip/Archive/PeHandler.cpp
+@@ -841,6 +841,34 @@ Hunk #12, a/CPP/7zip/Archive/PeHandler.cpp STDMETHODIMP CHandler::GetArchiveProperty(PROPID propID, PROPVARIANT *value)
+   NCOM::CPropVariant prop;
+   switch (propID)
+   {
++    case kpidPhySize: prop = _totalSize; break;
++    case kpidComment: if (!_versionFullString.IsEmpty()) prop = _versionFullString; break;
++    case kpidShortComment:
++      if (!_versionShortString.IsEmpty())
++        prop = _versionShortString;
++      else
++      {
++        PAIR_TO_PROP(g_MachinePairs, _header.Machine, prop);
++      }
++      break;
++
++    case kpidName: if (!_originalFilename.IsEmpty()) prop = _originalFilename; break;
++      
++    // case kpidIsSelfExe: prop = !_header.IsDll(); break;
++    // case kpidError:
++    case kpidWarning: if (_checksumError) prop = "Checksum error"; break;
++
++    case kpidCpu: PAIR_TO_PROP(g_MachinePairs, _header.Machine, prop); break;
++    case kpidMTime:
++    case kpidCTime: TimeToProp(_header.Time, prop); break;
++    case kpidCharacts: FLAGS_TO_PROP(g_HeaderCharacts, _header.Flags, prop); break;
++    case kpidMainSubfile: if (_mainSubfile >= 0) prop = (UInt32)_mainSubfile; break;
++    
++    default:
++    if (IsOpt())
++    switch (propID)
++    {
++
+     case kpidSectAlign: prop = _optHeader.SectAlign; break;
+     case kpidFileAlign: prop = _optHeader.FileAlign; break;
+     case kpidLinkerVer:

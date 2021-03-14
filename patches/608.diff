@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Bundles/Alone/makefile b/CPP/7zip/Bundles/Alone/makefile
+index 8e9d59a..27bdbb9 100644
+--- a/CPP/7zip/Bundles/Alone/makefile
++++ b/CPP/7zip/Bundles/Alone/makefile
+@@ -169,7 +169,6 @@ Hunk #3, a/CPP/7zip/Bundles/Alone/makefile COMPRESS_OBJS = \
+   $O\ShrinkDecoder.obj \
+   $O\XzDecoder.obj \
+   $O\XzEncoder.obj \
+-  $O\ZDecoder.obj \
+ 
+ CRYPTO_OBJS = \
+   $O\7zAes.obj \

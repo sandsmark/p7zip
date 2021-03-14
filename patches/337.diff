@@ -1,0 +1,13 @@
+diff --git a/C/XzIn.c b/C/XzIn.c
+index 357549e..ff48e2d 100644
+--- a/C/XzIn.c
++++ b/C/XzIn.c
+@@ -131,7 +131,7 @@ Hunk #4, a/C/XzIn.c static SRes Xz_ReadIndex(CXzStream *p, ILookInStream *stream, UInt64 indexSize,
+   size = (size_t)indexSize;
+   if (size != indexSize)
+     return SZ_ERROR_UNSUPPORTED;
+-  buf = ISzAlloc_Alloc(alloc, size);
++  buf = (Byte *)ISzAlloc_Alloc(alloc, size);
+   if (!buf)
+     return SZ_ERROR_MEM;
+   res = LookInStream_Read2(stream, buf, size, SZ_ERROR_UNSUPPORTED);

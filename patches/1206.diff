@@ -1,0 +1,16 @@
+diff --git a/CPP/Windows/FileLink.cpp b/CPP/Windows/FileLink.cpp
+index 9e706ea..3e2f643 100644
+--- a/CPP/Windows/FileLink.cpp
++++ b/CPP/Windows/FileLink.cpp
+@@ -209,8 +209,10 @@ Hunk #2, a/CPP/Windows/FileLink.cpp bool CReparseAttr::Parse(const Byte *p, size_t size)
+   */
+   if (Tag != _my_IO_REPARSE_TAG_MOUNT_POINT &&
+       Tag != _my_IO_REPARSE_TAG_SYMLINK)
+-    // return true;
++  {
++    errorCode = ERROR_REPARSE_TAG_MISMATCH; // ERROR_REPARSE_TAG_INVALID
+     return false;
++  }
+ 
+   if (Get16(p + 6) != 0) // padding
+     return false;

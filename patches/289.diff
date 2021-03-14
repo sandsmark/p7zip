@@ -1,0 +1,38 @@
+diff --git a/C/Xz.h b/C/Xz.h
+index 285fb55..544ee18 100644
+--- a/C/Xz.h
++++ b/C/Xz.h
+@@ -147,22 +147,31 @@ Hunk #4, a/C/Xz.h typedef enum
+   CODER_STATUS_NEEDS_MORE_INPUT             /* you must provide more input bytes */
+ } ECoderStatus;
+ 
++
++// ECoderFinishMode values are identical to ELzmaFinishMode
++
+ typedef enum
+ {
+   CODER_FINISH_ANY,   /* finish at any point */
+   CODER_FINISH_END    /* block must be finished at the end */
+ } ECoderFinishMode;
+ 
++
+ typedef struct _IStateCoder
+ {
+   void *p;
+   void (*Free)(void *p, ISzAllocPtr alloc);
+   SRes (*SetProps)(void *p, const Byte *props, size_t propSize, ISzAllocPtr alloc);
+   void (*Init)(void *p);
+-  SRes (*Code)(void *p, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen,
+-      int srcWasFinished, ECoderFinishMode finishMode, int *wasFinished);
++  SRes (*Code2)(void *p, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen,
++      int srcWasFinished, ECoderFinishMode finishMode,
++      // int *wasFinished,
++      ECoderStatus *status);
++  SizeT (*Filter)(void *p, Byte *data, SizeT size);
+ } IStateCoder;
+ 
++
++
+ #define MIXCODER_NUM_FILTERS_MAX 4
+ 
+ typedef struct

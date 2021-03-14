@@ -1,0 +1,36 @@
+diff --git a/CPP/7zip/Archive/Common/HandlerOut.cpp b/CPP/7zip/Archive/Common/HandlerOut.cpp
+index ea320e6..77a35c7 100644
+--- a/CPP/7zip/Archive/Common/HandlerOut.cpp
++++ b/CPP/7zip/Archive/Common/HandlerOut.cpp
+@@ -137,20 +137,22 @@ Hunk #5, a/CPP/7zip/Archive/Common/HandlerOut.cpp HRESULT CSingleMethodProps::SetProperties(const wchar_t * const *names, const PR
+       RINOK(ParsePropToUInt32(name.Ptr(1), value, a));
+       _level = a;
+       AddProp_Level(a);
++      continue;
+     }
+-    else if (name.IsPrefixedBy_Ascii_NoCase("mt"))
+     {
+-      #ifndef _7ZIP_ST
+-      RINOK(ParseMtProp(name.Ptr(2), value, _numProcessors, _numThreads));
+-      AddProp_NumThreads(_numThreads);
+-      #endif
+-    }
+-    else
+-    {
+-      RINOK(ParseMethodFromPROPVARIANT(names[i], value));
++      HRESULT hres;
++      if (SetCommonProperty(name, value, hres))
++      {
++        RINOK(hres)
++        continue;
++      }
+     }
++    RINOK(ParseMethodFromPROPVARIANT(names[i], value));
+   }
++
+   return S_OK;
+ }
+ 
++#endif
++
+ }

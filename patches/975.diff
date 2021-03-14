@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Console/HashCon.cpp b/CPP/7zip/UI/Console/HashCon.cpp
+index 8ff9075..762b21b 100644
+--- a/CPP/7zip/UI/Console/HashCon.cpp
++++ b/CPP/7zip/UI/Console/HashCon.cpp
+@@ -332,7 +332,7 @@ Hunk #2, a/CPP/7zip/UI/Console/HashCon.cpp void CHashCallbackConsole::PrintProperty(const char *name, UInt64 value)
+   *_so << name << s << endl;
+ }
+ 
+-HRESULT CHashCallbackConsole::AfterLastFile(const CHashBundle &hb)
++HRESULT CHashCallbackConsole::AfterLastFile(CHashBundle &hb)
+ {
+   ClosePercents2();
+   

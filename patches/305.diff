@@ -1,0 +1,29 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -368,16 +368,22 @@ Hunk #10, a/C/XzDec.c void MixCoder_Init(CMixCoder *p)
+   {
+     IStateCoder *coder = &p->coders[i];
+     coder->Init(coder->p);
++    p->results[i] = SZ_OK;
+   }
++  p->outWritten = 0;
++  p->wasFinished = False;
++  p->res = SZ_OK;
++  p->status = CODER_STATUS_NOT_SPECIFIED;
+ }
+ 
+-SRes MixCoder_SetFromMethod(CMixCoder *p, unsigned coderIndex, UInt64 methodId)
++
++static SRes MixCoder_SetFromMethod(CMixCoder *p, unsigned coderIndex, UInt64 methodId, Byte *outBuf, size_t outBufSize)
+ {
+   IStateCoder *sc = &p->coders[coderIndex];
+   p->ids[coderIndex] = methodId;
+   switch (methodId)
+   {
+-    case XZ_ID_LZMA2: return Lzma2State_SetFromMethod(sc, p->alloc);
++    case XZ_ID_LZMA2: return Lzma2State_SetFromMethod(sc, outBuf, outBufSize, p->alloc);
+     #ifdef USE_SUBBLOCK
+     case XZ_ID_Subblock: return SbState_SetFromMethod(sc, p->alloc);
+     #endif

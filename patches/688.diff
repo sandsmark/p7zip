@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Common/MethodProps.cpp b/CPP/7zip/Common/MethodProps.cpp
+index 9e82a11..8a6ebca 100644
+--- a/CPP/7zip/Common/MethodProps.cpp
++++ b/CPP/7zip/Common/MethodProps.cpp
+@@ -275,7 +275,8 @@ Hunk #2, a/CPP/7zip/Common/MethodProps.cpp static const CNameToPropID g_NameToPropID[] =
+   { VT_UI8, "expect" },
+   { VT_UI4, "b" },
+   { VT_UI4, "check" },
+-  { VT_BSTR, "filter" }
++  { VT_BSTR, "filter" },
++  { VT_UI8, "memuse" }
+ };
+ 
+ static int FindPropIdExact(const UString &name)

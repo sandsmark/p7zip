@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -136,7 +136,7 @@ Hunk #3, a/CPP/7zip/UI/FileManager/PanelDrag.cpp STDMETHODIMP CDataObject::GetData(LPFORMATETC etc, LPSTGMEDIUM medium)
+   medium->tymed = m_Etc.tymed;
+   medium->pUnkForRelease = 0;
+   medium->hGlobal = DuplicateGlobalMem(hGlobal);
+-  if (medium->hGlobal == 0)
++  if (!medium->hGlobal)
+     return E_OUTOFMEMORY;
+   return S_OK;
+ }

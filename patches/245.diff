@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -431,7 +431,7 @@ Hunk #7, a/C/Util/7zipInstall/7zipInstall.c int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM data)
+   return 0;
+ }
+ 
+-static Bool MyBrowseForFolder(HWND owner, LPCWSTR title, UINT ulFlags,
++static BoolInt MyBrowseForFolder(HWND owner, LPCWSTR title, UINT ulFlags,
+     LPCWSTR initialFolder, LPWSTR resultPath)
+ {
+   WCHAR displayName[MAX_PATH];

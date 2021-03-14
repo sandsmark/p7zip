@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/GUI/HashGUI.cpp b/CPP/7zip/UI/GUI/HashGUI.cpp
+index cc93f07..37cd65e 100644
+--- a/CPP/7zip/UI/GUI/HashGUI.cpp
++++ b/CPP/7zip/UI/GUI/HashGUI.cpp
+@@ -130,7 +130,7 @@ Hunk #5, a/CPP/7zip/UI/GUI/HashGUI.cpp HRESULT CHashCallbackGUI::GetStream(const wchar_t *name, bool isFolder)
+   if (NumFiles == 0)
+     FirstFileName = name;
+   _curIsFolder = isFolder;
+-  CProgressSync &sync = ProgressDialog.Sync;
++  CProgressSync &sync = Sync;
+   sync.Set_FilePath(name, isFolder);
+   return CheckBreak();
+ }

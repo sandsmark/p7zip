@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Far/Far.cpp b/CPP/7zip/UI/Far/Far.cpp
+index cec4af5..5d92bc4 100644
+--- a/CPP/7zip/UI/Far/Far.cpp
++++ b/CPP/7zip/UI/Far/Far.cpp
+@@ -470,7 +470,7 @@ Hunk #7, a/CPP/7zip/UI/Far/Far.cpp EXTERN_C HANDLE WINAPI OpenPlugin(int openFrom, INT_PTR item)
+         PluginPanelItem pluginPanelItem;
+         if (!g_StartupInfo.ControlGetActivePanelCurrentItemInfo(pluginPanelItem))
+           throw 142134;
+-        return MyOpenFilePlugin(pluginPanelItem.FindData.cFileName);
++        return MyOpenFilePlugin(pluginPanelItem.FindData.cFileName, false); // isAbortCodeSupported
+       }
+       
+       case 1:

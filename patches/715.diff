@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/Compress/LzmsDecoder.cpp b/CPP/7zip/Compress/LzmsDecoder.cpp
+index 02a7f5d..5189ce1 100644
+--- a/CPP/7zip/Compress/LzmsDecoder.cpp
++++ b/CPP/7zip/Compress/LzmsDecoder.cpp
+@@ -517,9 +517,9 @@ Hunk #1, a/CPP/7zip/Compress/LzmsDecoder.cpp HRESULT CDecoder::CodeReal(const Byte *in, size_t inSize, Byte *_win, size_t out
+         if (len > outSize - _pos)
+           return S_FALSE;
+ 
+-        if (dist > _pos)
+-          return S_FALSE;
+         size_t span = (size_t)1 << power;
++        if ((UInt64)dist + span > _pos)
++          return S_FALSE;
+         Byte *dest = _win + _pos - span;
+         const Byte *src = dest - dist;
+         _pos += len;

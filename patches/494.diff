@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -2928,7 +2928,7 @@ Hunk #25, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+   }
+ 
+   {
+-    FOR_VECTOR(i, linkFiles)
++    FOR_VECTOR (i, linkFiles)
+       if (linkFiles[i].NumLinks != 0)
+         return E_FAIL;
+   }

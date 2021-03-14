@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.cpp b/CPP/7zip/Archive/Zip/ZipIn.cpp
+index 9e9918d..509753c 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.cpp
++++ b/CPP/7zip/Archive/Zip/ZipIn.cpp
+@@ -1752,6 +1752,17 @@ Hunk #3, a/CPP/7zip/Archive/Zip/ZipIn.cpp HRESULT CInArchive::TryReadCd(CObjectVector<CItemEx> &items, const CCdInfo &cdIn
+     {
+       CItemEx cdItem;
+       RINOK(ReadCdItem(cdItem));
++      
++      /*
++      if (cdItem.Disk < _startLocalFromCd_Disk ||
++          cdItem.Disk == _startLocalFromCd_Disk &&
++          cdItem.LocalHeaderPos < _startLocalFromCd_Offset)
++      {
++        _startLocalFromCd_Disk = cdItem.Disk;
++        _startLocalFromCd_Offset = cdItem.LocalHeaderPos;
++      }
++      */
++
+       items.Add(cdItem);
+     }
+     if (Callback && (items.Size() & 0xFFF) == 0)

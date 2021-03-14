@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Guid.txt b/CPP/7zip/Guid.txt
+index 47da1a3..c9da7ed 100644
+--- a/CPP/7zip/Guid.txt
++++ b/CPP/7zip/Guid.txt
+@@ -165,6 +165,7 @@ Hunk #2, a/CPP/7zip/Guid.txt Handler GUIDs:
+   0C xz
+   0D ppmd
+ 
++  C6 COFF
+   C7 Ext
+   C8 VMDK
+   C9 VDI

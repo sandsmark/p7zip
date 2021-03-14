@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/Extract.cpp b/CPP/7zip/UI/Common/Extract.cpp
+index e8b2e6b..c49daa1 100644
+--- a/CPP/7zip/UI/Common/Extract.cpp
++++ b/CPP/7zip/UI/Common/Extract.cpp
+@@ -206,8 +206,11 @@ Hunk #2, a/CPP/7zip/UI/Common/Extract.cpp static HRESULT DecompressArchive(
+   }
+   else
+     result = archive->Extract(&realIndices.Front(), realIndices.Size(), testMode, ecs);
+-  if (result == S_OK && !options.StdInMode)
+-    result = ecs->SetDirsTimes();
++  
++  HRESULT res2 = ecsCloser.Close();
++  if (result == S_OK)
++    result = res2;
++
+   return callback->ExtractResult(result);
+ }
+ 

@@ -1,0 +1,35 @@
+diff --git a/CPP/7zip/UI/GUI/ExtractGUI.cpp b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+index 5071d1f..1e37efb 100644
+--- a/CPP/7zip/UI/GUI/ExtractGUI.cpp
++++ b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+@@ -129,24 +129,19 @@ Hunk #4, a/CPP/7zip/UI/GUI/ExtractGUI.cpp HRESULT CThreadExtracting::ProcessVirt()
+         AddValuePair(s, IDS_PROP_NUM_ALT_STREAMS, Stat.NumAltStreams);
+         AddSizePair(s, IDS_PROP_ALT_STREAMS_SIZE, Stat.AltStreams_UnpackSize);
+       }
+-    }
+-    
+-    if (HashBundle)
+-    {
+       s.Add_LF();
+-      AddHashBundleRes(s, *HashBundle, UString());
++      AddLangString(s, IDS_MESSAGE_NO_ERRORS);
++      FinalMessage.OkMessage.Title = Title;
++      FinalMessage.OkMessage.Message = s;
+     }
+-    
+-    s.Add_LF();
+-    AddLangString(s, IDS_MESSAGE_NO_ERRORS);
+-    
+-    FinalMessage.OkMessage.Title = Title;
+-    FinalMessage.OkMessage.Message = s;
+   }
+   #endif
++
+   return res;
+ }
+ 
++
++
+ HRESULT ExtractGUI(
+     CCodecs *codecs,
+     const CObjectVector<COpenType> &formatIndices,

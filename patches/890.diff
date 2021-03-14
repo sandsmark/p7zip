@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1896,8 +1896,15 @@ Hunk #35, a/CPP/7zip/UI/Common/Bench.cpp static void PrintRequirements(IBenchPrintCallback &f, const char *sizeString,
+   else
+     f.Print("      ?");
+   f.Print(" MB");
+-  if (g_LargePagesMode)
+-    f.Print(" LP");
++  
++  #ifdef _7ZIP_LARGE_PAGES
++  {
++    AString s;
++    Add_LargePages_String(s);
++    f.Print(s);
++  }
++  #endif
++  
+   f.Print(",  # ");
+   f.Print(threadsString);
+   PrintNumber(f, numThreads, 3);

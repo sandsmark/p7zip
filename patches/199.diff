@@ -1,0 +1,13 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -2200,7 +2200,7 @@ Hunk #35, a/C/LzmaEnc.c const Byte *LzmaEnc_GetCurBuf(CLzmaEncHandle pp)
+ }
+ 
+ 
+-SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp, Bool reInit,
++SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp, BoolInt reInit,
+     Byte *dest, size_t *destLen, UInt32 desiredPackSize, UInt32 *unpackSize)
+ {
+   CLzmaEnc *p = (CLzmaEnc *)pp;

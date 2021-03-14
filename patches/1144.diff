@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.cpp b/CPP/7zip/UI/GUI/GUI.cpp
+index 6bbfb74..2674ec9 100644
+--- a/CPP/7zip/UI/GUI/GUI.cpp
++++ b/CPP/7zip/UI/GUI/GUI.cpp
+@@ -2,12 +2,14 @@ Hunk #1, a/CPP/7zip/UI/GUI/GUI.cpp
+ 
+ #include "StdAfx.h"
+ 
++#ifdef _WIN32
++#include "../../../../C/DllSecur.h"
++#endif
++
+ #include "../../../Common/MyWindows.h"
+ 
+ #include <shlwapi.h>
+ 
+-#include "../../../../C/Alloc.h"
+-
+ #include "../../../Common/MyInitGuid.h"
+ 
+ #include "../../../Common/CommandLineParser.h"

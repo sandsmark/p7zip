@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/UpdateCallback.cpp b/CPP/7zip/UI/Common/UpdateCallback.cpp
+index ae3c483..fd46dda 100644
+--- a/CPP/7zip/UI/Common/UpdateCallback.cpp
++++ b/CPP/7zip/UI/Common/UpdateCallback.cpp
+@@ -512,7 +512,12 @@ Hunk #3, a/CPP/7zip/UI/Common/UpdateCallback.cpp STDMETHODIMP CArchiveUpdateCallback::GetStream2(UInt32 index, ISequentialInStrea
+     #endif
+     if (!inStreamSpec->OpenShared(path, ShareForWrite))
+     {
+-      return Callback->OpenFileError(path, ::GetLastError());
++      DWORD error = ::GetLastError();
++      HRESULT hres = Callback->OpenFileError(path, error);
++      if (StopAfterOpenError)
++        if (hres == S_OK || hres == S_FALSE)
++          return HRESULT_FROM_WIN32(error);
++      return hres;
+     }
+ 
+     if (StoreHardLinks)

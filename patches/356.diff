@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/7z/7zHandler.h b/CPP/7zip/Archive/7z/7zHandler.h
+index 89e3275..99942eb 100644
+--- a/CPP/7zip/Archive/7z/7zHandler.h
++++ b/CPP/7zip/Archive/7z/7zHandler.h
+@@ -58,6 +58,8 @@ Hunk #4, a/CPP/7zip/Archive/7z/7zHandler.h class COutHandler: public CMultiMethodProps
+ 
+   bool _useMultiThreadMixer;
+ 
++  bool _removeSfxBlock;
++  
+   // bool _volumeMode;
+ 
+   void InitSolidFiles() { _numSolidFiles = (UInt64)(Int64)(-1); }

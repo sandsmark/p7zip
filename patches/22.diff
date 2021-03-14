@@ -1,0 +1,13 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -27,7 +27,7 @@ Hunk #3, a/C/Alloc.c void *MyAlloc(size_t size)
+   #ifdef _SZ_ALLOC_DEBUG
+   {
+     void *p = malloc(size);
+-    fprintf(stderr, "\nAlloc %10u bytes, count = %10d,  addr = %8X", size, g_allocCount++, (unsigned)p);
++    PRINT_ALLOC("Alloc    ", g_allocCount, size, p);
+     return p;
+   }
+   #else

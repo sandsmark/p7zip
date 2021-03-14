@@ -1,0 +1,33 @@
+diff --git a/CPP/7zip/UI/GUI/HashGUI.cpp b/CPP/7zip/UI/GUI/HashGUI.cpp
+index cc93f07..37cd65e 100644
+--- a/CPP/7zip/UI/GUI/HashGUI.cpp
++++ b/CPP/7zip/UI/GUI/HashGUI.cpp
+@@ -197,25 +197,18 @@ Hunk #7, a/CPP/7zip/UI/GUI/HashGUI.cpp void AddHashBundleRes(UString &s, const CHashBundle &hb, const UString &firstFil
+ 
+   if (hb.NumAltStreams != 0)
+   {
+-    s.Add_LF();
+     AddValuePair(s, IDS_PROP_NUM_ALT_STREAMS, hb.NumAltStreams);
+     AddSizeValuePair(s, IDS_PROP_ALT_STREAMS_SIZE, hb.AltStreamsSize);
+   }
+ 
+-  if (hb.NumErrors == 0 && hb.Hashers.IsEmpty())
+-  {
+-    s.Add_LF();
+-    AddLangString(s, IDS_MESSAGE_NO_ERRORS);
+-  }
+-
+   FOR_VECTOR (i, hb.Hashers)
+   {
+-    s.Add_LF();
+     const CHasherState &h = hb.Hashers[i];
+     if (hb.NumFiles == 1 && hb.NumDirs == 0)
+     {
+-      s += h.Name;
+-      AddHashString(s, h, k_HashCalc_Index_DataSum, L":");
++      CProperty &pair = s.AddNew();
++      pair.Name += h.Name;
++      AddHashString(pair, h, k_HashCalc_Index_DataSum);
+     }
+     else
+     {

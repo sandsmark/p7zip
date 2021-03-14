@@ -1,0 +1,19 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -594,12 +594,12 @@ Hunk #16, a/C/LzFind.c static UInt32 Bt3_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+   if (d2 < p->cyclicBufferSize && *(cur - d2) == *cur)
+   {
+     UPDATE_maxLen
+-    distances[0] = maxLen;
++    distances[0] = (UInt32)maxLen;
+     distances[1] = d2 - 1;
+     offset = 2;
+     if (maxLen == lenLimit)
+     {
+-      SkipMatchesSpec(lenLimit, curMatch, MF_PARAMS(p));
++      SkipMatchesSpec((UInt32)lenLimit, curMatch, MF_PARAMS(p));
+       MOVE_POS_RET;
+     }
+   }

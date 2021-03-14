@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -29,7 +29,6 @@ Hunk #1, a/CPP/7zip/UI/Common/Bench.cpp
+ #endif
+ 
+ #include "../../../../C/7zCrc.h"
+-#include "../../../../C/Alloc.h"
+ #include "../../../../C/CpuArch.h"
+ 
+ #ifndef _7ZIP_ST

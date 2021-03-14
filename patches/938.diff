@@ -1,0 +1,44 @@
+diff --git a/CPP/7zip/UI/Common/PropIDUtils.cpp b/CPP/7zip/UI/Common/PropIDUtils.cpp
+index 4b796f0..7702e22 100644
+--- a/CPP/7zip/UI/Common/PropIDUtils.cpp
++++ b/CPP/7zip/UI/Common/PropIDUtils.cpp
+@@ -567,11 +567,38 @@ Hunk #8, a/CPP/7zip/UI/Common/PropIDUtils.cpp bool CheckNtSecure(const Byte *data, UInt32 size) throw()
+ 
+ #endif
+ 
++
++
++// IO_REPARSE_TAG_*
++
++static const CSecID2Name k_ReparseTags[] =
++{
++  { 0xA0000003, "MOUNT_POINT" },
++  { 0xC0000004, "HSM" },
++  { 0x80000005, "DRIVE_EXTENDER" },
++  { 0x80000006, "HSM2" },
++  { 0x80000007, "SIS" },
++  { 0x80000008, "WIM" },
++  { 0x80000009, "CSV" },
++  { 0x8000000A, "DFS" },
++  { 0x8000000B, "FILTER_MANAGER" },
++  { 0xA000000C, "SYMLINK" },
++  { 0xA0000010, "IIS_CACHE" },
++  { 0x80000012, "DFSR" },
++  { 0x80000013, "DEDUP" },
++  { 0xC0000014, "APPXSTRM" },
++  { 0x80000014, "NFS" },
++  { 0x80000015, "FILE_PLACEHOLDER" },
++  { 0x80000016, "DFM" },
++  { 0x80000017, "WOF" }
++};
++
+ bool ConvertNtReparseToString(const Byte *data, UInt32 size, UString &s)
+ {
+   s.Empty();
+   NFile::CReparseAttr attr;
+-  if (attr.Parse(data, size))
++  DWORD errorCode = 0;
++  if (attr.Parse(data, size, errorCode))
+   {
+     if (!attr.IsSymLink())
+       s += "Junction: ";

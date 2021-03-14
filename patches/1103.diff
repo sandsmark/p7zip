@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -137,7 +137,9 @@ Hunk #4, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::Properties()
+   }
+   
+   {
+-    UString message;
++    CListViewDialog message;
++    // message.DeleteIsAllowed = false;
++    // message.SelectFirst = false;
+ 
+     CRecordVector<UInt32> operatedIndices;
+     GetOperatedItemIndices(operatedIndices);

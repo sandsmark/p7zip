@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/FatHandler.cpp b/CPP/7zip/Archive/FatHandler.cpp
+index 9c37c06..bf6053e 100644
+--- a/CPP/7zip/Archive/FatHandler.cpp
++++ b/CPP/7zip/Archive/FatHandler.cpp
+@@ -161,7 +161,8 @@ Hunk #1, a/CPP/7zip/Archive/FatHandler.cpp bool CHeader::Parse(const Byte *p)
+     return false;
+ 
+   // we also support images that contain 0 in offset field.
+-  bool isOkOffset = (codeOffset == 0 || (p[0] == 0xEB && p[1] == 0));
++  bool isOkOffset = (codeOffset == 0)
++      || (codeOffset == (p[0] == 0xEB ? 2 : 3));
+ 
+   UInt16 numRootDirEntries = Get16(p + 17);
+   if (numRootDirEntries == 0)

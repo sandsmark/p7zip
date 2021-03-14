@@ -1,0 +1,35 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -142,21 +142,23 @@ Hunk #5, a/CPP/7zip/Compress/Rar1Decoder.cpp HRESULT CDecoder::ShortLZ()
+     AvrLn1 += len;
+     AvrLn1 -= AvrLn1 >> 4;
+     
+-    distancePlace = DecodeNum(PosHf2) & 0xff;
+-    dist = ChSetA[(unsigned)distancePlace];
+-    if (--distancePlace != -1)
++    unsigned distancePlace = DecodeNum(PosHf2) & 0xff;
++    
++    dist = ChSetA[distancePlace];
++    
++    if (distancePlace != 0)
+     {
+       PlaceA[dist]--;
+-      UInt32 lastDistance = ChSetA[(unsigned)distancePlace];
++      UInt32 lastDistance = ChSetA[(size_t)distancePlace - 1];
+       PlaceA[lastDistance]++;
+-      ChSetA[(size_t)(unsigned)distancePlace + 1] = lastDistance;
+-      ChSetA[(unsigned)distancePlace] = dist;
++      ChSetA[distancePlace] = lastDistance;
++      ChSetA[(size_t)distancePlace - 1] = dist;
+     }
+-    len += 2;
+   }
+ 
+   m_RepDists[m_RepDistPtr++] = dist;
+   m_RepDistPtr &= 3;
++  len += 2;
+   LastLength = len;
+   LastDist = dist;
+   return CopyBlock(dist, len);

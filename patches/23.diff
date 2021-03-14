@@ -1,0 +1,17 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -37,10 +37,8 @@ Hunk #4, a/C/Alloc.c void *MyAlloc(size_t size)
+ 
+ void MyFree(void *address)
+ {
+-  #ifdef _SZ_ALLOC_DEBUG
+-  if (address)
+-    fprintf(stderr, "\nFree; count = %10d,  addr = %8X", --g_allocCount, (unsigned)address);
+-  #endif
++  PRINT_FREE("Free    ", g_allocCount, address);
++  
+   free(address);
+ }
+ 

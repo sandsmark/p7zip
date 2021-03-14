@@ -1,0 +1,19 @@
+diff --git a/C/7zVersion.h b/C/7zVersion.h
+index a0f5627..c176823 100644
+--- a/C/7zVersion.h
++++ b/C/7zVersion.h
+@@ -10,12 +10,12 @@ Hunk #2, a/C/7zVersion.h
+   #define MY_VERSION_CPU MY_VERSION
+ #endif
+ 
+-#define MY_DATE "2017-08-28"
++#define MY_DATE "2019-02-21"
+ #undef MY_COPYRIGHT
+ #undef MY_VERSION_COPYRIGHT_DATE
+ #define MY_AUTHOR_NAME "Igor Pavlov"
+ #define MY_COPYRIGHT_PD "Igor Pavlov : Public domain"
+-#define MY_COPYRIGHT_CR "Copyright (c) 1999-2017 Igor Pavlov"
++#define MY_COPYRIGHT_CR "Copyright (c) 1999-2018 Igor Pavlov"
+ 
+ #ifdef USE_COPYRIGHT_CR
+   #define MY_COPYRIGHT MY_COPYRIGHT_CR

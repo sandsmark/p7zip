@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/FileManager/FSFolder.cpp b/CPP/7zip/UI/FileManager/FSFolder.cpp
+index 94cd04c..9e72021 100644
+--- a/CPP/7zip/UI/FileManager/FSFolder.cpp
++++ b/CPP/7zip/UI/FileManager/FSFolder.cpp
+@@ -532,9 +532,8 @@ Hunk #1, a/CPP/7zip/UI/FileManager/FSFolder.cpp STDMETHODIMP CFSFolder::GetNumRawProps(UInt32 *numProps)
+   return S_OK;
+ }
+ 
+-STDMETHODIMP CFSFolder::GetRawPropInfo(UInt32 index, BSTR *name, PROPID *propID)
++STDMETHODIMP CFSFolder::GetRawPropInfo(UInt32 /* index */, BSTR *name, PROPID *propID)
+ {
+-  index = index;
+   *name = NULL;
+   *propID = kpidNtReparse;
+   return S_OK;

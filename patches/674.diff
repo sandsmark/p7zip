@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Common/CreateCoder.cpp b/CPP/7zip/Common/CreateCoder.cpp
+index 75074ad..bf525dc 100644
+--- a/CPP/7zip/Common/CreateCoder.cpp
++++ b/CPP/7zip/Common/CreateCoder.cpp
+@@ -280,9 +280,11 @@ Hunk #3, a/CPP/7zip/Common/CreateCoder.cpp void GetHashMethods(
+   #endif
+ }
+ 
+-HRESULT CreateCoder(
++
++
++HRESULT CreateCoder_Index(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+-    CMethodId methodId, bool encode,
++    unsigned i, bool encode,
+     CMyComPtr<ICompressFilter> &filter,
+     CCreatedCoder &cod)
+ {

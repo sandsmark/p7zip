@@ -1,0 +1,13 @@
+diff --git a/C/Ppmd8.c b/C/Ppmd8.c
+index 15c76bb..5814163 100644
+--- a/C/Ppmd8.c
++++ b/C/Ppmd8.c
+@@ -605,7 +605,7 @@ Hunk #3, a/C/Ppmd8.c static void RestoreModel(CPpmd8 *p, CTX_PTR c1
+   }
+ }
+ 
+-static CTX_PTR CreateSuccessors(CPpmd8 *p, Bool skip, CPpmd_State *s1, CTX_PTR c)
++static CTX_PTR CreateSuccessors(CPpmd8 *p, BoolInt skip, CPpmd_State *s1, CTX_PTR c)
+ {
+   CPpmd_State upState;
+   Byte flags;

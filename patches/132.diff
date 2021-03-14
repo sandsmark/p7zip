@@ -1,0 +1,13 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -356,7 +356,7 @@ Hunk #12, a/C/LzmaDec.c static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte
+             UPDATE_1(probLen);
+             probLen = prob + LenHigh;
+             TREE_DECODE(probLen, (1 << kLenNumHighBits), len);
+-            len += kLenNumLowSymbols + kLenNumMidSymbols;
++            len += kLenNumLowSymbols * 2;
+           }
+         }
+       }

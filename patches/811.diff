@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Guid.txt b/CPP/7zip/Guid.txt
+index 47da1a3..c9da7ed 100644
+--- a/CPP/7zip/Guid.txt
++++ b/CPP/7zip/Guid.txt
+@@ -49,6 +49,7 @@ Hunk #1, a/CPP/7zip/Guid.txt
+   25  ICompressSetCoderMt
+   26  ICompressSetFinishMode
+   27  ICompressGetInStreamProcessedSize2
++  28  ICompressSetMemLimit
+ 
+   30  ICompressGetSubStreamSize
+   31  ICompressSetInStream

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Common/CompressCall.cpp b/CPP/7zip/UI/Common/CompressCall.cpp
+index c9aa5fd..42cb0d2 100644
+--- a/CPP/7zip/UI/Common/CompressCall.cpp
++++ b/CPP/7zip/UI/Common/CompressCall.cpp
+@@ -13,6 +13,7 @@ Hunk #1, a/CPP/7zip/UI/Common/CompressCall.cpp
+ #include "../../../Windows/ErrorMsg.h"
+ #include "../../../Windows/FileDir.h"
+ #include "../../../Windows/FileMapping.h"
++#include "../../../Windows/MemoryLock.h"
+ #include "../../../Windows/ProcessUtils.h"
+ #include "../../../Windows/Synchronization.h"
+ 

@@ -1,0 +1,16 @@
+diff --git a/C/LzmaDec.h b/C/LzmaDec.h
+index d6af922..1f0927a 100644
+--- a/C/LzmaDec.h
++++ b/C/LzmaDec.h
+@@ -25,7 +25,10 @@ Hunk #3, a/C/LzmaDec.h EXTERN_C_BEGIN
+ 
+ typedef struct _CLzmaProps
+ {
+-  unsigned lc, lp, pb;
++  Byte lc;
++  Byte lp;
++  Byte pb;
++  Byte _pad_;
+   UInt32 dicSize;
+ } CLzmaProps;
+ 

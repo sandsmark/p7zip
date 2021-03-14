@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Common/Update.h b/CPP/7zip/UI/Common/Update.h
+index 0301ae7..dc9ff5d 100644
+--- a/CPP/7zip/UI/Common/Update.h
++++ b/CPP/7zip/UI/Common/Update.h
+@@ -127,6 +127,7 @@ Hunk #2, a/CPP/7zip/UI/Common/Update.h struct CUpdateOptions
+     EMailMode(false),
+     EMailRemoveAfter(false),
+     OpenShareForWrite(false),
++    StopAfterOpenError(false),
+     ArcNameMode(k_ArcNameMode_Smart),
+     PathMode(NWildcard::k_RelatPath),
+     

@@ -1,0 +1,30 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -18,15 +18,22 @@ Hunk #2, a/C/LzmaDec.c
+ 
+ #define NORMALIZE if (range < kTopValue) { range <<= 8; code = (code << 8) | (*buf++); }
+ 
+-#define IF_BIT_0(p) ttt = *(p); NORMALIZE; bound = (range >> kNumBitModelTotalBits) * ttt; if (code < bound)
++#define IF_BIT_0(p) ttt = *(p); NORMALIZE; bound = (range >> kNumBitModelTotalBits) * (UInt32)ttt; if (code < bound)
+ #define UPDATE_0(p) range = bound; *(p) = (CLzmaProb)(ttt + ((kBitModelTotal - ttt) >> kNumMoveBits));
+ #define UPDATE_1(p) range -= bound; code -= bound; *(p) = (CLzmaProb)(ttt - (ttt >> kNumMoveBits));
+ #define GET_BIT2(p, i, A0, A1) IF_BIT_0(p) \
+   { UPDATE_0(p); i = (i + i); A0; } else \
+   { UPDATE_1(p); i = (i + i) + 1; A1; }
+-#define GET_BIT(p, i) GET_BIT2(p, i, ; , ;)
+ 
+-#define TREE_GET_BIT(probs, i) { GET_BIT((probs + i), i); }
++#define TREE_GET_BIT(probs, i) { GET_BIT2(probs + i, i, ;, ;); }
++
++#define REV_BIT(p, i, A0, A1) IF_BIT_0(p + i) \
++  { UPDATE_0(p + i); A0; } else \
++  { UPDATE_1(p + i); A1; }
++#define REV_BIT_VAR(  p, i, m) REV_BIT(p, i, i += m; m += m, m += m; i += m; )
++#define REV_BIT_CONST(p, i, m) REV_BIT(p, i, i += m;       , i += m * 2; )
++#define REV_BIT_LAST( p, i, m) REV_BIT(p, i, i -= m        , ; )
++
+ #define TREE_DECODE(probs, limit, i) \
+   { i = 1; do { TREE_GET_BIT(probs, i); } while (i < limit); i -= limit; }
+ 

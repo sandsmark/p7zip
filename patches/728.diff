@@ -1,0 +1,193 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -369,110 +369,131 @@ Hunk #13, a/CPP/7zip/Compress/Rar1Decoder.cpp void CDecoder::CorrHuff(UInt32 *CharSet,UInt32 *NumToPlace)
+     NumToPlace[i] = (7 - i) * 32;
+ }
+ 
+-void CDecoder::InitHuff()
+-{
+-  for (UInt32 i = 0; i < 256; i++)
+-  {
+-    Place[i] = PlaceA[i] = PlaceB[i] = i;
+-    PlaceC[i] = (~i + 1) & 0xff;
+-    ChSet[i] = ChSetB[i] = i << 8;
+-    ChSetA[i] = i;
+-    ChSetC[i] = ((~i + 1) & 0xff) << 8;
+-  }
+-  memset(NToPl, 0, sizeof(NToPl));
+-  memset(NToPlB, 0, sizeof(NToPlB));
+-  memset(NToPlC, 0, sizeof(NToPlC));
+-  CorrHuff(ChSetB, NToPlB);
+-}
++
+ 
+ HRESULT CDecoder::CodeReal(ISequentialInStream *inStream, ISequentialOutStream *outStream,
+     const UInt64 *inSize, const UInt64 *outSize, ICompressProgressInfo * /* progress */)
+ {
+-  if (inSize == NULL || outSize == NULL)
++  if (!inSize || !outSize)
+     return E_INVALIDARG;
+ 
++  if (_isSolid && !_solidAllowed)
++    return S_FALSE;
++
++  _solidAllowed = false;
++
+   if (!m_OutWindowStream.Create(kHistorySize))
+     return E_OUTOFMEMORY;
+   if (!m_InBitStream.Create(1 << 20))
+     return E_OUTOFMEMORY;
+ 
+-  m_UnpackSize = (Int64)*outSize;
++  m_UnpackSize = *outSize;
++
+   m_OutWindowStream.SetStream(outStream);
+-  m_OutWindowStream.Init(m_IsSolid);
++  m_OutWindowStream.Init(_isSolid);
+   m_InBitStream.SetStream(inStream);
+   m_InBitStream.Init();
+ 
+-  // CCoderReleaser coderReleaser(this);
+-  InitData();
+-  if (!m_IsSolid)
++  // InitData
++
++  FlagsCnt = 0;
++  FlagBuf = 0;
++  StMode = false;
++  LCount = 0;
++
++  if (!_isSolid)
+   {
+-    InitStructures();
+-    InitHuff();
++    AvrPlcB = AvrLn1 = AvrLn2 = AvrLn3 = NumHuf = Buf60 = 0;
++    AvrPlc = 0x3500;
++    MaxDist3 = 0x2001;
++    Nhfb = Nlzb = 0x80;
++
++    {
++      // InitStructures
++      for (int i = 0; i < kNumRepDists; i++)
++        m_RepDists[i] = 0;
++      m_RepDistPtr = 0;
++      LastLength = 0;
++      LastDist = 0;
++    }
++    
++    // InitHuff
++    
++    for (UInt32 i = 0; i < 256; i++)
++    {
++      Place[i] = PlaceA[i] = PlaceB[i] = i;
++      UInt32 c = (~i + 1) & 0xff;
++      PlaceC[i] = c;
++      ChSet[i] = ChSetB[i] = i << 8;
++      ChSetA[i] = i;
++      ChSetC[i] = c << 8;
++    }
++    memset(NToPl, 0, sizeof(NToPl));
++    memset(NToPlB, 0, sizeof(NToPlB));
++    memset(NToPlC, 0, sizeof(NToPlC));
++    CorrHuff(ChSetB, NToPlB);
+   }
++   
+   if (m_UnpackSize > 0)
+   {
+     GetFlagsBuf();
+     FlagsCnt = 8;
+   }
+ 
+-  while (m_UnpackSize > 0)
++  while (m_UnpackSize != 0)
+   {
+-    if (StMode)
++    if (!StMode)
+     {
+-      RINOK(HuffDecode());
+-      continue;
+-    }
+-
+-    if (--FlagsCnt < 0)
+-    {
+-      GetFlagsBuf();
+-      FlagsCnt=7;
+-    }
+-
+-    if (FlagBuf & 0x80)
+-    {
+-      FlagBuf <<= 1;
+-      if (Nlzb > Nhfb)
+-      {
+-        RINOK(LongLZ());
+-      }
+-      else
+-      {
+-        RINOK(HuffDecode());
+-      }
+-    }
+-    else
+-    {
+-      FlagBuf <<= 1;
+       if (--FlagsCnt < 0)
+       {
+         GetFlagsBuf();
+         FlagsCnt = 7;
+       }
++      
+       if (FlagBuf & 0x80)
+       {
+         FlagBuf <<= 1;
+         if (Nlzb > Nhfb)
+-        {
+-          RINOK(HuffDecode());
+-        }
+-        else
+         {
+           RINOK(LongLZ());
++          continue;
+         }
+       }
+       else
+       {
+         FlagBuf <<= 1;
+-        RINOK(ShortLZ());
++        
++        if (--FlagsCnt < 0)
++        {
++          GetFlagsBuf();
++          FlagsCnt = 7;
++        }
++
++        if ((FlagBuf & 0x80) == 0)
++        {
++          FlagBuf <<= 1;
++          RINOK(ShortLZ());
++          continue;
++        }
++        
++        FlagBuf <<= 1;
++        
++        if (Nlzb <= Nhfb)
++        {
++          RINOK(LongLZ());
++          continue;
++        }
+       }
+     }
++
++    RINOK(HuffDecode());
+   }
+-  if (m_UnpackSize < 0)
+-    return S_FALSE;
++  
++  _solidAllowed = true;
+   return m_OutWindowStream.Flush();
+ }
+ 
++
+ STDMETHODIMP CDecoder::Code(ISequentialInStream *inStream, ISequentialOutStream *outStream,
+     const UInt64 *inSize, const UInt64 *outSize, ICompressProgressInfo *progress)
+ {

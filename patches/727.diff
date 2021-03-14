@@ -1,0 +1,25 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -343,20 +343,6 @@ Hunk #12, a/CPP/7zip/Compress/Rar1Decoder.cpp void CDecoder::GetFlagsBuf()
+   ChSetC[newFlagsPlace] = flags;
+ }
+ 
+-void CDecoder::InitData()
+-{
+-  if (!m_IsSolid)
+-  {
+-    AvrPlcB = AvrLn1 = AvrLn2 = AvrLn3 = NumHuf = Buf60 = 0;
+-    AvrPlc = 0x3500;
+-    MaxDist3 = 0x2001;
+-    Nhfb = Nlzb = 0x80;
+-  }
+-  FlagsCnt = 0;
+-  FlagBuf = 0;
+-  StMode = 0;
+-  LCount = 0;
+-}
+ 
+ void CDecoder::CorrHuff(UInt32 *CharSet,UInt32 *NumToPlace)
+ {

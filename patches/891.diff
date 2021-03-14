@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2187,14 +2187,13 @@ Hunk #36, a/CPP/7zip/UI/Common/Bench.cpp static HRESULT CrcBench(
+       methodName, hashID))
+     return E_NOTIMPL;
+ 
+-  CBenchBuffer buffer;
++  CAlignedBuffer buffer;
+   size_t totalSize = (size_t)bufferSize * numThreads;
+   if (totalSize / numThreads != bufferSize)
+     return E_OUTOFMEMORY;
+-  if (!buffer.Alloc(totalSize))
+-    return E_OUTOFMEMORY;
++  ALLOC_WITH_HRESULT(&buffer, totalSize)
+ 
+-  Byte *buf = buffer.Buffer;
++  Byte *buf = (Byte *)buffer;
+   CBaseRandomGenerator RG;
+   UInt32 bsize = (bufferSize == 0 ? 1 : bufferSize);
+   UInt64 numIterations = complexInCommands * 256 / complexity / bsize;

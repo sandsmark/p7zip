@@ -1,0 +1,32 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2723,6 +2723,27 @@ Hunk #41, a/CPP/7zip/UI/Common/Bench.cpp void GetCpuFeatures(AString &s)
+ }
+ 
+ 
++#ifdef _WIN32
++#ifndef UNDER_CE
++
++typedef void (WINAPI * Func_RtlGetVersion) (OSVERSIONINFOEXW *);
++
++static BOOL My_RtlGetVersion(OSVERSIONINFOEXW *vi)
++{
++  HMODULE ntdll = ::GetModuleHandleW(L"ntdll.dll");
++  if (!ntdll)
++    return FALSE;
++  Func_RtlGetVersion func = (Func_RtlGetVersion)GetProcAddress(ntdll, "RtlGetVersion");
++  if (!func)
++    return FALSE;
++  func(vi);
++  return TRUE;
++}
++
++#endif
++#endif
++
++
+ HRESULT Bench(
+     DECL_EXTERNAL_CODECS_LOC_VARS
+     IBenchPrintCallback *printCallback,

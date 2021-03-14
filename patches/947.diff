@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1519,6 +1519,15 @@ Hunk #8, a/CPP/7zip/UI/Common/Update.cpp HRESULT UpdateArchive(
+         errorInfo.FileNames.Add(us2fs(arcPath));
+         return errorInfo.Get_HRESULT_Error();
+       }
++      
++      /*
++      if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_READONLY))
++      {
++        DWORD attrib2 = NFind::GetFileAttrib(us2fs(arcPath));
++        if (attrib2 != INVALID_FILE_ATTRIBUTES)
++          NDir::SetFileAttrib(us2fs(arcPath), attrib2 | FILE_ATTRIBUTE_READONLY);
++      }
++      */
+     }
+     catch(...)
+     {

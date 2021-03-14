@@ -1,0 +1,18 @@
+diff --git a/C/Lzma2Enc.c b/C/Lzma2Enc.c
+index e970944..5c1ad49 100644
+--- a/C/Lzma2Enc.c
++++ b/C/Lzma2Enc.c
+@@ -369,9 +369,11 @@ Hunk #4, a/C/Lzma2Enc.c typedef struct
+   
+   ISeqOutStream *outStream;
+   Byte *outBuf;
+-  size_t outBufSize;
++  size_t outBuf_Rem;   /* remainder in outBuf */
++
++  size_t outBufSize;   /* size of allocated outBufs[i] */
+   size_t outBufsDataSizes[MTCODER__BLOCKS_MAX];
+-  Bool mtCoder_WasConstructed;
++  BoolInt mtCoder_WasConstructed;
+   CMtCoder mtCoder;
+   Byte *outBufs[MTCODER__BLOCKS_MAX];
+ 

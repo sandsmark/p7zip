@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Console/makefile b/CPP/7zip/UI/Console/makefile
+index 98ad91c..541b768 100644
+--- a/CPP/7zip/UI/Console/makefile
++++ b/CPP/7zip/UI/Console/makefile
+@@ -1,12 +1,7 @@ Hunk #1, a/CPP/7zip/UI/Console/makefile
+ PROG = 7z.exe
+-MY_CONSOLE = 1
+ CFLAGS = $(CFLAGS)  \
+   -DEXTERNAL_CODECS \
+ 
+-!IFNDEF UNDER_CE
+-CFLAGS = $(CFLAGS) -DWIN_LONG_PATH -D_7ZIP_LARGE_PAGES -DSUPPORT_DEVICE_FILE
+-!ENDIF
+-
+ COMMON_OBJS = \
+   $O\CommandLineParser.obj \
+   $O\CRC.obj \

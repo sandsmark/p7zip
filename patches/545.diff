@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -1208,6 +1208,8 @@ Hunk #24, a/CPP/7zip/Archive/XzHandler.cpp STDMETHODIMP CHandler::SetProperties(const wchar_t * const *names, const PROPVAR
+     RINOK(SetProperty(names[i], values[i]));
+   }
+ 
++  #ifndef EXTRACT_ONLY
++
+   if (!_filterMethod.MethodName.IsEmpty())
+   {
+     unsigned k;

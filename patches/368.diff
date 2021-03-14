@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Archive/7z/7zIn.cpp b/CPP/7zip/Archive/7z/7zIn.cpp
+index 3db5f51..ab5b5de 100644
+--- a/CPP/7zip/Archive/7z/7zIn.cpp
++++ b/CPP/7zip/Archive/7z/7zIn.cpp
+@@ -1115,11 +1115,11 @@ Hunk #1, a/CPP/7zip/Archive/7z/7zIn.cpp HRESULT CInArchive::ReadAndDecodePackedStreams(
+         , dataAfterEnd_Error
+         
+         _7Z_DECODER_CRYPRO_VARS
+-        #if !defined(_7ZIP_ST) && !defined(_SFX)
++        #if !defined(_7ZIP_ST)
+           , false // mtMode
+           , 1     // numThreads
++          , 0     // memUsage
+         #endif
+-
+       );
+     
+     RINOK(result);

@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/LinkDialog.cpp b/CPP/7zip/UI/FileManager/LinkDialog.cpp
+index 70b0ba6..ddef365 100644
+--- a/CPP/7zip/UI/FileManager/LinkDialog.cpp
++++ b/CPP/7zip/UI/FileManager/LinkDialog.cpp
+@@ -291,7 +291,8 @@ Hunk #2, a/CPP/7zip/UI/FileManager/LinkDialog.cpp void CLinkDialog::OnButton_Link()
+     }
+     
+     CReparseAttr attr;
+-    if (!attr.Parse(data, data.Size()))
++    DWORD errorCode = 0;
++    if (!attr.Parse(data, data.Size(), errorCode))
+     {
+       ShowError(L"Internal conversion error");
+       return;

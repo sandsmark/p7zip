@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/ExtHandler.cpp b/CPP/7zip/Archive/ExtHandler.cpp
+index d8417fe..db65fbe 100644
+--- a/CPP/7zip/Archive/ExtHandler.cpp
++++ b/CPP/7zip/Archive/ExtHandler.cpp
+@@ -1612,6 +1612,8 @@ Hunk #2, a/CPP/7zip/Archive/ExtHandler.cpp void CHandler::GetPath(unsigned index, AString &s) const
+     if (!s.IsEmpty())
+       s.InsertAtFront(CHAR_PATH_SEPARATOR);
+     s.Insert(0, item.Name);
++    // 18.06
++    ChangeSeparatorsInName(s.GetBuf(), item.Name.Len());
+ 
+     if (item.ParentNode == k_INODE_ROOT)
+       return;

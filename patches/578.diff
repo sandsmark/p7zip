@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.cpp b/CPP/7zip/Archive/Zip/ZipIn.cpp
+index 9e9918d..509753c 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.cpp
++++ b/CPP/7zip/Archive/Zip/ZipIn.cpp
+@@ -2508,6 +2508,10 @@ Hunk #9, a/CPP/7zip/Archive/Zip/ZipIn.cpp HRESULT CInArchive::ReadHeaders(CObjectVector<CItemEx> &items)
+     items.Clear();
+     localsWereRead = true;
+     
++    HeadersError = false;
++    HeadersWarning = false;
++    ExtraMinorError = false;
++
+     // we can use any mode: with buffer and without buffer
+     //   without buffer : skips packed data : fast for big files : slow for small files
+     //   with    buffer : reads packed data : slow for big files : fast for small files

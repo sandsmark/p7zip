@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/Rar/RarHandler.cpp b/CPP/7zip/Archive/Rar/RarHandler.cpp
+index c097b15..dd78e31 100644
+--- a/CPP/7zip/Archive/Rar/RarHandler.cpp
++++ b/CPP/7zip/Archive/Rar/RarHandler.cpp
+@@ -777,7 +777,9 @@ Hunk #6, a/CPP/7zip/Archive/Rar/RarHandler.cpp static const Byte kProps[] =
+   kpidCRC,
+   kpidHostOS,
+   kpidMethod,
+-  kpidUnpackVer
++  kpidUnpackVer,
++
++  kpidVolumeIndex
+ };
+ 
+ static const Byte kArcProps[] =

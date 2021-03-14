@@ -1,0 +1,13 @@
+diff --git a/DOC/7zip.wxs b/DOC/7zip.wxs
+index 33b677e..338d582 100644
+--- a/DOC/7zip.wxs
++++ b/DOC/7zip.wxs
+@@ -104,6 +104,8 @@ Hunk #2, a/DOC/7zip.wxs
+ 
+     <Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
+ 
++    <Property Id="MSIRMSHUTDOWN" Value="2"/>
++
+     <Property Id="INSTALLDIR">
+       <RegistrySearch Id="My7zipPathLM"  Type="raw" Root="HKLM" Key="Software\7-Zip" Name="Path" />
+       <RegistrySearch Id="My7zipPathLM2" Type="raw" Root="HKLM" Key="Software\7-Zip" Name="Path$(var.NumBits)" />

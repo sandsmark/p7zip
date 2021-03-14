@@ -1,0 +1,30 @@
+diff --git a/CPP/7zip/Archive/7z/7zHandler.h b/CPP/7zip/Archive/7z/7zHandler.h
+index 89e3275..99942eb 100644
+--- a/CPP/7zip/Archive/7z/7zHandler.h
++++ b/CPP/7zip/Archive/7z/7zHandler.h
+@@ -82,16 +82,23 @@ Hunk #6, a/CPP/7zip/Archive/7z/7zHandler.h class COutHandler: public CMultiMethodProps
+ class CHandler:
+   public IInArchive,
+   public IArchiveGetRawProps,
++  
+   #ifdef __7Z_SET_PROPERTIES
+   public ISetProperties,
+   #endif
++  
+   #ifndef EXTRACT_ONLY
+   public IOutArchive,
+   #endif
++  
+   PUBLIC_ISetCompressCodecsInfo
+-  public CMyUnknownImp
++  
++  public CMyUnknownImp,
++
+   #ifndef EXTRACT_ONLY
+-  , public COutHandler
++    public COutHandler
++  #else
++    public CCommonMethodProps
+   #endif
+ {
+ public:

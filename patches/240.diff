@@ -1,0 +1,17 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -89,9 +89,9 @@ Hunk #2, a/C/Util/7zipInstall/7zipInstall.c static LPCWSTR const k_Reg_CLSID_7zip_Inproc = L"CLSID\\" k_7zip_CLSID L"\\Inpro
+ 
+ #define g_AllUsers True
+ 
+-static Bool g_Install_was_Pressed;
+-static Bool g_Finished;
+-static Bool g_SilentMode;
++static BoolInt g_Install_was_Pressed;
++static BoolInt g_Finished;
++static BoolInt g_SilentMode;
+ 
+ static HWND g_HWND;
+ static HWND g_Path_HWND;

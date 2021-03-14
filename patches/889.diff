@@ -1,0 +1,60 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1883,8 +1883,55 @@ Hunk #34, a/CPP/7zip/UI/Common/Bench.cpp AString GetProcessThreadsInfo(const NSystem::CProcessAffinity &ti)
+ }
+ 
+ 
++static void PrintSize(AString &s, UInt64 v)
++{
++  char c = 0;
++  if ((v & 0x3FF) == 0) { v >>= 10; c = 'K';
++  if ((v & 0x3FF) == 0) { v >>= 10; c = 'M';
++  if ((v & 0x3FF) == 0) { v >>= 10; c = 'G';
++  if ((v & 0x3FF) == 0) { v >>= 10; c = 'T';
++  }}}}
++  else
++  {
++    PrintHex(s, v);
++    return;
++  }
++  char temp[32];
++  ConvertUInt64ToString(v, temp);
++  s += temp;
++  if (c)
++    s += c;
++}
++
++
++#ifdef _7ZIP_LARGE_PAGES
++
+ extern bool g_LargePagesMode;
+ 
++extern "C"
++{
++  extern SIZE_T g_LargePageSize;
++}
++
++void Add_LargePages_String(AString &s)
++{
++  if (g_LargePagesMode || g_LargePageSize != 0)
++  {
++    s += " (LP-";
++    PrintSize(s, g_LargePageSize);
++    #ifdef MY_CPU_X86_OR_AMD64
++    if (CPU_IsSupported_PageGB())
++      s += "-1G";
++    #endif
++    if (!g_LargePagesMode)
++      s += "-NA";
++    s += ")";
++  }
++}
++
++#endif
++
++
+ 
+ static void PrintRequirements(IBenchPrintCallback &f, const char *sizeString,
+     bool size_Defined, UInt64 size, const char *threadsString, UInt32 numThreads)

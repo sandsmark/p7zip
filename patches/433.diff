@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/HfsHandler.cpp b/CPP/7zip/Archive/HfsHandler.cpp
+index d02f072..ca1d7bd 100644
+--- a/CPP/7zip/Archive/HfsHandler.cpp
++++ b/CPP/7zip/Archive/HfsHandler.cpp
+@@ -1873,6 +1873,6 @@ Hunk #9, a/CPP/7zip/Archive/HfsHandler.cpp REGISTER_ARC_I(
+   k_Signature,
+   kHeaderPadSize,
+   NArcInfoFlags::kMultiSignature,
+-  NULL)
++  IsArc_HFS)
+ 
+ }}

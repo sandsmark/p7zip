@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/ListViewDialog.cpp b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+index 80cdd7f..a42e790 100644
+--- a/CPP/7zip/UI/FileManager/ListViewDialog.cpp
++++ b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+@@ -85,7 +85,7 @@ Hunk #5, a/CPP/7zip/UI/FileManager/ListViewDialog.cpp bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
+     case LVN_ITEMACTIVATE:
+       if (g_LVN_ITEMACTIVATE_Support)
+       {
+-        OnOK();
++        OnEnter();
+         return true;
+       }
+       break;

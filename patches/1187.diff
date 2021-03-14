@@ -1,0 +1,19 @@
+diff --git a/CPP/Common/MyBuffer2.h b/CPP/Common/MyBuffer2.h
+index ba98d13..d61a72e 100644
+--- a/CPP/Common/MyBuffer2.h
++++ b/CPP/Common/MyBuffer2.h
+@@ -29,12 +29,12 @@ Hunk #3, a/CPP/Common/MyBuffer2.h class CMidBuffer
+   {
+     if (!_data || size > _size)
+     {
++      ::MidFree(_data);
+       const size_t kMinSize = (size_t)1 << 16;
+       if (size < kMinSize)
+         size = kMinSize;
+-      ::MidFree(_data);
+       _size = 0;
+-      _data = 0;
++      _data = NULL;
+       _data = (Byte *)::MidAlloc(size);
+       if (_data)
+         _size = size;

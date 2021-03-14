@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/Archive/Wim/WimIn.h b/CPP/7zip/Archive/Wim/WimIn.h
+index 6a38721..9e835b0 100644
+--- a/CPP/7zip/Archive/Wim/WimIn.h
++++ b/CPP/7zip/Archive/Wim/WimIn.h
+@@ -544,7 +544,10 @@ Hunk #2, a/CPP/7zip/Archive/Wim/WimIn.h class CDatabase
+     HeadersError = false;
+   }
+ 
+-  CDatabase(): RefCountError(false) {}
++  CDatabase():
++    RefCountError(false),
++    HeadersError(false)
++    {}
+ 
+   void GetShortName(unsigned index, NWindows::NCOM::CPropVariant &res) const;
+   void GetItemName(unsigned index1, NWindows::NCOM::CPropVariant &res) const;

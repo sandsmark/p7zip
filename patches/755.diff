@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/Compress/Rar3Decoder.cpp b/CPP/7zip/Compress/Rar3Decoder.cpp
+index c6d045a..4456ba6 100644
+--- a/CPP/7zip/Compress/Rar3Decoder.cpp
++++ b/CPP/7zip/Compress/Rar3Decoder.cpp
+@@ -624,12 +624,12 @@ Hunk #10, a/CPP/7zip/Compress/Rar3Decoder.cpp HRESULT CDecoder::ReadTables(bool &keepDecompressing)
+   }
+   */
+ 
+-  RIF(m_MainDecoder.Build(&newLevels[0]));
+-  RIF(m_DistDecoder.Build(&newLevels[kMainTableSize]));
+-  RIF(m_AlignDecoder.Build(&newLevels[kMainTableSize + kDistTableSize]));
+-  RIF(m_LenDecoder.Build(&newLevels[kMainTableSize + kDistTableSize + kAlignTableSize]));
++  RIF(m_MainDecoder.Build(&lens[0]));
++  RIF(m_DistDecoder.Build(&lens[kMainTableSize]));
++  RIF(m_AlignDecoder.Build(&lens[kMainTableSize + kDistTableSize]));
++  RIF(m_LenDecoder.Build(&lens[kMainTableSize + kDistTableSize + kAlignTableSize]));
+ 
+-  memcpy(m_LastLevels, newLevels, kTablesSizesSum);
++  memcpy(m_LastLevels, lens, kTablesSizesSum);
+ 
+   TablesOK = true;
+ 

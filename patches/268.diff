@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipUninstall/7zipUninstall.c b/C/Util/7zipUninstall/7zipUninstall.c
+index 0bf27cc..1676117 100644
+--- a/C/Util/7zipUninstall/7zipUninstall.c
++++ b/C/Util/7zipUninstall/7zipUninstall.c
+@@ -546,7 +546,7 @@ Hunk #15, a/C/Util/7zipUninstall/7zipUninstall.c static BOOL RemoveDir()
+ #define k_Lang L"Lang"
+ 
+ // NUM_LANG_TXT_FILES files are placed before en.ttt
+-#define NUM_LANG_TXT_FILES 87
++#define NUM_LANG_TXT_FILES 88
+ 
+ #ifdef _64BIT_INSTALLER
+   #define NUM_EXTRA_FILES_64BIT 1

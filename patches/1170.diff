@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/GUI/makefile b/CPP/7zip/UI/GUI/makefile
+index bcafa0e..f841602 100644
+--- a/CPP/7zip/UI/GUI/makefile
++++ b/CPP/7zip/UI/GUI/makefile
+@@ -130,6 +130,7 @@ Hunk #4, a/CPP/7zip/UI/GUI/makefile COMPRESS_OBJS = \
+ C_OBJS = \
+   $O\Alloc.obj \
+   $O\CpuArch.obj \
++  $O\DllSecur.obj \
+   $O\Sort.obj \
+   $O\Threads.obj \
+ 

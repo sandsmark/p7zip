@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/GUI/CompressDialog.cpp b/CPP/7zip/UI/GUI/CompressDialog.cpp
+index 1d301c0..cbb2dda 100644
+--- a/CPP/7zip/UI/GUI/CompressDialog.cpp
++++ b/CPP/7zip/UI/GUI/CompressDialog.cpp
+@@ -861,6 +861,7 @@ Hunk #1, a/CPP/7zip/UI/GUI/CompressDialog.cpp bool CCompressDialog::OnCommand(int code, int itemID, LPARAM lParam)
+       {
+         bool isSFX = IsSFX();
+         SaveOptionsInMem();
++        m_Solid.ResetContent();
+         SetLevel();
+         SetSolidBlockSize();
+         SetNumThreads();

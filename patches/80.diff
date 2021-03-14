@@ -1,0 +1,19 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -877,12 +877,12 @@ Hunk #28, a/C/LzFind.c static UInt32 Hc5_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+ 
+ UInt32 Hc3Zip_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+ {
+-  UInt32 offset;
++  unsigned offset;
+   GET_MATCHES_HEADER(3)
+   HASH_ZIP_CALC;
+   curMatch = p->hash[hv];
+   p->hash[hv] = p->pos;
+-  offset = (UInt32)(Hc_GetMatchesSpec(lenLimit, curMatch, MF_PARAMS(p),
++  offset = (unsigned)(Hc_GetMatchesSpec(lenLimit, curMatch, MF_PARAMS(p),
+       distances, 2) - (distances));
+   MOVE_POS_RET
+ }

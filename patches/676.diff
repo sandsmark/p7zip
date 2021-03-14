@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/Common/CreateCoder.cpp b/CPP/7zip/Common/CreateCoder.cpp
+index 75074ad..bf525dc 100644
+--- a/CPP/7zip/Common/CreateCoder.cpp
++++ b/CPP/7zip/Common/CreateCoder.cpp
+@@ -325,11 +325,12 @@ Hunk #5, a/CPP/7zip/Common/CreateCoder.cpp HRESULT CreateCoder(
+   
+   if (__externalCodecs)
+   {
++    i -= g_NumCodecs;
+     cod.IsExternal = true;
+-    for (i = 0; i < __externalCodecs->Codecs.Size(); i++)
++    if (i < __externalCodecs->Codecs.Size())
+     {
+       const CCodecInfoEx &codec = __externalCodecs->Codecs[i];
+-      if (codec.Id == methodId)
++      // if (codec.Id == methodId)
+       {
+         if (encode)
+         {

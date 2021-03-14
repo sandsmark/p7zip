@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/Archive/7z/7zHandler.h b/CPP/7zip/Archive/7z/7zHandler.h
+index 89e3275..99942eb 100644
+--- a/CPP/7zip/Archive/7z/7zHandler.h
++++ b/CPP/7zip/Archive/7z/7zHandler.h
+@@ -8,16 +8,6 @@ Hunk #1, a/CPP/7zip/Archive/7z/7zHandler.h
+ 
+ #include "../../Common/CreateCoder.h"
+ 
+-#ifndef EXTRACT_ONLY
+-#include "../Common/HandlerOut.h"
+-#endif
+-
+-#include "7zCompressionMode.h"
+-#include "7zIn.h"
+-
+-namespace NArchive {
+-namespace N7z {
+-
+ #ifndef __7Z_SET_PROPERTIES
+ 
+ #ifdef EXTRACT_ONLY

@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Common/Update.cpp b/CPP/7zip/UI/Common/Update.cpp
+index ba1a81b..8c7ae45 100644
+--- a/CPP/7zip/UI/Common/Update.cpp
++++ b/CPP/7zip/UI/Common/Update.cpp
+@@ -1654,11 +1654,11 @@ Hunk #12, a/CPP/7zip/UI/Common/Update.cpp HRESULT UpdateArchive(
+       }
+     }
+ 
+-    pairs.Sort(CompareRefSortPair, NULL);
++    pairs.Sort2();
+     
+     for (i = 0; i < pairs.Size(); i++)
+     {
+-      FString phyPath = dirItems.GetPhyPath(pairs[i].Index);
++      const FString phyPath = dirItems.GetPhyPath(pairs[i].Index);
+       if (NFind::DoesDirExist(phyPath))
+       {
+         RINOK(callback->DeletingAfterArchiving(phyPath, true));

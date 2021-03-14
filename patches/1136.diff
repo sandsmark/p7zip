@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/GUI/BenchmarkDialog.cpp b/CPP/7zip/UI/GUI/BenchmarkDialog.cpp
+index 59dc78b..e6dc57b 100644
+--- a/CPP/7zip/UI/GUI/BenchmarkDialog.cpp
++++ b/CPP/7zip/UI/GUI/BenchmarkDialog.cpp
+@@ -338,8 +338,14 @@ Hunk #2, a/CPP/7zip/UI/GUI/BenchmarkDialog.cpp UInt32 CBenchmarkDialog::OnChangeDictionary()
+     s += " / ";
+     PrintSize_MB(s, ramSize);
+   }
+-  if (g_LargePagesMode)
+-    s += " LP";
++
++  #ifdef _7ZIP_LARGE_PAGES
++  {
++    AString s2;
++    Add_LargePages_String(s2);
++    s += s2;
++  }
++  #endif
+ 
+   SetItemText(IDT_BENCH_MEMORY_VAL, s);
+ 

@@ -1,0 +1,16 @@
+diff --git a/CPP/Windows/Shell.cpp b/CPP/Windows/Shell.cpp
+index 382d774..b424e67 100644
+--- a/CPP/Windows/Shell.cpp
++++ b/CPP/Windows/Shell.cpp
+@@ -2,6 +2,11 @@ Hunk #1, a/CPP/Windows/Shell.cpp
+ 
+ #include "StdAfx.h"
+ 
++/*
++#include <stdio.h>
++#include <string.h>
++*/
++
+ #include "../Common/MyCom.h"
+ #ifndef _UNICODE
+ #include "../Common/StringConvert.h"

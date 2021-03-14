@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.cpp b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+index 606f782..e65c2b8 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.cpp
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+@@ -75,6 +75,7 @@ Hunk #2, a/CPP/7zip/Archive/Zip/ZipUpdate.cpp static void SetFileHeader(
+     item.Name = ui.Name;
+     item.Comment = ui.Comment;
+     item.SetUtf8(ui.IsUtf8);
++    // item.SetFlag_AltStream(ui.IsAltStream);
+     item.ExternalAttrib = ui.Attrib;
+     item.Time = ui.Time;
+     item.Ntfs_MTime = ui.Ntfs_MTime;

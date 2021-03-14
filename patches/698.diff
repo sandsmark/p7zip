@@ -1,0 +1,107 @@
+diff --git a/CPP/7zip/Compress/Lzma2Decoder.cpp b/CPP/7zip/Compress/Lzma2Decoder.cpp
+index 98af203..653fe2d 100644
+--- a/CPP/7zip/Compress/Lzma2Decoder.cpp
++++ b/CPP/7zip/Compress/Lzma2Decoder.cpp
+@@ -2,81 +2,48 @@ Hunk #1, a/CPP/7zip/Compress/Lzma2Decoder.cpp
+ 
+ #include "StdAfx.h"
+ 
++// #include <stdio.h>
++
+ #include "../../../C/Alloc.h"
++// #include "../../../C/CpuTicks.h"
+ 
+ #include "../Common/StreamUtils.h"
+ 
+ #include "Lzma2Decoder.h"
+ 
+-static HRESULT SResToHRESULT(SRes res)
+-{
+-  switch (res)
+-  {
+-    case SZ_OK: return S_OK;
+-    case SZ_ERROR_MEM: return E_OUTOFMEMORY;
+-    case SZ_ERROR_PARAM: return E_INVALIDARG;
+-    case SZ_ERROR_UNSUPPORTED: return E_NOTIMPL;
+-    case SZ_ERROR_DATA: return S_FALSE;
+-  }
+-  return E_FAIL;
+-}
+-
+ namespace NCompress {
+ namespace NLzma2 {
+ 
+ CDecoder::CDecoder():
+-    _inBuf(NULL),
+-    _finishMode(false),
+-    _outSizeDefined(false),
+-    _outStep(1 << 22),
+-    _inBufSize(0),
+-    _inBufSizeNew(1 << 20)
+-{
+-  Lzma2Dec_Construct(&_state);
+-}
++      _dec(NULL)
++    , _inProcessed(0)
++    , _prop(0xFF)
++    , _finishMode(false)
++    , _inBufSize(1 << 20)
++    , _outStep(1 << 20)
++    #ifndef _7ZIP_ST
++    , _tryMt(1)
++    , _numThreads(1)
++    , _memUsage((UInt64)(sizeof(size_t)) << 28)
++    #endif
++{}
+ 
+ CDecoder::~CDecoder()
+ {
+-  Lzma2Dec_Free(&_state, &g_Alloc);
+-  MidFree(_inBuf);
++  if (_dec)
++    Lzma2DecMt_Destroy(_dec);
+ }
+ 
+-STDMETHODIMP CDecoder::SetInBufSize(UInt32 , UInt32 size) { _inBufSizeNew = size; return S_OK; }
++STDMETHODIMP CDecoder::SetInBufSize(UInt32 , UInt32 size) { _inBufSize = size; return S_OK; }
+ STDMETHODIMP CDecoder::SetOutBufSize(UInt32 , UInt32 size) { _outStep = size; return S_OK; }
+ 
+ STDMETHODIMP CDecoder::SetDecoderProperties2(const Byte *prop, UInt32 size)
+ {
+   if (size != 1)
+     return E_NOTIMPL;
+-  
+-  RINOK(SResToHRESULT(Lzma2Dec_Allocate(&_state, prop[0], &g_Alloc)));
+-  
+-  if (!_inBuf || _inBufSize != _inBufSizeNew)
+-  {
+-    MidFree(_inBuf);
+-    _inBufSize = 0;
+-    _inBuf = (Byte *)MidAlloc(_inBufSizeNew);
+-    if (!_inBuf)
+-      return E_OUTOFMEMORY;
+-    _inBufSize = _inBufSizeNew;
+-  }
+-
+-  return S_OK;
+-}
+-
+-
+-STDMETHODIMP CDecoder::SetOutStreamSize(const UInt64 *outSize)
+-{
+-  _outSizeDefined = (outSize != NULL);
+-  _outSize = 0;
+-  if (_outSizeDefined)
+-    _outSize = *outSize;
+-  _inPos = _inLim = 0;
+-  _inProcessed = 0;
+-  _outProcessed = 0;
+-
+-  Lzma2Dec_Init(&_state);
+-
++  if (prop[0] > 40)
++    return E_NOTIMPL;
++  _prop = prop[0];
+   return S_OK;
+ }
+ 

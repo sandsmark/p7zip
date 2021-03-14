@@ -1,0 +1,32 @@
+diff --git a/C/Lzma2Dec.c b/C/Lzma2Dec.c
+index 63853c6..4e138a4 100644
+--- a/C/Lzma2Dec.c
++++ b/C/Lzma2Dec.c
+@@ -257,23 +257,17 @@ Hunk #10, a/C/Lzma2Dec.c SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
+ 
+         if (p->state == LZMA2_STATE_DATA)
+         {
+-          unsigned mode = LZMA2_GET_LZMA_MODE(p);
+-          Bool initDic = (mode == 3);
+-          Bool initState = (mode != 0);
+-          if ((!initDic && p->needInitDic) || (!initState && p->needInitState))
+-            break;
+-
++          BoolInt initDic = (p->control >= 0xE0);
++          BoolInt initState = (p->control >= 0xA0);
+           LzmaDec_InitDicAndState(&p->decoder, initDic, initState);
+-          p->needInitDic = False;
+-          p->needInitState = False;
+           p->state = LZMA2_STATE_DATA_CONT;
+         }
+   
+         if (inCur > p->packSize)
+           inCur = (SizeT)p->packSize;
+-          
+-        res = LzmaDec_DecodeToDic(&p->decoder, dicPos + outCur, src, &inCur, curFinishMode, status);
+         
++        res = LzmaDec_DecodeToDic(&p->decoder, dicPos + outCur, src, &inCur, curFinishMode, status);
++
+         src += inCur;
+         *srcLen += inCur;
+         p->packSize -= (UInt32)inCur;

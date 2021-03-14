@@ -1,0 +1,13 @@
+diff --git a/C/Lzma2Enc.c b/C/Lzma2Enc.c
+index e970944..5c1ad49 100644
+--- a/C/Lzma2Enc.c
++++ b/C/Lzma2Enc.c
+@@ -133,7 +133,7 @@ Hunk #3, a/C/Lzma2Enc.c static SRes Lzma2EncInt_EncodeSubblock(CLzma2EncInt *p, Byte *outBuf,
+   size_t packSize = packSizeLimit;
+   UInt32 unpackSize = LZMA2_UNPACK_SIZE_MAX;
+   unsigned lzHeaderSize = 5 + (p->needInitProp ? 1 : 0);
+-  Bool useCopyBlock;
++  BoolInt useCopyBlock;
+   SRes res;
+ 
+   *packSizeRes = 0;

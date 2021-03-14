@@ -1,0 +1,13 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -691,7 +691,7 @@ Hunk #27, a/C/LzmaDec.c static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
+         IF_BIT_0_CHECK(probLen)
+         {
+           UPDATE_0_CHECK;
+-          probLen = prob + LenLow + (posState << kLenNumLowBits);
++          probLen = prob + LenLow + GET_LEN_STATE;
+           offset = 0;
+           limit = 1 << kLenNumLowBits;
+         }

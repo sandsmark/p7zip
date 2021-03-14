@@ -1,0 +1,20 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -674,13 +674,13 @@ Hunk #21, a/C/LzFind.c static UInt32 Bt5_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+   hash = p->hash;
+   pos = p->pos;
+ 
+-  d2 = pos - hash[                h2];
++  d2 = pos - hash                  [h2];
+   d3 = pos - (hash + kFix3HashSize)[h3];
+   d4 = pos - (hash + kFix4HashSize)[h4];
+ 
+   curMatch = (hash + kFix5HashSize)[hv];
+ 
+-  hash[                h2] = pos;
++  hash                  [h2] = pos;
+   (hash + kFix3HashSize)[h3] = pos;
+   (hash + kFix4HashSize)[h4] = pos;
+   (hash + kFix5HashSize)[hv] = pos;

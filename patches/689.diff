@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/Common/MethodProps.cpp b/CPP/7zip/Common/MethodProps.cpp
+index 9e82a11..8a6ebca 100644
+--- a/CPP/7zip/Common/MethodProps.cpp
++++ b/CPP/7zip/Common/MethodProps.cpp
+@@ -293,6 +293,13 @@ Hunk #3, a/CPP/7zip/Common/MethodProps.cpp static bool ConvertProperty(const PROPVARIANT &srcProp, VARTYPE varType, NCOM::C
+     destProp = srcProp;
+     return true;
+   }
++
++  if (varType == VT_UI8 && srcProp.vt == VT_UI4)
++  {
++    destProp = (UInt64)srcProp.ulVal;
++    return true;
++  }
++
+   if (varType == VT_BOOL)
+   {
+     bool res;

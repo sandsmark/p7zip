@@ -1,0 +1,161 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -1706,47 +1706,126 @@ Hunk #24, a/C/LzmaEnc.c static SRes Flush(CLzmaEnc *p, UInt32 nowPos)
+   return CheckErrors(p);
+ }
+ 
+-static void FillAlignPrices(CLzmaEnc *p)
++
++MY_NO_INLINE static void FillAlignPrices(CLzmaEnc *p)
+ {
+-  UInt32 i;
+-  for (i = 0; i < kAlignTableSize; i++)
+-    p->alignPrices[i] = RcTree_ReverseGetPrice(p->posAlignEncoder, kNumAlignBits, i, p->ProbPrices);
+-  p->alignPriceCount = 0;
++  unsigned i;
++  const CProbPrice *ProbPrices = p->ProbPrices;
++  const CLzmaProb *probs = p->posAlignEncoder;
++  // p->alignPriceCount = 0;
++  for (i = 0; i < kAlignTableSize / 2; i++)
++  {
++    UInt32 price = 0;
++    unsigned sym = i;
++    unsigned m = 1;
++    unsigned bit;
++    UInt32 prob;
++    bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[m], bit); m = (m << 1) + bit;
++    bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[m], bit); m = (m << 1) + bit;
++    bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[m], bit); m = (m << 1) + bit;
++    prob = probs[m];
++    p->alignPrices[i    ] = price + GET_PRICEa_0(prob);
++    p->alignPrices[i + 8] = price + GET_PRICEa_1(prob);
++    // p->alignPrices[i] = RcTree_ReverseGetPrice(p->posAlignEncoder, kNumAlignBits, i, p->ProbPrices);
++  }
+ }
+ 
+-static void FillDistancesPrices(CLzmaEnc *p)
+-{
+-  UInt32 tempPrices[kNumFullDistances];
+-  UInt32 i, lenToPosState;
+-  for (i = kStartPosModelIndex; i < kNumFullDistances; i++)
+-  {
+-    UInt32 posSlot = GetPosSlot1(i);
+-    UInt32 footerBits = ((posSlot >> 1) - 1);
+-    UInt32 base = ((2 | (posSlot & 1)) << footerBits);
+-    tempPrices[i] = RcTree_ReverseGetPrice(p->posEncoders + base - posSlot - 1, footerBits, i - base, p->ProbPrices);
+-  }
+ 
+-  for (lenToPosState = 0; lenToPosState < kNumLenToPosStates; lenToPosState++)
++MY_NO_INLINE static void FillDistancesPrices(CLzmaEnc *p)
++{
++  // int y; for (y = 0; y < 100; y++) {
++
++  UInt32 tempPrices[kNumFullDistances];
++  unsigned i, lps;
++
++  const CProbPrice *ProbPrices = p->ProbPrices;
++  p->matchPriceCount = 0;
++
++  for (i = kStartPosModelIndex / 2; i < kNumFullDistances / 2; i++)
+   {
+-    UInt32 posSlot;
+-    const CLzmaProb *encoder = p->posSlotEncoder[lenToPosState];
+-    UInt32 *posSlotPrices = p->posSlotPrices[lenToPosState];
+-    for (posSlot = 0; posSlot < p->distTableSize; posSlot++)
+-      posSlotPrices[posSlot] = RcTree_GetPrice(encoder, kNumPosSlotBits, posSlot, p->ProbPrices);
+-    for (posSlot = kEndPosModelIndex; posSlot < p->distTableSize; posSlot++)
+-      posSlotPrices[posSlot] += ((((posSlot >> 1) - 1) - kNumAlignBits) << kNumBitPriceShiftBits);
++    unsigned posSlot = GetPosSlot1(i);
++    unsigned footerBits = (posSlot >> 1) - 1;
++    unsigned base = ((2 | (posSlot & 1)) << footerBits);
++    const CLzmaProb *probs = p->posEncoders + (size_t)base * 2;
++    // tempPrices[i] = RcTree_ReverseGetPrice(p->posEncoders + base, footerBits, i - base, p->ProbPrices);
++    UInt32 price = 0;
++    unsigned m = 1;
++    unsigned sym = i;
++    unsigned offset = (unsigned)1 << footerBits;
++    base += i;
++    
++    if (footerBits)
++    do
++    {
++      unsigned bit = sym & 1;
++      sym >>= 1;
++      price += GET_PRICEa(probs[m], bit);
++      m = (m << 1) + bit;
++    }
++    while (--footerBits);
+ 
+     {
+-      UInt32 *distancesPrices = p->distancesPrices[lenToPosState];
+-      for (i = 0; i < kStartPosModelIndex; i++)
+-        distancesPrices[i] = posSlotPrices[i];
+-      for (; i < kNumFullDistances; i++)
+-        distancesPrices[i] = posSlotPrices[GetPosSlot1(i)] + tempPrices[i];
++      unsigned prob = probs[m];
++      tempPrices[base         ] = price + GET_PRICEa_0(prob);
++      tempPrices[base + offset] = price + GET_PRICEa_1(prob);
+     }
+   }
+-  p->matchPriceCount = 0;
++
++  for (lps = 0; lps < kNumLenToPosStates; lps++)
++  {
++    unsigned slot;
++    unsigned distTableSize2 = (p->distTableSize + 1) >> 1;
++    UInt32 *posSlotPrices = p->posSlotPrices[lps];
++    const CLzmaProb *probs = p->posSlotEncoder[lps];
++    
++    for (slot = 0; slot < distTableSize2; slot++)
++    {
++      // posSlotPrices[slot] = RcTree_GetPrice(encoder, kNumPosSlotBits, slot, p->ProbPrices);
++      UInt32 price;
++      unsigned bit;
++      unsigned sym = slot + (1 << (kNumPosSlotBits - 1));
++      unsigned prob;
++      bit = sym & 1; sym >>= 1; price  = GET_PRICEa(probs[sym], bit);
++      bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[sym], bit);
++      bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[sym], bit);
++      bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[sym], bit);
++      bit = sym & 1; sym >>= 1; price += GET_PRICEa(probs[sym], bit);
++      prob = probs[(size_t)slot + (1 << (kNumPosSlotBits - 1))];
++      posSlotPrices[(size_t)slot * 2    ] = price + GET_PRICEa_0(prob);
++      posSlotPrices[(size_t)slot * 2 + 1] = price + GET_PRICEa_1(prob);
++    }
++    
++    {
++      UInt32 delta = ((UInt32)((kEndPosModelIndex / 2 - 1) - kNumAlignBits) << kNumBitPriceShiftBits);
++      for (slot = kEndPosModelIndex / 2; slot < distTableSize2; slot++)
++      {
++        posSlotPrices[(size_t)slot * 2    ] += delta;
++        posSlotPrices[(size_t)slot * 2 + 1] += delta;
++        delta += ((UInt32)1 << kNumBitPriceShiftBits);
++      }
++    }
++
++    {
++      UInt32 *dp = p->distancesPrices[lps];
++      
++      dp[0] = posSlotPrices[0];
++      dp[1] = posSlotPrices[1];
++      dp[2] = posSlotPrices[2];
++      dp[3] = posSlotPrices[3];
++
++      for (i = 4; i < kNumFullDistances; i += 2)
++      {
++        UInt32 slotPrice = posSlotPrices[GetPosSlot1(i)];
++        dp[i    ] = slotPrice + tempPrices[i];
++        dp[i + 1] = slotPrice + tempPrices[i + 1];
++      }
++    }
++  }
++  // }
+ }
+ 
++
++
+ void LzmaEnc_Construct(CLzmaEnc *p)
+ {
+   RangeEnc_Construct(&p->rc);

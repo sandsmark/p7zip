@@ -1,0 +1,78 @@
+diff --git a/CPP/7zip/UI/GUI/HashGUI.cpp b/CPP/7zip/UI/GUI/HashGUI.cpp
+index cc93f07..37cd65e 100644
+--- a/CPP/7zip/UI/GUI/HashGUI.cpp
++++ b/CPP/7zip/UI/GUI/HashGUI.cpp
+@@ -147,49 +147,53 @@ Hunk #6, a/CPP/7zip/UI/GUI/HashGUI.cpp HRESULT CHashCallbackGUI::OpenFileError(const FString &path, DWORD systemError)
+ 
+ HRESULT CHashCallbackGUI::SetOperationResult(UInt64 /* fileSize */, const CHashBundle & /* hb */, bool /* showHash */)
+ {
+-  CProgressSync &sync = ProgressDialog.Sync;
++  CProgressSync &sync = Sync;
+   if (!_curIsFolder)
+     NumFiles++;
+   sync.Set_NumFilesCur(NumFiles);
+   return CheckBreak();
+ }
+ 
+-static void AddHashString(UString &s, const CHasherState &h, unsigned digestIndex, const wchar_t *title)
++static void AddHashString(CProperty &s, const CHasherState &h, unsigned digestIndex)
+ {
+-  s += title;
+-  s.Add_Space();
+   char temp[k_HashCalc_DigestSize_Max * 2 + 4];
+   AddHashHexToString(temp, h.Digests[digestIndex], h.DigestSize);
+-  s += temp;
+-  s.Add_LF();
++  s.Value = temp;
+ }
+ 
+-static void AddHashResString(UString &s, const CHasherState &h, unsigned digestIndex, UInt32 resID)
++static void AddHashResString(CPropNameValPairs &s, const CHasherState &h, unsigned digestIndex, UInt32 resID)
+ {
+-  UString s2 = LangString(resID);
++  CProperty &pair = s.AddNew();
++  UString &s2 = pair.Name;
++  LangString(resID, s2);
+   UString name (h.Name);
+   s2.Replace(L"CRC", name);
+-  AddHashString(s, h, digestIndex, s2);
++  s2.Replace(L":", L"");
++  AddHashString(pair, h, digestIndex);
+ }
+ 
+-void AddHashBundleRes(UString &s, const CHashBundle &hb, const UString &firstFileName)
++
++void AddHashBundleRes(CPropNameValPairs &s, const CHashBundle &hb)
+ {
+   if (hb.NumErrors != 0)
+-  {
+     AddValuePair(s, IDS_PROP_NUM_ERRORS, hb.NumErrors);
+-    s.Add_LF();
+-  }
+-  
+-  if (hb.NumFiles == 1 && hb.NumDirs == 0 && !firstFileName.IsEmpty())
++
++  if (hb.NumFiles == 1 && hb.NumDirs == 0 && !hb.FirstFileName.IsEmpty())
+   {
+-    AddLangString(s, IDS_PROP_NAME);
+-    s += ": ";
+-    s += firstFileName;
+-    s.Add_LF();
++    CProperty &pair = s.AddNew();
++    LangString(IDS_PROP_NAME, pair.Name);
++    pair.Value = hb.FirstFileName;
+   }
+   else
+   {
+-    AddValuePair(s, IDS_PROP_FOLDERS, hb.NumDirs);
++    if (!hb.MainName.IsEmpty())
++    {
++      CProperty &pair = s.AddNew();
++      LangString(IDS_PROP_NAME, pair.Name);
++      pair.Value = hb.MainName;
++    }
++    if (hb.NumDirs != 0)
++      AddValuePair(s, IDS_PROP_FOLDERS, hb.NumDirs);
+     AddValuePair(s, IDS_PROP_FILES, hb.NumFiles);
+   }
+ 

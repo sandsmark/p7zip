@@ -1,0 +1,114 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+index fa14655..de2f2e0 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -1592,71 +1592,66 @@ Hunk #11, a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp STDMETHODIMP CArchiveExtractCallback::CryptoGetTextPassword(BSTR *password)
+ }
+ 
+ 
+-struct CExtrRefSortPair
+-{
+-  unsigned Len;
+-  unsigned Index;
+-
+-  int Compare(const CExtrRefSortPair &a) const;
+-};
+-
+-#define RINOZ(x) { int __tt = (x); if (__tt != 0) return __tt; }
+-
+-int CExtrRefSortPair::Compare(const CExtrRefSortPair &a) const
+-{
+-  RINOZ(-MyCompare(Len, a.Len));
+-  return MyCompare(Index, a.Index);
+-}
+-
+-static unsigned GetNumSlashes(const FChar *s)
++void CDirPathSortPair::SetNumSlashes(const FChar *s)
+ {
+   for (unsigned numSlashes = 0;;)
+   {
+     FChar c = *s++;
+     if (c == 0)
+-      return numSlashes;
++    {
++      Len = numSlashes;
++      return;
++    }
+     if (IS_PATH_SEPAR(c))
+       numSlashes++;
+   }
+ }
+ 
++
++bool CDirPathTime::SetDirTime()
++{
++  return NDir::SetDirTime(Path,
++      CTimeDefined ? &CTime : NULL,
++      ATimeDefined ? &ATime : NULL,
++      MTimeDefined ? &MTime : NULL);
++}
++
++
+ HRESULT CArchiveExtractCallback::SetDirsTimes()
+ {
+-  CRecordVector<CExtrRefSortPair> pairs;
+-  pairs.ClearAndSetSize(_extractedFolderPaths.Size());
++  if (!_arc)
++    return S_OK;
++
++  CRecordVector<CDirPathSortPair> pairs;
++  pairs.ClearAndSetSize(_extractedFolders.Size());
+   unsigned i;
+   
+-  for (i = 0; i < _extractedFolderPaths.Size(); i++)
++  for (i = 0; i < _extractedFolders.Size(); i++)
+   {
+-    CExtrRefSortPair &pair = pairs[i];
++    CDirPathSortPair &pair = pairs[i];
+     pair.Index = i;
+-    pair.Len = GetNumSlashes(_extractedFolderPaths[i]);
++    pair.SetNumSlashes(_extractedFolders[i].Path);
+   }
+   
+   pairs.Sort2();
+   
+   for (i = 0; i < pairs.Size(); i++)
+   {
+-    int pairIndex = pairs[i].Index;
+-    int index = _extractedFolderIndices[pairIndex];
+-
+-    FILETIME CTime;
+-    FILETIME ATime;
+-    FILETIME MTime;
+-  
+-    bool CTimeDefined;
+-    bool ATimeDefined;
+-    bool MTimeDefined;
+-
+-    RINOK(GetTime(index, kpidCTime, CTime, CTimeDefined));
+-    RINOK(GetTime(index, kpidATime, ATime, ATimeDefined));
+-    RINOK(GetTime(index, kpidMTime, MTime, MTimeDefined));
+-
+-    // printf("\n%S", _extractedFolderPaths[pairIndex]);
+-    SetDirTime(_extractedFolderPaths[pairIndex],
+-      (WriteCTime && CTimeDefined) ? &CTime : NULL,
+-      (WriteATime && ATimeDefined) ? &ATime : NULL,
+-      (WriteMTime && MTimeDefined) ? &MTime : (_arc->MTimeDefined ? &_arc->MTime : NULL));
++    _extractedFolders[pairs[i].Index].SetDirTime();
++    // if (!) return GetLastError();
+   }
++
++  ClearExtractedDirsInfo();
+   return S_OK;
+ }
++
++
++HRESULT CArchiveExtractCallback::CloseArc()
++{
++  HRESULT res = CloseFile();
++  HRESULT res2 = SetDirsTimes();
++  if (res == S_OK)
++    res = res2;
++  _arc = NULL;
++  return res;
++}

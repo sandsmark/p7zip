@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+index fa14655..de2f2e0 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -734,7 +734,8 @@ Hunk #4, a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp STDMETHODIMP CArchiveExtractCallback::GetStream(UInt32 index, ISequentialOutStre
+         return E_FAIL;
+       UString s;
+       CReparseAttr reparse;
+-      isOkReparse = reparse.Parse((const Byte *)data, dataSize);
++      DWORD errorCode = 0;
++      isOkReparse = reparse.Parse((const Byte *)data, dataSize, errorCode);
+       if (isOkReparse)
+       {
+         isHardLink = false;

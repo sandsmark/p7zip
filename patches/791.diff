@@ -1,0 +1,85 @@
+diff --git a/CPP/7zip/Compress/XzDecoder.h b/CPP/7zip/Compress/XzDecoder.h
+index 040ed21..b65b46b 100644
+--- a/CPP/7zip/Compress/XzDecoder.h
++++ b/CPP/7zip/Compress/XzDecoder.h
+@@ -12,57 +12,36 @@ Hunk #1, a/CPP/7zip/Compress/XzDecoder.h
+ namespace NCompress {
+ namespace NXz {
+ 
+-struct CXzUnpackerCPP
++struct CDecoder
+ {
+-  Byte *InBuf;
+-  Byte *OutBuf;
+-  CXzUnpacker p;
++  CXzDecMtHandle xz;
++  int _tryMt;
++  UInt32 _numThreads;
++  UInt64 _memUsage;
++
++  SRes MainDecodeSRes; // it's not HRESULT
++  bool MainDecodeSRes_wasUsed;
++  CXzStatInfo Stat;
++
++  CDecoder():
++      xz(NULL),
++      _tryMt(True),
++      _numThreads(1),
++      _memUsage((UInt64)(sizeof(size_t)) << 28),
++      MainDecodeSRes(SZ_OK),
++      MainDecodeSRes_wasUsed(false)
++    {}
+   
+-  CXzUnpackerCPP();
+-  ~CXzUnpackerCPP();
+-};
+-
+-
+-struct CStatInfo
+-{
+-  UInt64 InSize;
+-  UInt64 OutSize;
+-  UInt64 PhySize;
+-
+-  UInt64 NumStreams;
+-  UInt64 NumBlocks;
+-
+-  bool UnpackSize_Defined;
+-
+-  bool NumStreams_Defined;
+-  bool NumBlocks_Defined;
+-
+-  bool IsArc;
+-  bool UnexpectedEnd;
+-  bool DataAfterEnd;
+-  bool Unsupported;
+-  bool HeadersError;
+-  bool DataError;
+-  bool CrcError;
+-
+-  CStatInfo() { Clear(); }
+-
+-  void Clear();
+-};
+-
+-
+-struct CDecoder: public CStatInfo
+-{
+-  CXzUnpackerCPP xzu;
+-  SRes DecodeRes; // it's not HRESULT
+-
+-  CDecoder(): DecodeRes(SZ_OK) {}
++  ~CDecoder()
++  {
++    if (xz)
++      XzDecMt_Destroy(xz);
++  }
+ 
+   /* Decode() can return ERROR code only if there is progress or stream error.
+      Decode() returns S_OK in case of xz decoding error, but DecodeRes and CStatInfo contain error information */
+   HRESULT Decode(ISequentialInStream *seqInStream, ISequentialOutStream *outStream,
+       const UInt64 *outSizeLimit, bool finishStream, ICompressProgressInfo *compressProgress);
+-  Int32 Get_Extract_OperationResult() const;
+ };
+ 
+ 

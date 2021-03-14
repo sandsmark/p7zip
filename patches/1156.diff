@@ -1,0 +1,81 @@
+diff --git a/CPP/7zip/UI/GUI/HashGUI.cpp b/CPP/7zip/UI/GUI/HashGUI.cpp
+index cc93f07..37cd65e 100644
+--- a/CPP/7zip/UI/GUI/HashGUI.cpp
++++ b/CPP/7zip/UI/GUI/HashGUI.cpp
+@@ -40,49 +40,62 @@ Hunk #3, a/CPP/7zip/UI/GUI/HashGUI.cpp class CHashCallbackGUI: public CProgressThreadVirt, public IHashCallbackUI
+ 
+   void AddErrorMessage(DWORD systemError, const wchar_t *name)
+   {
+-    ProgressDialog.Sync.AddError_Code_Name(systemError, name);
++    Sync.AddError_Code_Name(systemError, name);
+   }
+ };
+ 
+-static void AddValuePair(UString &s, UINT resourceID, UInt64 value)
++
++void AddValuePair(CPropNameValPairs &pairs, UINT resourceID, UInt64 value)
+ {
+-  AddLangString(s, resourceID);
+-  s += ": ";
++  CProperty &pair = pairs.AddNew();
++  AddLangString(pair.Name, resourceID);
+   char sz[32];
+   ConvertUInt64ToString(value, sz);
+-  s += sz;
+-  s.Add_LF();
++  pair.Value = sz;
+ }
+ 
+-static void AddSizeValuePair(UString &s, UINT resourceID, UInt64 value)
++
++void AddSizeValue(UString &s, UInt64 value)
+ {
+-  AddLangString(s, resourceID);
+-  s += ": ";
+   {
+     wchar_t sz[32];
+     ConvertUInt64ToString(value, sz);
+     s += MyFormatNew(IDS_FILE_SIZE, sz);
+   }
++  if (value >= (1 << 10))
+   {
++    char c;
++          if (value >= ((UInt64)10 << 30)) { value >>= 30; c = 'G'; }
++    else  if (value >=         (10 << 20)) { value >>= 20; c = 'M'; }
++    else                                   { value >>= 10; c = 'K'; }
+     char sz[32];
+-    ConvertUInt64ToString(value >> 20, sz);
++    ConvertUInt64ToString(value, sz);
+     s += " (";
+     s += sz;
+-    s += " MB)";
+-    s.Add_LF();
++    s += " ";
++    s += (wchar_t)c;
++    s += "iB)";
+   }
+ }
+ 
++void AddSizeValuePair(CPropNameValPairs &pairs, UINT resourceID, UInt64 value)
++{
++  CProperty &pair = pairs.AddNew();
++  LangString(resourceID, pair.Name);
++  AddSizeValue(pair.Value, value);
++}
++
++
+ HRESULT CHashCallbackGUI::StartScanning()
+ {
+-  CProgressSync &sync = ProgressDialog.Sync;
++  CProgressSync &sync = Sync;
+   sync.Set_Status(LangString(IDS_SCANNING));
+   return CheckBreak();
+ }
+ 
+ HRESULT CHashCallbackGUI::ScanProgress(const CDirItemsStat &st, const FString &path, bool isDir)
+ {
+-  return ProgressDialog.Sync.ScanProgress(st.NumFiles, st.GetTotalBytes(), path, isDir);
++  return Sync.ScanProgress(st.NumFiles, st.GetTotalBytes(), path, isDir);
+ }
+ 
+ HRESULT CHashCallbackGUI::ScanError(const FString &path, DWORD systemError)

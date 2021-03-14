@@ -1,0 +1,13 @@
+diff --git a/DOC/lzma.txt b/DOC/lzma.txt
+index 87d727b..a65988f 100644
+--- a/DOC/lzma.txt
++++ b/DOC/lzma.txt
+@@ -124,7 +124,7 @@ Hunk #3, a/DOC/lzma.txt Multi-call State Decompressing (zlib-like interface)
+ ----------------------------------------------------
+ 
+ When to use: file->file decompressing 
+-Compile files: LzmaDec.h + LzmaDec.c + Types.h
++Compile files: LzmaDec.h + LzmaDec.c + 7zTypes.h
+ 
+ Memory Requirements:
+  - Buffer for input stream: any size (for example, 16 KB)

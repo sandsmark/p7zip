@@ -1,0 +1,25 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelCopy.cpp b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+index d07def1..c3416cc 100644
+--- a/CPP/7zip/UI/FileManager/PanelCopy.cpp
++++ b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+@@ -124,14 +124,17 @@ Hunk #6, a/CPP/7zip/UI/FileManager/PanelCopy.cpp HRESULT CPanel::CopyTo(CCopyToOptions &options, const CRecordVector<UInt32> &ind
+   extracter.ExtractCallback = extracter.ExtractCallbackSpec;
+ 
+   extracter.options = &options;
+-  extracter.ExtractCallbackSpec->ProgressDialog = &extracter.ProgressDialog;
+-  extracter.ProgressDialog.CompressingMode = false;
++  extracter.ExtractCallbackSpec->ProgressDialog = &extracter;
++  extracter.CompressingMode = false;
+ 
+   extracter.ExtractCallbackSpec->StreamMode = options.streamMode;
+ 
+ 
+   if (indices.Size() == 1)
+-    extracter.FirstFilePath = GetItemRelPath(indices[0]);
++  {
++    extracter.Hash.FirstFileName = GetItemRelPath(indices[0]);
++    extracter.Hash.MainName = extracter.Hash.FirstFileName;
++  }
+ 
+   if (options.VirtFileSystem)
+   {

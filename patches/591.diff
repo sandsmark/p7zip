@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.cpp b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+index 606f782..e65c2b8 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.cpp
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+@@ -40,7 +40,10 @@ Hunk #1, a/CPP/7zip/Archive/Zip/ZipUpdate.cpp static const Byte kHostOS =
+   #endif
+ 
+ static const Byte kMadeByHostOS = kHostOS;
+-static const Byte kExtractHostOS = kHostOS;
++
++// 18.06: now we always write zero to high byte of ExtractVersion field.
++// Previous versions of p7zip wrote (NFileHeader::NHostOS::kUnix) there, that is not correct
++static const Byte kExtractHostOS = 0;
+ 
+ static const Byte kMethodForDirectory = NFileHeader::NCompressionMethod::kStore;
+ 

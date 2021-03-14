@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+index fa14655..de2f2e0 100644
+--- a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
++++ b/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp
+@@ -368,9 +368,11 @@ Hunk #3, a/CPP/7zip/UI/Common/ArchiveExtractCallback.cpp void CArchiveExtractCallback::CreateComplexDirectory(const UStringVector &dirPat
+   }
+ }
+ 
+-HRESULT CArchiveExtractCallback::GetTime(int index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined)
++HRESULT CArchiveExtractCallback::GetTime(UInt32 index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined)
+ {
+   filetimeIsDefined = false;
++  filetime.dwLowDateTime = 0;
++  filetime.dwHighDateTime = 0;
+   NCOM::CPropVariant prop;
+   RINOK(_arc->Archive->GetProperty(index, propID, &prop));
+   if (prop.vt == VT_FILETIME)

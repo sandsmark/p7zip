@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Nsis/NsisIn.cpp b/CPP/7zip/Archive/Nsis/NsisIn.cpp
+index bbdab45..f4f9ab0 100644
+--- a/CPP/7zip/Archive/Nsis/NsisIn.cpp
++++ b/CPP/7zip/Archive/Nsis/NsisIn.cpp
+@@ -2478,7 +2478,7 @@ Hunk #2, a/CPP/7zip/Archive/Nsis/NsisIn.cpp void CInArchive::DetectNsisType(const CBlockHeader &bh, const Byte *p)
+     }
+     else
+     {
+-      UInt32 num = NumStringChars;
++      UInt32 num = NumStringChars - 2;
+       for (UInt32 i = 0; i < num; i++)
+       {
+         if (strData[i] == 0)

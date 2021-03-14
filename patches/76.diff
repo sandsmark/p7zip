@@ -1,0 +1,14 @@
+diff --git a/C/LzFind.c b/C/LzFind.c
+index 18ef49d..df55e86 100644
+--- a/C/LzFind.c
++++ b/C/LzFind.c
+@@ -764,7 +764,8 @@ Hunk #24, a/C/LzFind.c static UInt32 Hc4_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
+ 
+   if (d2 < p->cyclicBufferSize && *(cur - d2) == *cur)
+   {
+-    distances[0] = maxLen = 2;
++    maxLen = 2;
++    distances[0] = 2;
+     distances[1] = d2 - 1;
+     offset = 2;
+   }

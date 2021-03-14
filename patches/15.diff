@@ -1,0 +1,13 @@
+diff --git a/C/7zDec.c b/C/7zDec.c
+index 1ae87df..7c46352 100644
+--- a/C/7zDec.c
++++ b/C/7zDec.c
+@@ -286,7 +286,7 @@ Hunk #6, a/C/7zDec.c static Bool IS_MAIN_METHOD(UInt32 m)
+   return False;
+ }
+ 
+-static Bool IS_SUPPORTED_CODER(const CSzCoderInfo *c)
++static BoolInt IS_SUPPORTED_CODER(const CSzCoderInfo *c)
+ {
+   return
+       c->NumStreams == 1

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/ICoder.h b/CPP/7zip/ICoder.h
+index dc9acd8..677d8cf 100644
+--- a/CPP/7zip/ICoder.h
++++ b/CPP/7zip/ICoder.h
+@@ -43,6 +43,7 @@ Hunk #1, a/CPP/7zip/ICoder.h CODER_INTERFACE(ICompressCoder2, 0x18)
+     S_OK     : OK
+     S_FALSE  : data error (for decoders)
+     E_OUTOFMEMORY : memory allocation error
++    E_NOTIMPL : unsupported encoding method (for decoders)
+     another error code : some error. For example, it can be error code received from inStream or outStream function.
+   
+   Parameters:

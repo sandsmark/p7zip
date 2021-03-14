@@ -1,0 +1,13 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -722,7 +722,7 @@ Hunk #29, a/C/LzmaDec.c static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
+       {
+         unsigned posSlot;
+         prob = probs + PosSlot +
+-            ((len < kNumLenToPosStates ? len : kNumLenToPosStates - 1) <<
++            ((len < kNumLenToPosStates - 1 ? len : kNumLenToPosStates - 1) <<
+             kNumPosSlotBits);
+         TREE_DECODE_CHECK(prob, 1 << kNumPosSlotBits, posSlot);
+         if (posSlot >= kStartPosModelIndex)

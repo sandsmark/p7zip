@@ -1,0 +1,13 @@
+diff --git a/C/Ppmd8.c b/C/Ppmd8.c
+index 15c76bb..5814163 100644
+--- a/C/Ppmd8.c
++++ b/C/Ppmd8.c
+@@ -93,7 +93,7 @@ Hunk #2, a/C/Ppmd8.c void Ppmd8_Free(CPpmd8 *p, ISzAllocPtr alloc)
+   p->Base = 0;
+ }
+ 
+-Bool Ppmd8_Alloc(CPpmd8 *p, UInt32 size, ISzAllocPtr alloc)
++BoolInt Ppmd8_Alloc(CPpmd8 *p, UInt32 size, ISzAllocPtr alloc)
+ {
+   if (!p->Base || p->Size != size)
+   {

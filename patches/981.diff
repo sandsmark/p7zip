@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -877,7 +877,7 @@ Hunk #6, a/CPP/7zip/UI/Console/List.cpp HRESULT Print_OpenArchive_Props(CStdOutStream &so, const CCodecs *codecs, const
+     const CArcErrorInfo &er = arc.ErrorInfo;
+     
+     so << "--\n";
+-    PrintPropPair(so, "Path", arc.Path);
++    PrintPropPair(so, "Path", arc.Path, false);
+     if (er.ErrorFormatIndex >= 0)
+     {
+       if (er.ErrorFormatIndex == arc.FormatIndex)

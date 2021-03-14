@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.cpp b/CPP/7zip/Archive/Zip/ZipIn.cpp
+index 9e9918d..509753c 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.cpp
++++ b/CPP/7zip/Archive/Zip/ZipIn.cpp
+@@ -2482,6 +2482,8 @@ Hunk #8, a/CPP/7zip/Archive/Zip/ZipIn.cpp HRESULT CInArchive::ReadHeaders(CObjectVector<CItemEx> &items)
+         {
+           ArcInfo.CdWasRead = true;
+           ArcInfo.FirstItemRelatOffset = items[0].LocalHeaderPos;
++
++          // ArcInfo.FirstItemRelatOffset = _startLocalFromCd_Offset;
+         }
+       }
+     }

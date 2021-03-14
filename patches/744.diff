@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Compress/Rar2Decoder.h b/CPP/7zip/Compress/Rar2Decoder.h
+index 0d8142b..f42f228 100644
+--- a/CPP/7zip/Compress/Rar2Decoder.h
++++ b/CPP/7zip/Compress/Rar2Decoder.h
+@@ -125,7 +125,8 @@ Hunk #1, a/CPP/7zip/Compress/Rar2Decoder.h class CDecoder :
+ 
+   UInt32 m_LastLength;
+ 
+-  bool m_IsSolid;
++  bool _isSolid;
++  bool _solidAllowed;
+   bool m_TablesOK;
+   bool m_AudioMode;
+ 

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.cpp b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+index 606f782..e65c2b8 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.cpp
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+@@ -280,6 +280,7 @@ Hunk #3, a/CPP/7zip/Archive/Zip/ZipUpdate.cpp class CMtProgressMixer2:
+   MY_UNKNOWN_IMP
+   void Create(IProgress *progress, bool inSizeIsMain);
+   void SetProgressOffset(UInt64 progressOffset);
++  void SetProgressOffset_NoLock(UInt64 progressOffset);
+   HRESULT SetRatioInfo(unsigned index, const UInt64 *inSize, const UInt64 *outSize);
+   STDMETHOD(SetRatioInfo)(const UInt64 *inSize, const UInt64 *outSize);
+ };

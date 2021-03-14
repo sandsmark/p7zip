@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelOperations.cpp b/CPP/7zip/UI/FileManager/PanelOperations.cpp
+index d049a3c..00bda1a 100644
+--- a/CPP/7zip/UI/FileManager/PanelOperations.cpp
++++ b/CPP/7zip/UI/FileManager/PanelOperations.cpp
+@@ -95,11 +95,11 @@ Hunk #2, a/CPP/7zip/UI/FileManager/PanelOperations.cpp HRESULT CThreadFolderOperations::DoOperation(CPanel &panel, const UString &progr
+   }
+ 
+ 
+-  ProgressDialog.MainWindow = panel._mainWindow; // panel.GetParent()
+-  ProgressDialog.MainTitle = "7-Zip"; // LangString(IDS_APP_TITLE);
+-  ProgressDialog.MainAddTitle = progressTitle + L' ';
++  MainWindow = panel._mainWindow; // panel.GetParent()
++  MainTitle = "7-Zip"; // LangString(IDS_APP_TITLE);
++  MainAddTitle = progressTitle + L' ';
+ 
+-  RINOK(Create(progressTitle, ProgressDialog.MainWindow));
++  RINOK(Create(progressTitle, MainWindow));
+   return Result;
+ }
+ 

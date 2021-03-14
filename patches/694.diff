@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Compress/DeflateEncoder.cpp b/CPP/7zip/Compress/DeflateEncoder.cpp
+index 7cf59cc..233edb5 100644
+--- a/CPP/7zip/Compress/DeflateEncoder.cpp
++++ b/CPP/7zip/Compress/DeflateEncoder.cpp
+@@ -969,6 +969,10 @@ Hunk #1, a/CPP/7zip/Compress/DeflateEncoder.cpp HRESULT CCoder::CodeReal(ISequentialInStream *inStream, ISequentialOutStream *ou
+     }
+   }
+   while (Inline_MatchFinder_GetNumAvailableBytes(&_lzInWindow) != 0);
++  
++  if (_seqInStream.Res != S_OK)
++    return _seqInStream.Res;
++
+   if (_lzInWindow.result != SZ_OK)
+     return SResToHRESULT(_lzInWindow.result);
+   return m_OutStream.Flush();

@@ -1,0 +1,133 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -121,69 +121,84 @@ Hunk #4, a/C/XzDec.c static void BraState_Init(void *pp)
+     Delta_Init(p->deltaState);
+ }
+ 
+-#define CASE_BRA_CONV(isa) case XZ_ID_ ## isa: p->bufConv = isa ## _Convert(p->buf, p->bufTotal, p->ip, p->encodeMode); break;
+ 
+-static SRes BraState_Code(void *pp, Byte *dest, SizeT *destLen, const Byte *src, SizeT *srcLen,
+-    int srcWasFinished, ECoderFinishMode finishMode, int *wasFinished)
++#define CASE_BRA_CONV(isa) case XZ_ID_ ## isa: size = isa ## _Convert(data, size, p->ip, p->encodeMode); break;
++
++static SizeT BraState_Filter(void *pp, Byte *data, SizeT size)
+ {
+   CBraState *p = ((CBraState *)pp);
+-  SizeT destLenOrig = *destLen;
+-  SizeT srcLenOrig = *srcLen;
++  switch (p->methodId)
++  {
++    case XZ_ID_Delta:
++      if (p->encodeMode)
++        Delta_Encode(p->deltaState, p->delta, data, size);
++      else
++        Delta_Decode(p->deltaState, p->delta, data, size);
++      break;
++    case XZ_ID_X86:
++      size = x86_Convert(data, size, p->ip, &p->x86State, p->encodeMode);
++      break;
++    CASE_BRA_CONV(PPC)
++    CASE_BRA_CONV(IA64)
++    CASE_BRA_CONV(ARM)
++    CASE_BRA_CONV(ARMT)
++    CASE_BRA_CONV(SPARC)
++  }
++  p->ip += (UInt32)size;
++  return size;
++}
++
++
++static SRes BraState_Code2(void *pp,
++    Byte *dest, SizeT *destLen,
++    const Byte *src, SizeT *srcLen, int srcWasFinished,
++    ECoderFinishMode finishMode,
++    // int *wasFinished
++    ECoderStatus *status)
++{
++  CBraState *p = ((CBraState *)pp);
++  SizeT destRem = *destLen;
++  SizeT srcRem = *srcLen;
+   UNUSED_VAR(finishMode);
++
+   *destLen = 0;
+   *srcLen = 0;
+-  *wasFinished = 0;
+-  while (destLenOrig > 0)
++  // *wasFinished = False;
++  *status = CODER_STATUS_NOT_FINISHED;
++  
++  while (destRem > 0)
+   {
+     if (p->bufPos != p->bufConv)
+     {
+-      size_t curSize = p->bufConv - p->bufPos;
+-      if (curSize > destLenOrig)
+-        curSize = destLenOrig;
+-      memcpy(dest, p->buf + p->bufPos, curSize);
+-      p->bufPos += curSize;
+-      *destLen += curSize;
+-      dest += curSize;
+-      destLenOrig -= curSize;
++      size_t size = p->bufConv - p->bufPos;
++      if (size > destRem)
++        size = destRem;
++      memcpy(dest, p->buf + p->bufPos, size);
++      p->bufPos += size;
++      *destLen += size;
++      dest += size;
++      destRem -= size;
+       continue;
+     }
++    
+     p->bufTotal -= p->bufPos;
+     memmove(p->buf, p->buf + p->bufPos, p->bufTotal);
+     p->bufPos = 0;
+     p->bufConv = 0;
+     {
+-      size_t curSize = BRA_BUF_SIZE - p->bufTotal;
+-      if (curSize > srcLenOrig)
+-        curSize = srcLenOrig;
+-      memcpy(p->buf + p->bufTotal, src, curSize);
+-      *srcLen += curSize;
+-      src += curSize;
+-      srcLenOrig -= curSize;
+-      p->bufTotal += curSize;
++      size_t size = BRA_BUF_SIZE - p->bufTotal;
++      if (size > srcRem)
++        size = srcRem;
++      memcpy(p->buf + p->bufTotal, src, size);
++      *srcLen += size;
++      src += size;
++      srcRem -= size;
++      p->bufTotal += size;
+     }
+     if (p->bufTotal == 0)
+       break;
+-    switch (p->methodId)
+-    {
+-      case XZ_ID_Delta:
+-        if (p->encodeMode)
+-          Delta_Encode(p->deltaState, p->delta, p->buf, p->bufTotal);
+-        else
+-          Delta_Decode(p->deltaState, p->delta, p->buf, p->bufTotal);
+-        p->bufConv = p->bufTotal;
+-        break;
+-      case XZ_ID_X86:
+-        p->bufConv = x86_Convert(p->buf, p->bufTotal, p->ip, &p->x86State, p->encodeMode);
+-        break;
+-      CASE_BRA_CONV(PPC)
+-      CASE_BRA_CONV(IA64)
+-      CASE_BRA_CONV(ARM)
+-      CASE_BRA_CONV(ARMT)
+-      CASE_BRA_CONV(SPARC)
+-      default:
+-        return SZ_ERROR_UNSUPPORTED;
+-    }
+-    p->ip += (UInt32)p->bufConv;
++    
++    p->bufConv = BraState_Filter(pp, p->buf, p->bufTotal);
+ 
+     if (p->bufConv == 0)
+     {

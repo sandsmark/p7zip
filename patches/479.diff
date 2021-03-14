@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -1143,7 +1143,9 @@ Hunk #10, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp HRESULT CUnpacker::Code(const CItem &item, const CItem &lastItem, UInt64 packSiz
+   if (method > kLzMethodMax)
+     return E_NOTIMPL;
+ 
+-  if (linkFile && !lastItem.Is_UnknownSize())
++  bool needBuf = (linkFile && linkFile->NumLinks != 0);
++
++  if (needBuf && !lastItem.Is_UnknownSize())
+   {
+     size_t dataSize = (size_t)lastItem.Size;
+     if (dataSize != lastItem.Size)

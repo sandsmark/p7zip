@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/OpenArchive.cpp b/CPP/7zip/UI/Common/OpenArchive.cpp
+index 6981717..419c29e 100644
+--- a/CPP/7zip/UI/Common/OpenArchive.cpp
++++ b/CPP/7zip/UI/Common/OpenArchive.cpp
+@@ -2013,7 +2013,7 @@ Hunk #5, a/CPP/7zip/UI/Common/OpenArchive.cpp HRESULT CArc::OpenStream2(const COpenOptions &op)
+     }
+     else
+     {
+-      const CArcInfoEx &ai = op.codecs->Formats[formatIndex];
++      const CArcInfoEx &ai = op.codecs->Formats[(unsigned)formatIndex];
+       if (ai.FindExtension(extension) >= 0)
+       {
+         if (ai.Flags_FindSignature() && searchMarkerInHandler)

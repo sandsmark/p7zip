@@ -1,0 +1,18 @@
+diff --git a/C/Lzma2Enc.c b/C/Lzma2Enc.c
+index e970944..5c1ad49 100644
+--- a/C/Lzma2Enc.c
++++ b/C/Lzma2Enc.c
+@@ -748,11 +748,11 @@ Hunk #9, a/C/Lzma2Enc.c SRes Lzma2Enc_Encode2(CLzma2EncHandle pp,
+ 
+     p->outStream = outStream;
+     p->outBuf = NULL;
+-    p->outBufSize = 0;
++    p->outBuf_Rem = 0;
+     if (!outStream)
+     {
+       p->outBuf = outBuf;
+-      p->outBufSize = *outBufSize;
++      p->outBuf_Rem = *outBufSize;
+       *outBufSize = 0;
+     }
+ 

@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Explorer/makefile b/CPP/7zip/UI/Explorer/makefile
+index 1c8639b..541122a 100644
+--- a/CPP/7zip/UI/Explorer/makefile
++++ b/CPP/7zip/UI/Explorer/makefile
+@@ -67,6 +67,7 @@ Hunk #2, a/CPP/7zip/UI/Explorer/makefile FM_OBJS = \
+   $O\RegistryUtils.obj \
+ 
+ C_OBJS = \
++  $O\CpuArch.obj \
+   $O\Threads.obj \
+ 
+ !include "../../7zip.mak"

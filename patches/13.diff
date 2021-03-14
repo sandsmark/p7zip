@@ -1,0 +1,13 @@
+diff --git a/C/7zDec.c b/C/7zDec.c
+index 1ae87df..7c46352 100644
+--- a/C/7zDec.c
++++ b/C/7zDec.c
+@@ -218,7 +218,7 @@ Hunk #4, a/C/7zDec.c static SRes SzDecodeLzma2(const Byte *props, unsigned propsSize, UInt64 inSize,
+     {
+       SizeT inProcessed = (SizeT)lookahead, dicPos = state.decoder.dicPos;
+       ELzmaStatus status;
+-      res = Lzma2Dec_DecodeToDic(&state, outSize, inBuf, &inProcessed, LZMA_FINISH_END, &status);
++      res = Lzma2Dec_DecodeToDic(&state, outSize, (const Byte *)inBuf, &inProcessed, LZMA_FINISH_END, &status);
+       lookahead -= inProcessed;
+       inSize -= inProcessed;
+       if (res != SZ_OK)

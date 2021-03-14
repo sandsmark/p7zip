@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.cpp b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+index 606f782..e65c2b8 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.cpp
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+@@ -602,8 +602,11 @@ Hunk #6, a/CPP/7zip/Archive/Zip/ZipUpdate.cpp static HRESULT Update2St(
+   lps->InSize = unpackSizeTotal;
+   lps->OutSize = packSizeTotal;
+   RINOK(lps->SetCur());
++
+   archive.WriteCentralDir(items, comment);
+-  return S_OK;
++
++  lps->ProgressOffset += kCentralHeaderSize * updateItems.Size() + 1;
++  return lps->SetCur();
+ }
+ 
+ 

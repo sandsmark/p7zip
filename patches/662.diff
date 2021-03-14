@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Bundles/SFXSetup/makefile b/CPP/7zip/Bundles/SFXSetup/makefile
+index 5849cf3..9fddbc0 100644
+--- a/CPP/7zip/Bundles/SFXSetup/makefile
++++ b/CPP/7zip/Bundles/SFXSetup/makefile
+@@ -40,6 +40,7 @@ Hunk #3, a/CPP/7zip/Bundles/SFXSetup/makefile WIN_CTRL_OBJS = \
+ 
+ 7ZIP_COMMON_OBJS = \
+   $O\CreateCoder.obj \
++  $O\CWrappers.obj \
+   $O\FileStreams.obj \
+   $O\InBuffer.obj \
+   $O\FilterCoder.obj \

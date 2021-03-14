@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Bundles/SFXCon/SFXCon.dsp b/CPP/7zip/Bundles/SFXCon/SFXCon.dsp
+index b21b9e8..0f032d8 100644
+--- a/CPP/7zip/Bundles/SFXCon/SFXCon.dsp
++++ b/CPP/7zip/Bundles/SFXCon/SFXCon.dsp
+@@ -117,6 +117,10 @@ Hunk #1, a/CPP/7zip/Bundles/SFXCon/SFXCon.dsp SOURCE=..\..\Archive\Common\CoderMixer2.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\Archive\Common\HandlerOut.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\Archive\Common\ItemNameUtils.cpp
+ # End Source File
+ # Begin Source File

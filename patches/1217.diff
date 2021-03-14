@@ -1,0 +1,15 @@
+diff --git a/DOC/7zip.inf b/DOC/7zip.inf
+index 2510f42..b4e18e8 100644
+--- a/DOC/7zip.inf
++++ b/DOC/7zip.inf
+@@ -10,8 +10,8 @@ Hunk #1, a/DOC/7zip.inf AppName = "7-Zip"
+ InstallDir = %CE1%\%AppName%
+ 
+ [Strings]
+-AppVer = "17.01"
+-AppDate = "2017-08-28"
++AppVer = "19.00"
++AppDate = "2019-01-21"
+ 
+ [CEDevice]
+ ; ProcessorType = 2577 ; ARM

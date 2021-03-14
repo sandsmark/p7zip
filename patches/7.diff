@@ -1,0 +1,13 @@
+diff --git a/C/7zArcIn.c b/C/7zArcIn.c
+index e1b03d8..f74d0fa 100644
+--- a/C/7zArcIn.c
++++ b/C/7zArcIn.c
+@@ -19,7 +19,7 @@ Hunk #2, a/C/7zArcIn.c
+   { MY_ALLOC(Byte, to, size, alloc); memcpy(to, from, size); }
+ 
+ #define MY_ALLOC_ZE_AND_CPY(to, size, from, alloc) \
+-  { if ((size) == 0) p = NULL; else { MY_ALLOC_AND_CPY(to, size, from, alloc) } }
++  { if ((size) == 0) to = NULL; else { MY_ALLOC_AND_CPY(to, size, from, alloc) } }
+ 
+ #define k7zMajorVersion 0
+ 

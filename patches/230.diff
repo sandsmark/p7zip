@@ -1,0 +1,13 @@
+diff --git a/C/Ppmd8Dec.c b/C/Ppmd8Dec.c
+index dc79f0f..a18ec67 100644
+--- a/C/Ppmd8Dec.c
++++ b/C/Ppmd8Dec.c
+@@ -11,7 +11,7 @@ Hunk #2, a/C/Ppmd8Dec.c This code is based on:
+ #define kTop (1 << 24)
+ #define kBot (1 << 15)
+ 
+-Bool Ppmd8_RangeDec_Init(CPpmd8 *p)
++BoolInt Ppmd8_RangeDec_Init(CPpmd8 *p)
+ {
+   unsigned i;
+   p->Low = 0;

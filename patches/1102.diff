@@ -1,0 +1,31 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -87,23 +87,16 @@ Hunk #3, a/CPP/7zip/UI/FileManager/PanelMenu.cpp static void AddPropertyString(PROPID propID, const wchar_t *nameBSTR,
+ 
+     if (!val.IsEmpty())
+     {
+-      s += GetNameOfProperty(propID, nameBSTR);
+-      s += kPropValueSeparator;
+-      /*
+-      if (propID == kpidComment)
+-        s.Add_LF();
+-      */
+-      s += val;
+-      s.Add_LF();
++      AddPropertyPair(GetNameOfProperty(propID, nameBSTR), val, dialog);
+     }
+   }
+ }
+ 
+ 
+-static void AddPropertyString(PROPID propID, UInt64 val, UString &s)
++static void AddPropertyString(PROPID propID, UInt64 val, CListViewDialog &dialog)
+ {
+   NCOM::CPropVariant prop = val;
+-  AddPropertyString(propID, NULL, prop, s);
++  AddPropertyString(propID, NULL, prop, dialog);
+ }
+ 
+ 

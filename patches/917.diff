@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/Common/Extract.cpp b/CPP/7zip/UI/Common/Extract.cpp
+index e8b2e6b..c49daa1 100644
+--- a/CPP/7zip/UI/Common/Extract.cpp
++++ b/CPP/7zip/UI/Common/Extract.cpp
+@@ -197,6 +197,9 @@ Hunk #1, a/CPP/7zip/UI/Common/Extract.cpp static HRESULT DecompressArchive(
+   
+   HRESULT result;
+   Int32 testMode = (options.TestMode && !calcCrc) ? 1: 0;
++
++  CArchiveExtractCallback_Closer ecsCloser(ecs);
++
+   if (options.StdInMode)
+   {
+     result = archive->Extract(NULL, (UInt32)(Int32)-1, testMode, ecs);

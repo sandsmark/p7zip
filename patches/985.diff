@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -1061,7 +1061,9 @@ Hunk #10, a/CPP/7zip/UI/Console/List.cpp HRESULT ListArchives(CCodecs *codecs,
+ 
+     if (enableHeaders)
+     {
+-      g_StdOut << endl << kListing << arcPath << endl << endl;
++      g_StdOut << endl << kListing;
++      g_StdOut.NormalizePrint_UString(arcPath);
++      g_StdOut << endl << endl;
+     }
+     
+     HRESULT result = arcLink.Open_Strict(options, &openCallback);

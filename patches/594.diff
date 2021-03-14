@@ -1,0 +1,23 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipUpdate.cpp b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+index 606f782..e65c2b8 100644
+--- a/CPP/7zip/Archive/Zip/ZipUpdate.cpp
++++ b/CPP/7zip/Archive/Zip/ZipUpdate.cpp
+@@ -292,11 +292,16 @@ Hunk #4, a/CPP/7zip/Archive/Zip/ZipUpdate.cpp void CMtProgressMixer2::Create(IProgress *progress, bool inSizeIsMain)
+   ProgressOffset = InSizes[0] = InSizes[1] = OutSizes[0] = OutSizes[1] = 0;
+ }
+ 
++void CMtProgressMixer2::SetProgressOffset_NoLock(UInt64 progressOffset)
++{
++  InSizes[1] = OutSizes[1] = 0;
++  ProgressOffset = progressOffset;
++}
++
+ void CMtProgressMixer2::SetProgressOffset(UInt64 progressOffset)
+ {
+   CriticalSection.Enter();
+-  InSizes[1] = OutSizes[1] = 0;
+-  ProgressOffset = progressOffset;
++  SetProgressOffset_NoLock(progressOffset);
+   CriticalSection.Leave();
+ }
+ 

@@ -1,0 +1,31 @@
+diff --git a/CPP/7zip/Archive/Common/HandlerOut.cpp b/CPP/7zip/Archive/Common/HandlerOut.cpp
+index ea320e6..77a35c7 100644
+--- a/CPP/7zip/Archive/Common/HandlerOut.cpp
++++ b/CPP/7zip/Archive/Common/HandlerOut.cpp
+@@ -78,20 +78,18 @@ Hunk #3, a/CPP/7zip/Archive/Common/HandlerOut.cpp HRESULT CMultiMethodProps::SetProperty(const wchar_t *nameSpec, const PROPVARIAN
+     _crcSize = 4;
+     return ParsePropToUInt32(name, value, _crcSize);
+   }
++
++  {
++    HRESULT hres;
++    if (SetCommonProperty(name, value, hres))
++      return hres;
++  }
+   
+   UInt32 number;
+   unsigned index = ParseStringToUInt32(name, number);
+   UString realName = name.Ptr(index);
+   if (index == 0)
+   {
+-    if (name.IsPrefixedBy_Ascii_NoCase("mt"))
+-    {
+-      #ifndef _7ZIP_ST
+-      RINOK(ParseMtProp(name.Ptr(2), value, _numProcessors, _numThreads));
+-      #endif
+-      
+-      return S_OK;
+-    }
+     if (name.IsEqualTo("f"))
+     {
+       HRESULT res = PROPVARIANT_to_bool(value, _autoFilter);

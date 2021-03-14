@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -112,9 +112,11 @@ Hunk #3, a/CPP/7zip/Compress/Rar1Decoder.cpp HRESULT CDecoder::ShortLZ()
+       LCount++;
+       return CopyBlock(LastDist, LastLength);
+     }
++
++    LCount = 0;
++
+     if (len == 14)
+     {
+-      LCount = 0;
+       len = DecodeNum(PosL2) + 5;
+       dist = 0x8000 + ReadBits(15) - 1;
+       LastLength = len;

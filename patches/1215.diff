@@ -1,0 +1,13 @@
+diff --git a/DOC/7zFormat.txt b/DOC/7zFormat.txt
+index 55b52b1..74cdfa4 100644
+--- a/DOC/7zFormat.txt
++++ b/DOC/7zFormat.txt
+@@ -175,7 +175,7 @@ Hunk #2, a/DOC/7zFormat.txt SignatureHeader
+   ArchiveVersion
+   {
+     BYTE Major;   // now = 0
+-    BYTE Minor;   // now = 2
++    BYTE Minor;   // now = 4
+   };
+ 
+   UINT32 StartHeaderCRC;

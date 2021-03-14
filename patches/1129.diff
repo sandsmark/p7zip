@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/ProgressDialog2.h b/CPP/7zip/UI/FileManager/ProgressDialog2.h
+index 03f836d..6c4213a 100644
+--- a/CPP/7zip/UI/FileManager/ProgressDialog2.h
++++ b/CPP/7zip/UI/FileManager/ProgressDialog2.h
+@@ -273,7 +273,8 @@ Hunk #2, a/CPP/7zip/UI/FileManager/ProgressDialog2.h class CProgressCloser
+   ~CProgressCloser() { _p->ProcessWasFinished(); }
+ };
+ 
+-class CProgressThreadVirt
++
++class CProgressThreadVirt: public CProgressDialog
+ {
+ protected:
+   FStringVector ErrorPaths;

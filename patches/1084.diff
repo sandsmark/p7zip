@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -336,7 +336,11 @@ Hunk #6, a/CPP/7zip/UI/FileManager/PanelDrag.cpp void CPanel::OnDrag(LPNMLISTVIEW /* nmListView */)
+     dirPrefix = us2fs(GetFsPath());
+   else
+   {
+-    tempDirectory.Create(kTempDirPrefix);
++    if (!tempDirectory.Create(kTempDirPrefix))
++    {
++      MessageBox_Error(L"Can't create temp folder");
++      return;
++    }
+     dirPrefix = tempDirectory.GetPath();
+     // dirPrefix2 = dirPrefix;
+     NFile::NName::NormalizeDirPathPrefix(dirPrefix);

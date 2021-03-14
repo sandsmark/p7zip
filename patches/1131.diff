@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/FileManager/makefile b/CPP/7zip/UI/FileManager/makefile
+index d9e8178..4525d84 100644
+--- a/CPP/7zip/UI/FileManager/makefile
++++ b/CPP/7zip/UI/FileManager/makefile
+@@ -1,16 +1,7 @@ Hunk #1, a/CPP/7zip/UI/FileManager/makefile
+ PROG = 7zFM.exe
+ CFLAGS = $(CFLAGS) \
+-  -DLANG \
+-  -DNEW_FOLDER_INTERFACE \
+   -DEXTERNAL_CODECS \
+ 
+-!IFDEF UNDER_CE
+-LIBS = $(LIBS) ceshell.lib Commctrl.lib
+-!ELSE
+-LIBS = $(LIBS) comctl32.lib htmlhelp.lib comdlg32.lib Mpr.lib Gdi32.lib
+-CFLAGS = $(CFLAGS) -DWIN_LONG_PATH -DSUPPORT_DEVICE_FILE
+-!ENDIF
+-
+ !include "FM.mak"
+ 
+ COMMON_OBJS = \

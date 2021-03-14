@@ -1,0 +1,14 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -855,9 +855,6 @@ Hunk #34, a/C/LzmaDec.c SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, SizeT *sr
+         checkEndMarkNow = 1;
+       }
+ 
+-      if (p->needInitState)
+-        LzmaDec_InitStateReal(p);
+-  
+       if (p->tempBufSize == 0)
+       {
+         SizeT processed;

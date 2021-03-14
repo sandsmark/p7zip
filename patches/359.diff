@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/7z/7zHandler.h b/CPP/7zip/Archive/7z/7zHandler.h
+index 89e3275..99942eb 100644
+--- a/CPP/7zip/Archive/7z/7zHandler.h
++++ b/CPP/7zip/Archive/7z/7zHandler.h
+@@ -135,7 +135,6 @@ Hunk #7, a/CPP/7zip/Archive/7z/7zHandler.h class CHandler:
+   #ifdef EXTRACT_ONLY
+   
+   #ifdef __7Z_SET_PROPERTIES
+-  UInt32 _numThreads;
+   bool _useMultiThreadMixer;
+   #endif
+ 

@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2787,10 +2787,9 @@ Hunk #44, a/CPP/7zip/UI/Common/Bench.cpp HRESULT Bench(
+         return E_FAIL;
+       if (len >= ((UInt32)1 << 31) || len == 0)
+         return E_INVALIDARG;
+-      if (!fileDataBuffer.Alloc((size_t)len))
+-        return E_OUTOFMEMORY;
++      ALLOC_WITH_HRESULT(&fileDataBuffer, (size_t)len);
+       UInt32 processedSize;
+-      file.Read(fileDataBuffer.Buffer, (UInt32)len, processedSize);
++      file.Read((Byte *)fileDataBuffer, (UInt32)len, processedSize);
+       if (processedSize != len)
+         return E_FAIL;
+       if (printCallback)

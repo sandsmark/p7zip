@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+index a4bfc1c..21c2f07 100644
+--- a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
++++ b/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp
+@@ -565,8 +565,9 @@ Hunk #8, a/CPP/7zip/UI/Console/ExtractCallbackConsole.cpp void Print_ErrorFormatIndex_Warning(CStdOutStream *_so, const CCodecs *codecs, c
+ {
+   const CArcErrorInfo &er = arc.ErrorInfo;
+   
+-  UString s ("WARNING:\n");
+-  s += arc.Path;
++  *_so << "WARNING:\n";
++  _so->NormalizePrint_UString(arc.Path);
++  UString s;
+   if (arc.FormatIndex == er.ErrorFormatIndex)
+   {
+     s.Add_LF();

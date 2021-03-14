@@ -1,0 +1,13 @@
+diff --git a/C/Util/7z/7zMain.c b/C/Util/7z/7zMain.c
+index cb60a9b..6ccc830 100644
+--- a/C/Util/7z/7zMain.c
++++ b/C/Util/7z/7zMain.c
+@@ -430,7 +430,7 @@ Hunk #6, a/C/Util/7z/7zMain.c int MY_CDECL main(int numargs, char *args[])
+   res = SZ_OK;
+ 
+   {
+-    lookStream.buf = ISzAlloc_Alloc(&allocImp, kInputBufSize);
++    lookStream.buf = (Byte *)ISzAlloc_Alloc(&allocImp, kInputBufSize);
+     if (!lookStream.buf)
+       res = SZ_ERROR_MEM;
+     else

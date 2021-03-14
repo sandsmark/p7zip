@@ -1,0 +1,13 @@
+diff --git a/CPP/Common/ListFileUtils.cpp b/CPP/Common/ListFileUtils.cpp
+index 9112003..edd37eb 100644
+--- a/CPP/Common/ListFileUtils.cpp
++++ b/CPP/Common/ListFileUtils.cpp
+@@ -94,7 +94,7 @@ Hunk #4, a/CPP/Common/ListFileUtils.cpp bool ReadNamesFromListFile(CFSTR fileName, UStringVector &strings, UINT codePage
+   }
+ 
+   const wchar_t kGoodBOM = 0xFEFF;
+-  const wchar_t kBadBOM  = 0xFFFE;
++  // const wchar_t kBadBOM  = 0xFFFE;
+   
+   UString s;
+   unsigned i = 0;

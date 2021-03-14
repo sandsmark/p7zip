@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -930,7 +930,7 @@ Hunk #19, a/CPP/7zip/Archive/XzHandler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+     return E_INVALIDARG;
+ 
+   if (_phySize_Defined)
+-    extractCallback->SetTotal(_stat.PhySize);
++    extractCallback->SetTotal(_stat.InSize);
+ 
+   UInt64 currentTotalPacked = 0;
+   RINOK(extractCallback->SetCompleted(&currentTotalPacked));

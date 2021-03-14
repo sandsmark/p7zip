@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -418,7 +418,8 @@ Hunk #8, a/CPP/7zip/UI/FileManager/PanelDrag.cpp void CPanel::OnDrag(LPNMLISTVIEW /* nmListView */)
+         NFile::NName::NormalizeDirPathPrefix(dataObjectSpec->Path);
+         CCopyToOptions options;
+         options.folder = dataObjectSpec->Path;
+-        options.moveMode = (effect == DROPEFFECT_MOVE);
++        // if MOVE is not allowed, we just use COPY operation
++        options.moveMode = (effect == DROPEFFECT_MOVE && moveIsAllowed);
+         res = CopyTo(options, indices, &dropSourceSpec->Messages);
+       }
+     /*

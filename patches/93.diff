@@ -1,0 +1,41 @@
+diff --git a/C/Lzma2Dec.c b/C/Lzma2Dec.c
+index 63853c6..4e138a4 100644
+--- a/C/Lzma2Dec.c
++++ b/C/Lzma2Dec.c
+@@ -14,28 +14,22 @@ Hunk #2, a/C/Lzma2Dec.c
+ #include "Lzma2Dec.h"
+ 
+ /*
+-00000000  -  EOS
+-00000001 U U  -  Uncompressed Reset Dic
+-00000010 U U  -  Uncompressed No Reset
+-100uuuuu U U P P  -  LZMA no reset
+-101uuuuu U U P P  -  LZMA reset state
+-110uuuuu U U P P S  -  LZMA reset state + new prop
+-111uuuuu U U P P S  -  LZMA reset state + new prop + reset dic
++00000000  -  End of data
++00000001 U U  -  Uncompressed, reset dic, need reset state and set new prop
++00000010 U U  -  Uncompressed, no reset
++100uuuuu U U P P  -  LZMA, no reset
++101uuuuu U U P P  -  LZMA, reset state
++110uuuuu U U P P S  -  LZMA, reset state + set new prop
++111uuuuu U U P P S  -  LZMA, reset state + set new prop, reset dic
+ 
+   u, U - Unpack Size
+   P - Pack Size
+   S - Props
+ */
+ 
+-#define LZMA2_CONTROL_LZMA (1 << 7)
+-#define LZMA2_CONTROL_COPY_NO_RESET 2
+ #define LZMA2_CONTROL_COPY_RESET_DIC 1
+-#define LZMA2_CONTROL_EOF 0
+ 
+-#define LZMA2_IS_UNCOMPRESSED_STATE(p) (((p)->control & LZMA2_CONTROL_LZMA) == 0)
+-
+-#define LZMA2_GET_LZMA_MODE(p) (((p)->control >> 5) & 3)
+-#define LZMA2_IS_THERE_PROP(mode) ((mode) >= 2)
++#define LZMA2_IS_UNCOMPRESSED_STATE(p) (((p)->control & (1 << 7)) == 0)
+ 
+ #define LZMA2_LCLP_MAX 4
+ #define LZMA2_DIC_SIZE_FROM_PROP(p) (((UInt32)2 | ((p) & 1)) << ((p) / 2 + 11))

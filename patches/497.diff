@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/Rar/RarHandler.cpp b/CPP/7zip/Archive/Rar/RarHandler.cpp
+index c097b15..dd78e31 100644
+--- a/CPP/7zip/Archive/Rar/RarHandler.cpp
++++ b/CPP/7zip/Archive/Rar/RarHandler.cpp
+@@ -136,8 +136,7 @@ Hunk #2, a/CPP/7zip/Archive/Rar/RarHandler.cpp class CInArchive
+   NHeader::NBlock::CBlock m_BlockHeader;
+   NCrypto::NRar3::CDecoder *m_RarAESSpec;
+   CMyComPtr<ICompressFilter> m_RarAES;
+-  CByteBuffer m_DecryptedData;
+-  Byte *m_DecryptedDataAligned;
++  CAlignedBuffer m_DecryptedDataAligned;
+   UInt32 m_DecryptedDataSize;
+   bool m_CryptoMode;
+   UInt32 m_CryptoPos;

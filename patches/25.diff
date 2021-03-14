@@ -1,0 +1,16 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -96,9 +96,8 @@ Hunk #6, a/C/Alloc.c void *BigAlloc(size_t size)
+ {
+   if (size == 0)
+     return NULL;
+-  #ifdef _SZ_ALLOC_DEBUG
+-  fprintf(stderr, "\nAlloc_Big %10u bytes;  count = %10d", size, g_allocCountBig++);
+-  #endif
++
++  PRINT_ALLOC("Alloc-Big", g_allocCountBig, size, NULL);
+   
+   #ifdef _7ZIP_LARGE_PAGES
+   {

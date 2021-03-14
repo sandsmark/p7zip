@@ -1,0 +1,31 @@
+diff --git a/DOC/License.txt b/DOC/License.txt
+index c4f905d..d6b672b 100644
+--- a/DOC/License.txt
++++ b/DOC/License.txt
+@@ -3,15 +3,20 @@ Hunk #1, a/DOC/License.txt
+   License for use and distribution
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-  7-Zip Copyright (C) 1999-2017 Igor Pavlov.
++  7-Zip Copyright (C) 1999-2019 Igor Pavlov.
+ 
+-  Licenses for files are:
++  The licenses for files are:
++
++    1) CPP/7zip/Compress/Rar* files: the "GNU LGPL" with "unRAR license restriction"
++    2) CPP/7zip/Compress/LzfseDecoder.cpp: the "BSD 3-clause License"
++    3) Some files are "public domain" files, if "public domain" status is stated in source file.
++    4) the "GNU LGPL" for all other files. If there is no license information in 
++       some source file, that file is under the "GNU LGPL".
++
++  The "GNU LGPL" with "unRAR license restriction" means that you must follow both 
++  "GNU LGPL" rules and "unRAR license restriction" rules.
+ 
+-    1) CPP/7zip/Compress/Rar* files:  GNU LGPL + unRAR restriction
+-    2) All other files:  GNU LGPL
+ 
+-  The GNU LGPL + unRAR restriction means that you must follow both 
+-  GNU LGPL rules and unRAR restriction rules.
+ 
+ 
+   GNU LGPL information

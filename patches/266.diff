@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipUninstall/7zipUninstall.c b/C/Util/7zipUninstall/7zipUninstall.c
+index 0bf27cc..1676117 100644
+--- a/C/Util/7zipUninstall/7zipUninstall.c
++++ b/C/Util/7zipUninstall/7zipUninstall.c
+@@ -505,7 +505,7 @@ Hunk #13, a/C/Util/7zipUninstall/7zipUninstall.c static Bool IsThereSpace(const wchar_t *s)
+ 
+ static void AddPathParam(wchar_t *dest, const wchar_t *src)
+ {
+-  Bool needQuote = IsThereSpace(src);
++  BoolInt needQuote = IsThereSpace(src);
+   if (needQuote)
+     wcscat(dest, L"\"");
+   wcscat(dest, src);

@@ -1,0 +1,13 @@
+diff --git a/C/DllSecur.c b/C/DllSecur.c
+index 90352ce..5ea108a 100644
+--- a/C/DllSecur.c
++++ b/C/DllSecur.c
+@@ -70,7 +70,7 @@ Hunk #3, a/C/DllSecur.c void LoadSecurityDlls()
+       for (;;)
+       {
+         char c = *dll++;
+-        buf[pos + k] = c;
++        buf[pos + k] = (Byte)c;
+         k++;
+         if (c == 0)
+           break;

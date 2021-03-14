@@ -1,0 +1,34 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -650,14 +650,28 @@ Hunk #18, a/C/XzDec.c void XzUnpacker_PrepareToRandomBlockDecoding(CXzUnpacker *p)
+ }
+ 
+ 
++static void XzUnpacker_UpdateIndex(CXzUnpacker *p, UInt64 packSize, UInt64 unpackSize)
++{
++  Byte temp[32];
++  unsigned num = Xz_WriteVarInt(temp, packSize);
++  num += Xz_WriteVarInt(temp + num, unpackSize);
++  Sha256_Update(&p->sha, temp, num);
++  p->indexSize += num;
++  p->numBlocks++;
++}
++
++
++
+ SRes XzUnpacker_Code(CXzUnpacker *p, Byte *dest, SizeT *destLen,
+-    const Byte *src, SizeT *srcLen, ECoderFinishMode finishMode, ECoderStatus *status)
++    const Byte *src, SizeT *srcLen, int srcFinished,
++    ECoderFinishMode finishMode, ECoderStatus *status)
+ {
+   SizeT destLenOrig = *destLen;
+   SizeT srcLenOrig = *srcLen;
+   *destLen = 0;
+   *srcLen = 0;
+   *status = CODER_STATUS_NOT_SPECIFIED;
++
+   for (;;)
+   {
+     SizeT srcRem;

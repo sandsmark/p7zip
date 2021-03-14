@@ -1,0 +1,52 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp b/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
+index ad21bc8..0e2a470 100644
+--- a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
++++ b/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
+@@ -920,9 +920,45 @@ Hunk #8, a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp void CArcCmdLineParser::Parse1(const UStringVector &commandStrings,
+     options.CaseSensitive = g_CaseSensitive;
+   }
+ 
+-  options.LargePages = false;
++
++  #if defined(_WIN32) && !defined(UNDER_CE)
++  NSecurity::EnablePrivilege_SymLink();
++  #endif
++  
++  // options.LargePages = false;
++
+   if (parser[NKey::kLargePages].ThereIs)
+-    options.LargePages = !parser[NKey::kLargePages].WithMinus;
++  {
++    unsigned slp = 0;
++    const UString &s = parser[NKey::kLargePages].PostStrings[0];
++    if (s.IsEmpty())
++      slp = 1;
++    else if (s != L"-")
++    {
++      if (!StringToUInt32(s, slp))
++        throw CArcCmdLineException("Unsupported switch postfix for -slp", s);
++    }
++    
++    #ifdef _7ZIP_LARGE_PAGES
++    if (slp >
++          #ifndef UNDER_CE
++            (unsigned)NSecurity::Get_LargePages_RiskLevel()
++          #else
++            0
++          #endif
++        )
++    {
++      SetLargePageSize();
++      // note: this process also can inherit that Privilege from parent process
++      g_LargePagesMode =
++      #if defined(_WIN32) && !defined(UNDER_CE)
++        NSecurity::EnablePrivilege_LockMemory();
++      #else
++        true;
++      #endif
++    }
++    #endif
++  }
+ 
+ 
+   #ifndef UNDER_CE

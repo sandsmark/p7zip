@@ -1,0 +1,13 @@
+diff --git a/C/7zDec.c b/C/7zDec.c
+index 1ae87df..7c46352 100644
+--- a/C/7zDec.c
++++ b/C/7zDec.c
+@@ -44,7 +44,7 @@ Hunk #2, a/C/7zDec.c typedef struct
+   const Byte *end;
+   const Byte *begin;
+   UInt64 processed;
+-  Bool extra;
++  BoolInt extra;
+   SRes res;
+   const ILookInStream *inStream;
+ } CByteInToLook;

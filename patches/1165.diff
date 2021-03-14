@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/GUI/UpdateGUI.cpp b/CPP/7zip/UI/GUI/UpdateGUI.cpp
+index 261b1e2..2e738d3 100644
+--- a/CPP/7zip/UI/GUI/UpdateGUI.cpp
++++ b/CPP/7zip/UI/GUI/UpdateGUI.cpp
+@@ -460,7 +460,7 @@ Hunk #1, a/CPP/7zip/UI/GUI/UpdateGUI.cpp HRESULT UpdateGUI(
+   tu.cmdArcPath = &cmdArcPath;
+ 
+   tu.UpdateCallbackGUI = callback;
+-  tu.UpdateCallbackGUI->ProgressDialog = &tu.ProgressDialog;
++  tu.UpdateCallbackGUI->ProgressDialog = &tu;
+   tu.UpdateCallbackGUI->Init();
+ 
+   UString title = LangString(IDS_PROGRESS_COMPRESSING);

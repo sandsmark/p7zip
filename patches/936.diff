@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/PropIDUtils.cpp b/CPP/7zip/UI/Common/PropIDUtils.cpp
+index 4b796f0..7702e22 100644
+--- a/CPP/7zip/UI/Common/PropIDUtils.cpp
++++ b/CPP/7zip/UI/Common/PropIDUtils.cpp
+@@ -466,7 +466,7 @@ Hunk #6, a/CPP/7zip/UI/Common/PropIDUtils.cpp static void ParseAcl(AString &s, const Byte *p, UInt32 size, const char *strName
+     size -= 8;
+ 
+     UInt32 sidSize = 0;
+-    s += ' ';
++    s.Add_Space();
+     ParseSid(s, p, size, sidSize);
+     if (sidSize == 0)
+       return;

@@ -1,0 +1,13 @@
+diff --git a/C/Ppmd8.h b/C/Ppmd8.h
+index 3b15920..51c497d 100644
+--- a/C/Ppmd8.h
++++ b/C/Ppmd8.h
+@@ -121,7 +121,7 @@ Hunk #3, a/C/Ppmd8.h CPpmd_See *Ppmd8_MakeEscFreq(CPpmd8 *p, unsigned numMasked, UInt32 *scale);
+ 
+ /* ---------- Decode ---------- */
+ 
+-Bool Ppmd8_RangeDec_Init(CPpmd8 *p);
++BoolInt Ppmd8_RangeDec_Init(CPpmd8 *p);
+ #define Ppmd8_RangeDec_IsFinishedOK(p) ((p)->Code == 0)
+ int Ppmd8_DecodeSymbol(CPpmd8 *p); /* returns: -1 as EndMarker, -2 as DataError */
+ 

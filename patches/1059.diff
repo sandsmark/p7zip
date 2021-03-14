@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/FileManager/Panel.cpp b/CPP/7zip/UI/FileManager/Panel.cpp
+index 973e64d..afb5649 100644
+--- a/CPP/7zip/UI/FileManager/Panel.cpp
++++ b/CPP/7zip/UI/FileManager/Panel.cpp
+@@ -879,8 +879,9 @@ Hunk #1, a/CPP/7zip/UI/FileManager/Panel.cpp void CPanel::AddToArchive()
+ 
+   FOR_VECTOR (i, indices)
+     names.Add(curPrefix + GetItemRelPath2(indices[i]));
+-  bool fromPrev = (names.Size() > 1);
+-  const UString arcName = CreateArchiveName(names.Front(), fromPrev, false);
++  
++  const UString arcName = CreateArchiveName(names);
++  
+   HRESULT res = CompressFiles(destCurDirPrefix, arcName, L"",
+       true, // addExtension
+       names, false, true, false);

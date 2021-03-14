@@ -1,0 +1,18 @@
+diff --git a/CPP/7zip/UI/Agent/Agent.cpp b/CPP/7zip/UI/Agent/Agent.cpp
+index dbcd6ff..1c2e339 100644
+--- a/CPP/7zip/UI/Agent/Agent.cpp
++++ b/CPP/7zip/UI/Agent/Agent.cpp
+@@ -1217,7 +1217,12 @@ Hunk #1, a/CPP/7zip/UI/Agent/Agent.cpp STDMETHODIMP CAgentFolder::GetFolderProperty(PROPID propID, PROPVARIANT *value)
+   NWindows::NCOM::CPropVariant prop;
+ 
+   if (propID == kpidReadOnly)
+-    prop = _agentSpec->IsThereReadOnlyArc();
++  {
++    if (_agentSpec->Is_Attrib_ReadOnly())
++      prop = true;
++    else
++      prop = _agentSpec->IsThereReadOnlyArc();
++  }
+   else if (_proxy2)
+   {
+     const CProxyDir2 &dir = _proxy2->Dirs[_proxyDirIndex];

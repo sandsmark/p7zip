@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/UI/Console/MainAr.cpp b/CPP/7zip/UI/Console/MainAr.cpp
+index 68e5fe9..87bf57e 100644
+--- a/CPP/7zip/UI/Console/MainAr.cpp
++++ b/CPP/7zip/UI/Console/MainAr.cpp
+@@ -63,6 +63,10 @@ Hunk #2, a/CPP/7zip/UI/Console/MainAr.cpp int MY_CDECL main
+   
+   try
+   {
++    #ifdef _WIN32
++    My_SetDefaultDllDirectories();
++    #endif
++
+     res = Main2(
+     #ifndef _WIN32
+     numArgs, args

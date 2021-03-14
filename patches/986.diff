@@ -1,0 +1,46 @@
+diff --git a/CPP/7zip/UI/Console/List.cpp b/CPP/7zip/UI/Console/List.cpp
+index 57d1d1b..416ef2c 100644
+--- a/CPP/7zip/UI/Console/List.cpp
++++ b/CPP/7zip/UI/Console/List.cpp
+@@ -1070,22 +1070,28 @@ Hunk #11, a/CPP/7zip/UI/Console/List.cpp HRESULT ListArchives(CCodecs *codecs,
+     {
+       if (result == E_ABORT)
+         return result;
+-      g_StdOut.Flush();
+-      *g_ErrStream << endl << kError << arcPath << " : ";
+-      if (result == S_FALSE)
+-      {
+-        Print_OpenArchive_Error(*g_ErrStream, codecs, arcLink);
+-      }
+-      else
+-      {
++      if (result != S_FALSE)
+         lastError = result;
+-        *g_ErrStream << "opening : ";
+-        if (result == E_OUTOFMEMORY)
+-          *g_ErrStream << "Can't allocate required memory";
++      g_StdOut.Flush();
++      if (g_ErrStream)
++      {
++        *g_ErrStream << endl << kError;
++        g_ErrStream->NormalizePrint_UString(arcPath);
++        *g_ErrStream << " : ";
++        if (result == S_FALSE)
++        {
++          Print_OpenArchive_Error(*g_ErrStream, codecs, arcLink);
++        }
+         else
+-          *g_ErrStream << NError::MyFormatMessage(result);
++        {
++          *g_ErrStream << "opening : ";
++          if (result == E_OUTOFMEMORY)
++            *g_ErrStream << "Can't allocate required memory";
++          else
++            *g_ErrStream << NError::MyFormatMessage(result);
++        }
++        *g_ErrStream << endl;
+       }
+-      *g_ErrStream << endl;
+       numErrors++;
+       continue;
+     }

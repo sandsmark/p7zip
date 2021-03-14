@@ -1,0 +1,37 @@
+diff --git a/C/XzDec.c b/C/XzDec.c
+index 67216a5..395e83f 100644
+--- a/C/XzDec.c
++++ b/C/XzDec.c
+@@ -625,14 +625,32 @@ Hunk #17, a/C/XzDec.c void XzUnpacker_Init(CXzUnpacker *p)
+   p->numTotalBlocks = 0;
+   p->padSize = 0;
+   p->decodeOnlyOneBlock = 0;
++
++  p->parseMode = False;
++  p->decodeToStreamSignature = False;
++
++  // p->outBuf = NULL;
++  // p->outBufSize = 0;
++  p->outDataWritten = 0;
+ }
+ 
++
++void XzUnpacker_SetOutBuf(CXzUnpacker *p, Byte *outBuf, size_t outBufSize)
++{
++  p->outBuf = outBuf;
++  p->outBufSize = outBufSize;
++}
++
++
+ void XzUnpacker_Construct(CXzUnpacker *p, ISzAllocPtr alloc)
+ {
+   MixCoder_Construct(&p->decoder, alloc);
++  p->outBuf = NULL;
++  p->outBufSize = 0;
+   XzUnpacker_Init(p);
+ }
+ 
++
+ void XzUnpacker_Free(CXzUnpacker *p)
+ {
+   MixCoder_Free(&p->decoder);

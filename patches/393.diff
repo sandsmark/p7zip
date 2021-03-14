@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Common/CoderMixer2.cpp b/CPP/7zip/Archive/Common/CoderMixer2.cpp
+index 7834c60..c700212 100644
+--- a/CPP/7zip/Archive/Common/CoderMixer2.cpp
++++ b/CPP/7zip/Archive/Common/CoderMixer2.cpp
+@@ -91,6 +91,7 @@ Hunk #1, a/CPP/7zip/Archive/Common/CoderMixer2.cpp HRESULT CCoder::CheckDataAfterEnd(bool &dataAfterEnd_Error /* , bool &InternalPa
+   {
+     CMyComPtr<ICompressGetInStreamProcessedSize2> getInStreamProcessedSize2;
+     Coder2.QueryInterface(IID_ICompressGetInStreamProcessedSize2, (void **)&getInStreamProcessedSize2);
++    if (getInStreamProcessedSize2)
+     FOR_VECTOR (i, PackSizePointers)
+     {
+       if (!PackSizePointers[i])

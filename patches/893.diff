@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -2600,7 +2600,8 @@ Hunk #38, a/CPP/7zip/UI/Common/Bench.cpp static void SysInfo_To_String(AString &s, const SYSTEM_INFO &si)
+   PrintHex(s, si.wProcessorLevel);
+   s += ".";
+   PrintHex(s, si.wProcessorRevision);
+-  if (si.dwActiveProcessorMask + 1 != ((UInt64)1 << si.dwNumberOfProcessors))
++  if ((UInt64)si.dwActiveProcessorMask + 1 != ((UInt64)1 << si.dwNumberOfProcessors))
++  if ((UInt64)si.dwActiveProcessorMask + 1 != 0 || si.dwNumberOfProcessors != sizeof(UInt64) * 8)
+   {
+     s += " act:";
+     PrintHex(s, si.dwActiveProcessorMask);

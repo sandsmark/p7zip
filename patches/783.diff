@@ -1,0 +1,23 @@
+diff --git a/CPP/7zip/Compress/ShrinkDecoder.cpp b/CPP/7zip/Compress/ShrinkDecoder.cpp
+index bd7c246..41f0e35 100644
+--- a/CPP/7zip/Compress/ShrinkDecoder.cpp
++++ b/CPP/7zip/Compress/ShrinkDecoder.cpp
+@@ -166,10 +166,17 @@ Hunk #6, a/CPP/7zip/Compress/ShrinkDecoder.cpp HRESULT CDecoder::CodeReal(ISequentialInStream *inStream, ISequentialOutStream *
+     {
+       _stack[i++] = _suffixes[cur];
+       cur = _parents[cur];
++      // don't change that code:
++      // Orphan Check and self-linked Orphan check (_stack overflow check);
++      if (cur == kEmpty || i >= kNumItems)
++        break;
+     }
+     
++    if (cur == kEmpty || i >= kNumItems)
++      break;
++
+     _stack[i++] = (Byte)cur;
+-    lastChar2 = (Byte)cur;
++    lastChar = (Byte)cur;
+ 
+     if (needPrev)
+       _suffixes[(size_t)head - 1] = (Byte)cur;

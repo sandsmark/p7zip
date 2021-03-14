@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipInstall/7zipInstall.c b/C/Util/7zipInstall/7zipInstall.c
+index db09a32..2022e2f 100644
+--- a/C/Util/7zipInstall/7zipInstall.c
++++ b/C/Util/7zipInstall/7zipInstall.c
+@@ -343,7 +343,7 @@ Hunk #6, a/C/Util/7zipInstall/7zipInstall.c static LONG MyRegistry_CreateKeyAndVal_32(HKEY parentKey, LPCWSTR keyName, LPCWS
+ 
+ #define kSignatureSearchLimit (1 << 22)
+ 
+-static Bool FindSignature(CSzFile *stream, UInt64 *resPos)
++static BoolInt FindSignature(CSzFile *stream, UInt64 *resPos)
+ {
+   Byte buf[kBufSize];
+   size_t numPrevBytes = 0;

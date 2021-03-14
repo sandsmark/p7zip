@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/FileManager/LangUtils.cpp b/CPP/7zip/UI/FileManager/LangUtils.cpp
+index 94e9ecb..bcaa5f1 100644
+--- a/CPP/7zip/UI/FileManager/LangUtils.cpp
++++ b/CPP/7zip/UI/FileManager/LangUtils.cpp
+@@ -58,6 +58,7 @@ Hunk #1, a/CPP/7zip/UI/FileManager/LangUtils.cpp static const CIDLangPair kLangPairs[] =
+   { IDCANCEL, 402 },
+   { IDYES,    406 },
+   { IDNO,     407 },
++  { IDCLOSE,  408 },
+   { IDHELP,   409 }
+ };
+ 

@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/Console/PercentPrinter.cpp b/CPP/7zip/UI/Console/PercentPrinter.cpp
+index e3e8d59..b242687 100644
+--- a/CPP/7zip/UI/Console/PercentPrinter.cpp
++++ b/CPP/7zip/UI/Console/PercentPrinter.cpp
+@@ -141,8 +141,9 @@ Hunk #1, a/CPP/7zip/UI/Console/PercentPrinter.cpp void CPercentPrinter::Print()
+   {
+     _s += ' ';
+ 
+-    StdOut_Convert_UString_to_AString(FileName, _temp);
+-    _temp.Replace('\n', ' ');
++    _tempU = FileName;
++    _so->Normalize_UString(_tempU);
++    StdOut_Convert_UString_to_AString(_tempU, _temp);
+     if (_s.Len() + _temp.Len() > MaxLen)
+     {
+       unsigned len = FileName.Len();

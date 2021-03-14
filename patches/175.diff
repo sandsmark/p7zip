@@ -1,0 +1,53 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -349,33 +349,37 @@ Hunk #11, a/C/LzmaEnc.c typedef struct
+   Byte pad[128];
+   #endif
+   
+-  COptimal opt[kNumOpts];
+-  
+-  #ifndef LZMA_LOG_BSR
+-  Byte g_FastPos[1 << kNumLogBits];
+-  #endif
++  // LZ thread
++  CProbPrice ProbPrices[kBitModelTotal >> kNumMoveReducingBits];
+ 
+-  UInt32 ProbPrices[kBitModelTotal >> kNumMoveReducingBits];
+   UInt32 matches[LZMA_MATCH_LEN_MAX * 2 + 2 + 1];
+ 
++  UInt32 alignPrices[kAlignTableSize];
+   UInt32 posSlotPrices[kNumLenToPosStates][kDistTableSizeMax];
+   UInt32 distancesPrices[kNumLenToPosStates][kNumFullDistances];
+-  UInt32 alignPrices[kAlignTableSize];
+ 
+-  CLzmaProb isMatch[kNumStates][LZMA_NUM_PB_STATES_MAX];
++  CLzmaProb posAlignEncoder[1 << kNumAlignBits];
+   CLzmaProb isRep[kNumStates];
+   CLzmaProb isRepG0[kNumStates];
+   CLzmaProb isRepG1[kNumStates];
+   CLzmaProb isRepG2[kNumStates];
++  CLzmaProb isMatch[kNumStates][LZMA_NUM_PB_STATES_MAX];
+   CLzmaProb isRep0Long[kNumStates][LZMA_NUM_PB_STATES_MAX];
+-
+   CLzmaProb posSlotEncoder[kNumLenToPosStates][1 << kNumPosSlotBits];
+-  CLzmaProb posEncoders[kNumFullDistances - kEndPosModelIndex];
+-  CLzmaProb posAlignEncoder[1 << kNumAlignBits];
++  CLzmaProb posEncoders[kNumFullDistances];
+   
++  CLenEnc lenProbs;
++  CLenEnc repLenProbs;
++
++  #ifndef LZMA_LOG_BSR
++  Byte g_FastPos[1 << kNumLogBits];
++  #endif
++
+   CLenPriceEnc lenEnc;
+   CLenPriceEnc repLenEnc;
+ 
++  COptimal opt[kNumOpts];
++
+   CSaveState saveState;
+ 
+   #ifndef _7ZIP_ST

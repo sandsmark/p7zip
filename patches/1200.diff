@@ -1,0 +1,12 @@
+diff --git a/CPP/Windows/Control/Dialog.h b/CPP/Windows/Control/Dialog.h
+index 59b9f41..33caa5b 100644
+--- a/CPP/Windows/Control/Dialog.h
++++ b/CPP/Windows/Control/Dialog.h
+@@ -133,6 +133,7 @@ Hunk #2, a/CPP/Windows/Control/Dialog.h class CModelessDialog: public CDialog
+   #endif
+   virtual void OnOK() { Destroy(); }
+   virtual void OnCancel() { Destroy(); }
++  virtual void OnClose() { Destroy(); }
+ };
+ 
+ class CModalDialog: public CDialog

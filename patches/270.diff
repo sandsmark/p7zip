@@ -1,0 +1,13 @@
+diff --git a/C/Util/7zipUninstall/7zipUninstall.c b/C/Util/7zipUninstall/7zipUninstall.c
+index 0bf27cc..1676117 100644
+--- a/C/Util/7zipUninstall/7zipUninstall.c
++++ b/C/Util/7zipUninstall/7zipUninstall.c
+@@ -586,7 +586,7 @@ Hunk #17, a/C/Util/7zipUninstall/7zipUninstall.c static int Install()
+   SRes res = SZ_OK;
+   WRes winRes = 0;
+   
+-  // Bool needReboot = False;
++  // BoolInt needReboot = False;
+   const size_t pathLen = wcslen(path);
+ 
+   if (!g_SilentMode)

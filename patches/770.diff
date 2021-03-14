@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Compress/Rar5Decoder.cpp b/CPP/7zip/Compress/Rar5Decoder.cpp
+index 64cce79..d7c68e2 100644
+--- a/CPP/7zip/Compress/Rar5Decoder.cpp
++++ b/CPP/7zip/Compress/Rar5Decoder.cpp
+@@ -421,7 +421,7 @@ Hunk #3, a/CPP/7zip/Compress/Rar5Decoder.cpp HRESULT CDecoder::ReadTables(CBitDecoder &_bitStream)
+   Byte lens[kTablesSizesSum];
+   unsigned i = 0;
+   
+-  while (i < kTablesSizesSum)
++  do
+   {
+     if (_bitStream._buf >= _bitStream._bufCheck2)
+     {

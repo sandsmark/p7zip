@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Compress/LzmaEncoder.cpp b/CPP/7zip/Compress/LzmaEncoder.cpp
+index c64f580..e47f776 100644
+--- a/CPP/7zip/Compress/LzmaEncoder.cpp
++++ b/CPP/7zip/Compress/LzmaEncoder.cpp
+@@ -168,7 +168,7 @@ Hunk #3, a/CPP/7zip/Compress/LzmaEncoder.cpp STDMETHODIMP CEncoder::Code(ISequentialInStream *inStream, ISequentialOutStream
+   progressWrap.Init(progress);
+ 
+   SRes res = LzmaEnc_Encode(_encoder, &outWrap.vt, &inWrap.vt,
+-      progress ? &progressWrap.vt : NULL, &g_Alloc, &g_BigAlloc);
++      progress ? &progressWrap.vt : NULL, &g_AlignedAlloc, &g_BigAlloc);
+ 
+   _inputProcessed = inWrap.Processed;
+ 

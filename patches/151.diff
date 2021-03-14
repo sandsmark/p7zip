@@ -1,0 +1,26 @@
+diff --git a/C/LzmaDec.c b/C/LzmaDec.c
+index e96fa97..ba3e1dd 100644
+--- a/C/LzmaDec.c
++++ b/C/LzmaDec.c
+@@ -745,17 +745,18 @@ Hunk #31, a/C/LzmaDec.c static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
+               code -= range & (((code - range) >> 31) - 1);
+               /* if (code >= range) code -= range; */
+             }
+-            while (--numDirectBits != 0);
++            while (--numDirectBits);
+             prob = probs + Align;
+             numDirectBits = kNumAlignBits;
+           }
+           {
+             unsigned i = 1;
++            unsigned m = 1;
+             do
+             {
+-              GET_BIT_CHECK(prob + i, i);
++              REV_BIT_CHECK(prob, i, m);
+             }
+-            while (--numDirectBits != 0);
++            while (--numDirectBits);
+           }
+         }
+       }

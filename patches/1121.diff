@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/FileManager/ProgressDialog2.cpp b/CPP/7zip/UI/FileManager/ProgressDialog2.cpp
+index 762f249..28e3eae 100644
+--- a/CPP/7zip/UI/FileManager/ProgressDialog2.cpp
++++ b/CPP/7zip/UI/FileManager/ProgressDialog2.cpp
+@@ -236,7 +236,10 @@ Hunk #1, a/CPP/7zip/UI/FileManager/ProgressDialog2.cpp void CProgressSync::AddError_Code_Name(DWORD systemError, const wchar_t *name)
+   AddError_Message_Name(s, name);
+ }
+ 
+-CProgressDialog::CProgressDialog(): _timer(0), CompressingMode(true), MainWindow(0)
++CProgressDialog::CProgressDialog():
++   _timer(0),
++   CompressingMode(true),
++   MainWindow(0)
+ {
+   _isDir = false;
+ 

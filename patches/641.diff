@@ -1,0 +1,29 @@
+diff --git a/CPP/7zip/Bundles/Format7zF/Format7z.dsp b/CPP/7zip/Bundles/Format7zF/Format7z.dsp
+index f2a8fcc..3e202fe 100644
+--- a/CPP/7zip/Bundles/Format7zF/Format7z.dsp
++++ b/CPP/7zip/Bundles/Format7zF/Format7z.dsp
+@@ -961,6 +961,24 @@ Hunk #1, a/CPP/7zip/Bundles/Format7zF/Format7z.dsp SOURCE=..\..\Compress\HuffmanDecoder.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\..\Compress\LzfseDecoder.cpp
++
++!IF  "$(CFG)" == "7z - Win32 Release"
++
++# ADD CPP /O2
++# SUBTRACT CPP /YX /Yc /Yu
++
++!ELSEIF  "$(CFG)" == "7z - Win32 Debug"
++
++!ENDIF 
++
++# End Source File
++# Begin Source File
++
++SOURCE=..\..\Compress\LzfseDecoder.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\..\Compress\LzhDecoder.cpp
+ # End Source File
+ # Begin Source File

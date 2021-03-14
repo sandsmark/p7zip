@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -2694,6 +2694,7 @@ Hunk #18, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+         solidLimit = i + 1;
+       }
+ 
++      if (!testMode)
+       for (UInt32 t = 0; t < numItems; t++)
+       {
+         unsigned index = allFilesMode ? t : indices[t];

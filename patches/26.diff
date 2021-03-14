@@ -1,0 +1,16 @@
+diff --git a/C/Alloc.c b/C/Alloc.c
+index bda8b5b..bcede4b 100644
+--- a/C/Alloc.c
++++ b/C/Alloc.c
+@@ -123,10 +123,7 @@ Hunk #7, a/C/Alloc.c void *BigAlloc(size_t size)
+ 
+ void BigFree(void *address)
+ {
+-  #ifdef _SZ_ALLOC_DEBUG
+-  if (address)
+-    fprintf(stderr, "\nFree_Big; count = %10d", --g_allocCountBig);
+-  #endif
++  PRINT_FREE("Free-Big", g_allocCountBig, address);
+   
+   if (!address)
+     return;

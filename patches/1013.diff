@@ -1,0 +1,16 @@
+diff --git a/CPP/7zip/UI/Explorer/ContextMenu.cpp b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+index 21de12a..a99ca81 100644
+--- a/CPP/7zip/UI/Explorer/ContextMenu.cpp
++++ b/CPP/7zip/UI/Explorer/ContextMenu.cpp
+@@ -120,7 +120,11 @@ Hunk #1, a/CPP/7zip/UI/Explorer/ContextMenu.cpp HRESULT CZipContextMenu::InitContextMenu(const wchar_t * /* folder */, const wch
+   _isMenuForFM = true;
+   _fileNames.Clear();
+   for (UInt32 i = 0; i < numFiles; i++)
++  {
++    // MessageBoxW(0, names[i], NULL, 0);
++    // OutputDebugStringW(names[i]);
+     _fileNames.Add(names[i]);
++  }
+   _dropMode = false;
+   return S_OK;
+ }

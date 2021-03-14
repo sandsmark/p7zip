@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Compress/Lzma2Decoder.h b/CPP/7zip/Compress/Lzma2Decoder.h
+index 440914e..e141488 100644
+--- a/CPP/7zip/Compress/Lzma2Decoder.h
++++ b/CPP/7zip/Compress/Lzma2Decoder.h
+@@ -3,10 +3,9 @@ Hunk #1, a/CPP/7zip/Compress/Lzma2Decoder.h
+ #ifndef __LZMA2_DECODER_H
+ #define __LZMA2_DECODER_H
+ 
+-#include "../../../C/Lzma2Dec.h"
++#include "../../../C/Lzma2DecMt.h"
+ 
+-#include "../../Common/MyCom.h"
+-#include "../ICoder.h"
++#include "../Common/CWrappers.h"
+ 
+ namespace NCompress {
+ namespace NLzma2 {

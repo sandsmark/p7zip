@@ -1,0 +1,137 @@
+diff --git a/CPP/7zip/Compress/Rar1Decoder.cpp b/CPP/7zip/Compress/Rar1Decoder.cpp
+index 0a55250..6b55705 100644
+--- a/CPP/7zip/Compress/Rar1Decoder.cpp
++++ b/CPP/7zip/Compress/Rar1Decoder.cpp
+@@ -9,77 +9,85 @@ Hunk #1, a/CPP/7zip/Compress/Rar1Decoder.cpp
+ namespace NCompress {
+ namespace NRar1 {
+ 
+-static const UInt32 PosL1[] = {0,0,0,2,3,5,7,11,16,20,24,32,32, 256};
+-static const UInt32 PosL2[] = {0,0,0,0,5,7,9,13,18,22,26,34,36, 256};
+-static const UInt32 PosHf0[] = {0,0,0,0,0,8,16,24,33,33,33,33,33, 257};
+-static const UInt32 PosHf1[] = {0,0,0,0,0,0,4,44,60,76,80,80,127, 257};
+-static const UInt32 PosHf2[] = {0,0,0,0,0,0,2,7,53,117,233, 257,0};
+-static const UInt32 PosHf3[] = {0,0,0,0,0,0,0,2,16,218,251, 257,0};
+-static const UInt32 PosHf4[] = {0,0,0,0,0,0,0,0,0,255, 257,0,0};
++static const unsigned kNumBits = 12;
++
++static const Byte kShortLen1[16 * 3] =
++{
++  0,0xa0,0xd0,0xe0,0xf0,0xf8,0xfc,0xfe,0xff,0xc0,0x80,0x90,0x98,0x9c,0xb0,0,
++  1,3,4,4,5,6,7,8,8,4,4,5,6,6,0,0,
++  1,4,4,4,5,6,7,8,8,4,4,5,6,6,4,0
++};
++
++static const Byte kShortLen2[16 * 3] =
++{
++  0,0x40,0x60,0xa0,0xd0,0xe0,0xf0,0xf8,0xfc,0xc0,0x80,0x90,0x98,0x9c,0xb0,0,
++  2,3,3,3,4,4,5,6,6,4,4,5,6,6,0,0,
++  2,3,3,4,4,4,5,6,6,4,4,5,6,6,4,0
++};
++
++static const Byte PosL1[kNumBits + 1]  = { 0,0,2,1,2,2,4,5,4,4,8,0,224 };
++static const Byte PosL2[kNumBits + 1]  = { 0,0,0,5,2,2,4,5,4,4,8,2,220 };
++
++static const Byte PosHf0[kNumBits + 1] = { 0,0,0,0,8,8,8,9,0,0,0,0,224 };
++static const Byte PosHf1[kNumBits + 1] = { 0,0,0,0,0,4,40,16,16,4,0,47,130 };
++static const Byte PosHf2[kNumBits + 1] = { 0,0,0,0,0,2,5,46,64,116,24,0,0 };
++static const Byte PosHf3[kNumBits + 1] = { 0,0,0,0,0,0,2,14,202,33,6,0,0 };
++static const Byte PosHf4[kNumBits + 1] = { 0,0,0,0,0,0,0,0,255,2,0,0,0 };
+ 
+ static const UInt32 kHistorySize = (1 << 16);
+ 
+-/*
+-class CCoderReleaser
+-{
+-  CDecoder *m_Coder;
+-public:
+-  CCoderReleaser(CDecoder *coder): m_Coder(coder) {}
+-  ~CCoderReleaser() { m_Coder->ReleaseStreams(); }
+-};
+-*/
++CDecoder::CDecoder():
++   _isSolid(false),
++   _solidAllowed(false)
++   { }
+ 
+-CDecoder::CDecoder(): m_IsSolid(false) { }
+-
+-void CDecoder::InitStructures()
+-{
+-  for (int i = 0; i < kNumRepDists; i++)
+-    m_RepDists[i] = 0;
+-  m_RepDistPtr = 0;
+-  LastLength = 0;
+-  LastDist = 0;
+-}
+-
+-UInt32 CDecoder::ReadBits(int numBits) { return m_InBitStream.ReadBits(numBits); }
++UInt32 CDecoder::ReadBits(unsigned numBits) { return m_InBitStream.ReadBits(numBits); }
+ 
+ HRESULT CDecoder::CopyBlock(UInt32 distance, UInt32 len)
+ {
+   if (len == 0)
+     return S_FALSE;
++  if (m_UnpackSize < len)
++    return S_FALSE;
+   m_UnpackSize -= len;
+   return m_OutWindowStream.CopyBlock(distance, len) ? S_OK : S_FALSE;
+ }
+ 
+ 
+-UInt32 CDecoder::DecodeNum(const UInt32 *posTab)
++UInt32 CDecoder::DecodeNum(const Byte *numTab)
+ {
+-  UInt32 startPos = 2;
+-  UInt32 num = m_InBitStream.GetValue(12);
++  /*
++  {
++    // we can check that tables are correct
++    UInt32 sum = 0;
++    for (unsigned i = 0; i <= kNumBits; i++)
++      sum += ((UInt32)numTab[i] << (kNumBits - i));
++    if (sum != (1 << kNumBits))
++      throw 111;
++  }
++  */
++
++  UInt32 val = m_InBitStream.GetValue(kNumBits);
++  UInt32 sum = 0;
++  unsigned i = 2;
++
+   for (;;)
+   {
+-    UInt32 cur = (posTab[(size_t)startPos + 1] - posTab[startPos]) << (12 - startPos);
+-    if (num < cur)
++    UInt32 num = numTab[i];
++    UInt32 cur = num << (kNumBits - i);
++    if (val < cur)
+       break;
+-    startPos++;
+-    num -= cur;
++    i++;
++    val -= cur;
++    sum += num;
+   }
+-  m_InBitStream.MovePos(startPos);
+-  return((num >> (12 - startPos)) + posTab[startPos]);
++  m_InBitStream.MovePos(i);
++  return ((val >> (kNumBits - i)) + sum);
+ }
+ 
+-static const Byte kShortLen1 [] = {1,3,4,4,5,6,7,8,8,4,4,5,6,6 };
+-static const Byte kShortLen1a[] = {1,4,4,4,5,6,7,8,8,4,4,5,6,6,4 };
+-static const Byte kShortLen2 [] = {2,3,3,3,4,4,5,6,6,4,4,5,6,6 };
+-static const Byte kShortLen2a[] = {2,3,3,4,4,4,5,6,6,4,4,5,6,6,4 };
+-static const UInt32 kShortXor1[] = {0,0xa0,0xd0,0xe0,0xf0,0xf8,0xfc,0xfe,0xff,0xc0,0x80,0x90,0x98,0x9c,0xb0};
+-static const UInt32 kShortXor2[] = {0,0x40,0x60,0xa0,0xd0,0xe0,0xf0,0xf8,0xfc,0xc0,0x80,0x90,0x98,0x9c,0xb0};
+ 
+ HRESULT CDecoder::ShortLZ()
+ {
+-  UInt32 len, saveLen, dist;
+-  int distancePlace;
+-  const Byte *kShortLen;
+-  const UInt32 *kShortXor;
+   NumHuf = 0;
+ 
+   if (LCount == 2)

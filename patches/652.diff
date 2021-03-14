@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/Bundles/SFXCon/makefile b/CPP/7zip/Bundles/SFXCon/makefile
+index 4c201c0..077dbc0 100644
+--- a/CPP/7zip/Bundles/SFXCon/makefile
++++ b/CPP/7zip/Bundles/SFXCon/makefile
+@@ -1,10 +1,11 @@ Hunk #1, a/CPP/7zip/Bundles/SFXCon/makefile
+ PROG = 7zCon.sfx
+ MY_CONSOLE = 1
++MY_FIXED = 1
++
+ CFLAGS = $(CFLAGS) \
+   -DEXTRACT_ONLY \
+   -DNO_READ_FROM_CODER \
+   -D_SFX \
+-  -D_CONSOLE \
+ 
+ CURRENT_OBJS = \
+   $O\SfxCon.obj \

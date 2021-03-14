@@ -1,0 +1,21 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1326,11 +1326,16 @@ Hunk #28, a/CPP/7zip/UI/Common/Bench.cpp static HRESULT MethodBench(
+     CEncoderInfo &encoder = encoders[i];
+     info.UnpackSize += encoder.kBufferSize;
+     info.PackSize += encoder.compressedSize;
++    // printf("\n%7d\n", encoder.compressedSize);
+   }
+   
+   RINOK(callback->SetEncodeResult(info, true));
+ 
+ 
++
++
++  // ---------- Decode ----------
++
+   status.Res = S_OK;
+   status.EncodeMode = false;
+ 

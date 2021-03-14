@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/UI/Agent/Agent.h b/CPP/7zip/UI/Agent/Agent.h
+index ae4026d..f7d7b5e 100644
+--- a/CPP/7zip/UI/Agent/Agent.h
++++ b/CPP/7zip/UI/Agent/Agent.h
+@@ -241,6 +241,7 @@ Hunk #1, a/CPP/7zip/UI/Agent/Agent.h class CAgent:
+   CAgentFolder *_agentFolder;
+ 
+   UString _archiveFilePath;
++  DWORD _attrib;
+   bool _isDeviceFile;
+ 
+   #ifndef EXTRACT_ONLY

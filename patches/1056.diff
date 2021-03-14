@@ -1,0 +1,22 @@
+diff --git a/CPP/7zip/UI/FileManager/ListViewDialog.cpp b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+index 80cdd7f..a42e790 100644
+--- a/CPP/7zip/UI/FileManager/ListViewDialog.cpp
++++ b/CPP/7zip/UI/FileManager/ListViewDialog.cpp
+@@ -129,6 +129,17 @@ Hunk #8, a/CPP/7zip/UI/FileManager/ListViewDialog.cpp bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
+             _listView.SelectAll();
+             return true;
+           }
++          break;
++        }
++        case VK_INSERT:
++        case 'C':
++        {
++          if (IsKeyDown(VK_CONTROL))
++          {
++            CopyToClipboard();
++            return true;
++          }
++          break;
+         }
+       }
+     }

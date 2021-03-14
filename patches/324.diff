@@ -1,0 +1,13 @@
+diff --git a/C/XzEnc.c b/C/XzEnc.c
+index 2b95a0e..d0a8b44 100644
+--- a/C/XzEnc.c
++++ b/C/XzEnc.c
+@@ -136,7 +136,7 @@ Hunk #2, a/C/XzEnc.c static void XzEncIndex_Free(CXzEncIndex *p, ISzAllocPtr alloc)
+ 
+ static SRes XzEncIndex_ReAlloc(CXzEncIndex *p, size_t newSize, ISzAllocPtr alloc)
+ {
+-  Byte *blocks = ISzAlloc_Alloc(alloc, newSize);
++  Byte *blocks = (Byte *)ISzAlloc_Alloc(alloc, newSize);
+   if (!blocks)
+     return SZ_ERROR_MEM;
+   if (p->size != 0)

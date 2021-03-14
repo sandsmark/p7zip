@@ -1,0 +1,20 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -325,13 +325,13 @@ Hunk #7, a/CPP/7zip/UI/Common/Bench.cpp class CBenchmarkOutStream:
+ 
+ STDMETHODIMP CBenchmarkOutStream::Write(const void *data, UInt32 size, UInt32 *processedSize)
+ {
+-  size_t curSize = BufferSize - Pos;
++  size_t curSize = Size() - Pos;
+   if (curSize > size)
+     curSize = size;
+   if (curSize != 0)
+   {
+     if (RealCopy)
+-      memcpy(Buffer + Pos, data, curSize);
++      memcpy(((Byte *)*this) + Pos, data, curSize);
+     if (CalcCrc)
+       Crc = CrcUpdate(Crc, data, curSize);
+     Pos += curSize;

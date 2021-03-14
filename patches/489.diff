@@ -1,0 +1,26 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -2748,15 +2748,19 @@ Hunk #20, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+     
+     CMyComPtr<ISequentialOutStream> realOutStream;
+ 
++    // isExtract means that we don't skip that item. So we need read data.
++
++    bool isExtract = ((extractStatuses[i] & kStatus_Extract) != 0);
+     Int32 askMode =
+-        ((extractStatuses[i] & kStatus_Extract) != 0) ? (testMode ?
++        isExtract ? (testMode ?
+           NExtract::NAskMode::kTest :
+           NExtract::NAskMode::kExtract) :
+           NExtract::NAskMode::kSkip;
+ 
+     unpacker.linkFile = NULL;
+ 
+-    if (((extractStatuses[i] & kStatus_Link) != 0))
++    // if (!testMode)
++    if ((extractStatuses[i] & kStatus_Link) != 0)
+     {
+       int bufIndex = FindLinkBuf(linkFiles, i);
+       if (bufIndex < 0)

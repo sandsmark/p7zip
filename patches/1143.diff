@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/GUI/ExtractGUI.cpp b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+index 5071d1f..1e37efb 100644
+--- a/CPP/7zip/UI/GUI/ExtractGUI.cpp
++++ b/CPP/7zip/UI/GUI/ExtractGUI.cpp
+@@ -266,10 +266,9 @@ Hunk #6, a/CPP/7zip/UI/GUI/ExtractGUI.cpp HRESULT ExtractGUI(
+   extracter.HashBundle = hb;
+   #endif
+ 
+-  extracter.ProgressDialog.IconID = IDI_ICON;
++  extracter.IconID = IDI_ICON;
+ 
+   RINOK(extracter.Create(title, hwndParent));
+-  messageWasDisplayed = extracter.ThreadFinishedOK &
+-      extracter.ProgressDialog.MessagesDisplayed;
++  messageWasDisplayed = extracter.ThreadFinishedOK && extracter.MessagesDisplayed;
+   return extracter.Result;
+ }

@@ -1,0 +1,13 @@
+diff --git a/C/Util/SfxSetup/SfxSetup.c b/C/Util/SfxSetup/SfxSetup.c
+index 8275dfe..ef19aea 100644
+--- a/C/Util/SfxSetup/SfxSetup.c
++++ b/C/Util/SfxSetup/SfxSetup.c
+@@ -163,7 +163,7 @@ Hunk #3, a/C/Util/SfxSetup/SfxSetup.c static Bool FindSignature(CSzFile *stream, UInt64 *resPos)
+   }
+ }
+ 
+-static Bool DoesFileOrDirExist(const WCHAR *path)
++static BoolInt DoesFileOrDirExist(const WCHAR *path)
+ {
+   WIN32_FIND_DATAW fd;
+   HANDLE handle;

@@ -1,0 +1,15 @@
+diff --git a/CPP/7zip/Compress/Rar5Decoder.cpp b/CPP/7zip/Compress/Rar5Decoder.cpp
+index 64cce79..d7c68e2 100644
+--- a/CPP/7zip/Compress/Rar5Decoder.cpp
++++ b/CPP/7zip/Compress/Rar5Decoder.cpp
+@@ -827,6 +827,10 @@ Hunk #7, a/CPP/7zip/Compress/Rar5Decoder.cpp STDMETHODIMP CDecoder::Code(ISequentialInStream *inStream, ISequentialOutStream
+ {
+   try
+   {
++    if (_isSolid && !_solidAllowed)
++      return S_FALSE;
++    _solidAllowed = false;
++
+     if (_dictSizeLog >= sizeof(size_t) * 8)
+       return E_NOTIMPL;
+ 

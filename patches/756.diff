@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Compress/Rar3Decoder.cpp b/CPP/7zip/Compress/Rar3Decoder.cpp
+index c6d045a..4456ba6 100644
+--- a/CPP/7zip/Compress/Rar3Decoder.cpp
++++ b/CPP/7zip/Compress/Rar3Decoder.cpp
+@@ -769,7 +769,7 @@ Hunk #11, a/CPP/7zip/Compress/Rar3Decoder.cpp HRESULT CDecoder::DecodeLZ(bool &keepDecompressing)
+         if (sym2 >= kDistTableSize)
+           return S_FALSE;
+         rep0 = kDistStart[sym2];
+-        int numBits = kDistDirectBits[sym2];
++        unsigned numBits = kDistDirectBits[sym2];
+         if (sym2 >= (kNumAlignBits * 2) + 2)
+         {
+           if (numBits > kNumAlignBits)

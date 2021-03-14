@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/GUI/GUI.dsp b/CPP/7zip/UI/GUI/GUI.dsp
+index c022088..b70e284 100644
+--- a/CPP/7zip/UI/GUI/GUI.dsp
++++ b/CPP/7zip/UI/GUI/GUI.dsp
+@@ -433,6 +433,14 @@ Hunk #2, a/CPP/7zip/UI/GUI/GUI.dsp SOURCE=.\ExtractDialog.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=..\FileManager\ListViewDialog.cpp
++# End Source File
++# Begin Source File
++
++SOURCE=..\FileManager\ListViewDialog.h
++# End Source File
++# Begin Source File
++
+ SOURCE=..\FileManager\OverwriteDialog.cpp
+ # End Source File
+ # Begin Source File

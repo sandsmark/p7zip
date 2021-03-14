@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/UI/FileManager/LinkDialog.cpp b/CPP/7zip/UI/FileManager/LinkDialog.cpp
+index 70b0ba6..ddef365 100644
+--- a/CPP/7zip/UI/FileManager/LinkDialog.cpp
++++ b/CPP/7zip/UI/FileManager/LinkDialog.cpp
+@@ -55,7 +55,8 @@ Hunk #1, a/CPP/7zip/UI/FileManager/LinkDialog.cpp static bool GetSymLink(CFSTR path, CReparseAttr &attr)
+   if (!file.DeviceIoControlOut(my_FSCTL_GET_REPARSE_POINT, buf, kBufSize, &returnedSize))
+     return false;
+   
+-  if (!attr.Parse(buf, returnedSize))
++  DWORD errorCode = 0;
++  if (!attr.Parse(buf, returnedSize, errorCode))
+     return false;
+ 
+   CByteBuffer data2;

@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Compress/Lzma2Encoder.cpp b/CPP/7zip/Compress/Lzma2Encoder.cpp
+index a3ef4b5..caecbc0 100644
+--- a/CPP/7zip/Compress/Lzma2Encoder.cpp
++++ b/CPP/7zip/Compress/Lzma2Encoder.cpp
+@@ -22,7 +22,7 @@ Hunk #1, a/CPP/7zip/Compress/Lzma2Encoder.cpp namespace NLzma2 {
+ CEncoder::CEncoder()
+ {
+   _encoder = NULL;
+-  _encoder = Lzma2Enc_Create(&g_Alloc, &g_BigAlloc);
++  _encoder = Lzma2Enc_Create(&g_AlignedAlloc, &g_BigAlloc);
+   if (!_encoder)
+     throw 1;
+ }

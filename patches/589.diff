@@ -1,0 +1,14 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipItem.h b/CPP/7zip/Archive/Zip/ZipItem.h
+index 0cf9bd0..e576971 100644
+--- a/CPP/7zip/Archive/Zip/ZipItem.h
++++ b/CPP/7zip/Archive/Zip/ZipItem.h
+@@ -302,7 +302,8 @@ Hunk #5, a/CPP/7zip/Archive/Zip/ZipItem.h class CItem: public CLocalItem
+   UInt32 GetWinAttrib() const;
+   bool GetPosixAttrib(UInt32 &attrib) const;
+ 
+-  Byte GetHostOS() const { return FromCentral ? MadeByVersion.HostOS : ExtractVersion.HostOS; }
++  // 18.06: 0 instead of ExtractVersion.HostOS for local item
++  Byte GetHostOS() const { return FromCentral ? MadeByVersion.HostOS : (Byte)0; }
+ 
+   void GetUnicodeString(UString &res, const AString &s, bool isComment, bool useSpecifiedCodePage, UINT codePage) const;
+ 

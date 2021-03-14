@@ -1,0 +1,17 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelDrag.cpp b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+index b6fca59..6a781e2 100644
+--- a/CPP/7zip/UI/FileManager/PanelDrag.cpp
++++ b/CPP/7zip/UI/FileManager/PanelDrag.cpp
+@@ -671,10 +671,12 @@ Hunk #14, a/CPP/7zip/UI/FileManager/PanelDrag.cpp DWORD CDropTarget::GetEffect(DWORD keyState, POINTL /* pt */, DWORD allowedEffec
+     allowedEffect &= ~DROPEFFECT_MOVE;
+ 
+   DWORD effect = 0;
++  
+   if (keyState & MK_CONTROL)
+     effect = allowedEffect & DROPEFFECT_COPY;
+   else if (keyState & MK_SHIFT)
+     effect = allowedEffect & DROPEFFECT_MOVE;
++  
+   if (effect == 0)
+   {
+     if (allowedEffect & DROPEFFECT_COPY)

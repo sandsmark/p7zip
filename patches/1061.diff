@@ -1,0 +1,43 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelCopy.cpp b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+index d07def1..c3416cc 100644
+--- a/CPP/7zip/UI/FileManager/PanelCopy.cpp
++++ b/CPP/7zip/UI/FileManager/PanelCopy.cpp
+@@ -25,14 +25,34 @@ Hunk #2, a/CPP/7zip/UI/FileManager/PanelCopy.cpp class CPanelCopyThread: public CProgressThreadVirt
+   CMyComPtr<IFolderOperationsExtractCallback> ExtractCallback;
+   
+   CHashBundle Hash;
+-  UString FirstFilePath;
++  // UString FirstFilePath;
+ 
+   HRESULT Result;
+-  
+ 
+-  CPanelCopyThread(): Result(E_FAIL) {}
+-};
++  void ShowFinalResults(HWND hwnd);
+   
++  CPanelCopyThread():
++    Result(E_FAIL),
++    ResultsWereShown(false),
++    NeedShowRes(false)
++    {}
++};
++
++void CPanelCopyThread::ShowFinalResults(HWND hwnd)
++{
++  if (NeedShowRes)
++  if (!ResultsWereShown)
++  {
++    ResultsWereShown = true;
++    ShowHashResults(Hash, hwnd);
++  }
++}
++  
++void CPanelCopyThread::ProcessWasFinished_GuiVirt()
++{
++  ShowFinalResults(*this);
++}
++
+ HRESULT CPanelCopyThread::ProcessVirt()
+ {
+   /*

@@ -1,0 +1,19 @@
+diff --git a/CPP/7zip/UI/FileManager/FM.dsp b/CPP/7zip/UI/FileManager/FM.dsp
+index 3b2fb2e..69d285c 100644
+--- a/CPP/7zip/UI/FileManager/FM.dsp
++++ b/CPP/7zip/UI/FileManager/FM.dsp
+@@ -491,6 +491,14 @@ Hunk #1, a/CPP/7zip/UI/FileManager/FM.dsp SOURCE=.\DialogSize.h
+ # End Source File
+ # Begin Source File
+ 
++SOURCE=.\EditDialog.cpp
++# End Source File
++# Begin Source File
++
++SOURCE=.\EditDialog.h
++# End Source File
++# Begin Source File
++
+ SOURCE=.\LinkDialog.cpp
+ # End Source File
+ # Begin Source File

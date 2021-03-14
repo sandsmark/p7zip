@@ -1,0 +1,34 @@
+diff --git a/CPP/7zip/Archive/Rar/Rar5Handler.cpp b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+index c422542..320771d 100644
+--- a/CPP/7zip/Archive/Rar/Rar5Handler.cpp
++++ b/CPP/7zip/Archive/Rar/Rar5Handler.cpp
+@@ -2651,19 +2651,25 @@ Hunk #17, a/CPP/7zip/Archive/Rar/Rar5Handler.cpp STDMETHODIMP CHandler::Extract(const UInt32 *indices, UInt32 numItems,
+     {
+       unsigned solidLimit = 0;
+ 
+-      FOR_VECTOR(i, _refs)
++      FOR_VECTOR (i, _refs)
+       {
+         if ((extractStatuses[i] & kStatus_Link) == 0)
+           continue;
++
++        // We use CLinkFile for testMode too.
++        // So we can show errors for copy files.
++        // if (!testMode)
++        {
++          CLinkFile &linkFile = linkFiles.AddNew();
++          linkFile.Index = i;
++        }
++
+         const CItem &item = _items[_refs[i].Item];
+         /*
+         if (item.IsService())
+           continue;
+         */
+         
+-        CLinkFile &linkFile = linkFiles.AddNew();
+-        linkFile.Index = i;
+-        
+         if (item.IsSolid())
+         {
+           unsigned j = i;

@@ -1,0 +1,16 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -2004,7 +2004,10 @@ Hunk #30, a/C/LzmaEnc.c static SRes LzmaEnc_Alloc(CLzmaEnc *p, UInt32 keepWindowSize, ISzAllocPtr alloc,
+   #ifndef _7ZIP_ST
+   if (p->mtMode)
+   {
+-    RINOK(MatchFinderMt_Create(&p->matchFinderMt, p->dictSize, beforeSize, p->numFastBytes, LZMA_MATCH_LEN_MAX, allocBig));
++    RINOK(MatchFinderMt_Create(&p->matchFinderMt, p->dictSize, beforeSize, p->numFastBytes,
++        LZMA_MATCH_LEN_MAX
++        + 1  /* 18.04 */
++        , allocBig));
+     p->matchFinderObj = &p->matchFinderMt;
+     p->matchFinderBase.bigHash = (Byte)(
+         (p->dictSize > kBigHashDicLimit && p->matchFinderBase.hashMask >= 0xFFFFFF) ? 1 : 0);

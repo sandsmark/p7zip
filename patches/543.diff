@@ -1,0 +1,61 @@
+diff --git a/CPP/7zip/Archive/XzHandler.cpp b/CPP/7zip/Archive/XzHandler.cpp
+index e3779a4..801619f 100644
+--- a/CPP/7zip/Archive/XzHandler.cpp
++++ b/CPP/7zip/Archive/XzHandler.cpp
+@@ -1125,55 +1125,7 @@ Hunk #22, a/CPP/7zip/Archive/XzHandler.cpp STDMETHODIMP CHandler::UpdateItems(ISequentialOutStream *outStream, UInt32 numIt
+   COM_TRY_END
+ }
+ 
+-
+-HRESULT CHandler::SetSolidFromString(const UString &s)
+-{
+-  UString s2 = s;
+-  s2.MakeLower_Ascii();
+-
+-  {
+-    const wchar_t *start = ((const wchar_t *)s2);
+-    const wchar_t *end;
+-    UInt64 v = ConvertStringToUInt64(start, &end);
+-    if (start == end)
+-      return E_INVALIDARG;
+-    if ((unsigned)(end - start) + 1 != s2.Len())
+-      return E_INVALIDARG;
+-    wchar_t c = *end;
+-    {
+-      unsigned numBits;
+-      switch (c)
+-      {
+-        case 'b': numBits =  0; break;
+-        case 'k': numBits = 10; break;
+-        case 'm': numBits = 20; break;
+-        case 'g': numBits = 30; break;
+-        case 't': numBits = 40; break;
+-        default: return E_INVALIDARG;
+-      }
+-      _numSolidBytes = (v << numBits);
+-    }
+-  }
+-  return S_OK;
+-}
+-
+-
+-HRESULT CHandler::SetSolidFromPROPVARIANT(const PROPVARIANT &value)
+-{
+-  bool isSolid;
+-  switch (value.vt)
+-  {
+-    case VT_EMPTY: isSolid = true; break;
+-    case VT_BOOL: isSolid = (value.boolVal != VARIANT_FALSE); break;
+-    case VT_BSTR:
+-      if (StringToBool(value.bstrVal, isSolid))
+-        break;
+-      return SetSolidFromString(value.bstrVal);
+-    default: return E_INVALIDARG;
+-  }
+-  _numSolidBytes = (isSolid ? XZ_PROPS__BLOCK_SIZE__SOLID : XZ_PROPS__BLOCK_SIZE__AUTO);
+-  return S_OK;
+-}
++#endif
+ 
+ 
+ HRESULT CHandler::SetProperty(const wchar_t *nameSpec, const PROPVARIANT &value)

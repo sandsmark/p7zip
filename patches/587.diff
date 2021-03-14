@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipItem.h b/CPP/7zip/Archive/Zip/ZipItem.h
+index 0cf9bd0..e576971 100644
+--- a/CPP/7zip/Archive/Zip/ZipItem.h
++++ b/CPP/7zip/Archive/Zip/ZipItem.h
+@@ -233,6 +233,7 @@ Hunk #3, a/CPP/7zip/Archive/Zip/ZipItem.h class CLocalItem
+   bool IsAesEncrypted() const { return IsEncrypted() && (IsStrongEncrypted() || Method == NFileHeader::NCompressionMethod::kWzAES); }
+   bool IsLzmaEOS() const { return (Flags & NFileHeader::NFlags::kLzmaEOS) != 0; }
+   bool HasDescriptor() const { return (Flags & NFileHeader::NFlags::kDescriptorUsedMask) != 0; }
++  // bool IsAltStream() const { return (Flags & NFileHeader::NFlags::kAltStream) != 0; }
+ 
+   unsigned GetDeflateLevel() const { return (Flags >> 1) & 3; }
+   

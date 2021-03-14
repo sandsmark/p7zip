@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/FileManager/PanelMenu.cpp b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+index 945a41f..11c6d7c 100644
+--- a/CPP/7zip/UI/FileManager/PanelMenu.cpp
++++ b/CPP/7zip/UI/FileManager/PanelMenu.cpp
+@@ -309,7 +309,7 @@ Hunk #8, a/CPP/7zip/UI/FileManager/PanelMenu.cpp void CPanel::Properties()
+             {
+               const int kNumSpecProps = ARRAY_SIZE(kSpecProps);
+ 
+-              message += kSeparator;
++              AddSeparator(message);
+               
+               for (Int32 i = -(int)kNumSpecProps; i < (Int32)numProps; i++)
+               {

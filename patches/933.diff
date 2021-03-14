@@ -1,0 +1,39 @@
+diff --git a/CPP/7zip/UI/Common/PropIDUtils.cpp b/CPP/7zip/UI/Common/PropIDUtils.cpp
+index 4b796f0..7702e22 100644
+--- a/CPP/7zip/UI/Common/PropIDUtils.cpp
++++ b/CPP/7zip/UI/Common/PropIDUtils.cpp
+@@ -359,22 +359,22 @@ Hunk #3, a/CPP/7zip/UI/Common/PropIDUtils.cpp static void ParseSid(AString &s, const Byte *p, UInt32 lim, UInt32 &sidSize)
+     if (v0 == 32 && num == 2)
+     {
+       UInt32 v1 = Get32(p + 12);
+-      for (unsigned i = 0; i < ARRAY_SIZE(sid_32_Names); i++)
+-        if (sid_32_Names[i].n == v1)
+-        {
+-          s += sid_32_Names[i].sz;
+-          return;
+-        }
++      int index = FindPairIndex(sid_32_Names, ARRAY_SIZE(sid_32_Names), v1);
++      if (index >= 0)
++      {
++        s += sid_32_Names[(unsigned)index].sz;
++        return;
++      }
+     }
+     if (v0 == 21 && num == 5)
+     {
+       UInt32 v4 = Get32(p + 8 + 4 * 4);
+-      for (unsigned i = 0; i < ARRAY_SIZE(sid_21_Names); i++)
+-        if (sid_21_Names[i].n == v4)
+-        {
+-          s += sid_21_Names[i].sz;
+-          return;
+-        }
++      int index = FindPairIndex(sid_21_Names, ARRAY_SIZE(sid_21_Names), v4);
++      if (index >= 0)
++      {
++        s += sid_21_Names[(unsigned)index].sz;
++        return;
++      }
+     }
+     if (v0 == 80 && num == 6)
+     {

@@ -1,0 +1,36 @@
+diff --git a/CPP/7zip/Archive/7z/7zIn.cpp b/CPP/7zip/Archive/7z/7zIn.cpp
+index 3db5f51..ab5b5de 100644
+--- a/CPP/7zip/Archive/7z/7zIn.cpp
++++ b/CPP/7zip/Archive/7z/7zIn.cpp
+@@ -1465,21 +1465,24 @@ Hunk #2, a/CPP/7zip/Archive/7z/7zIn.cpp void CDbEx::FillLinks()
+   }
+ 
+   if (indexInFolder != 0)
++  {
+     folderIndex++;
+-  /*
+-  if (indexInFolder != 0)
+-    ThrowIncorrect();
+-  */
++    // 18.06
++    ThereIsHeaderError = true;
++    // ThrowIncorrect();
++  }
+   
+   for (;;)
+   {
+     if (folderIndex >= NumFolders)
+       return;
+     FolderStartFileIndex[folderIndex] = i;
+-    /*
+     if (NumUnpackStreamsVector[folderIndex] != 0)
+-      ThrowIncorrect();;
+-    */
++    {
++      // 18.06
++      ThereIsHeaderError = true;
++      // ThrowIncorrect();
++    }
+     folderIndex++;
+   }
+ }

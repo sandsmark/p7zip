@@ -1,0 +1,48 @@
+diff --git a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp b/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
+index ad21bc8..0e2a470 100644
+--- a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
++++ b/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
+@@ -8,29 +8,42 @@ Hunk #1, a/CPP/7zip/UI/Common/ArchiveCommandLine.cpp
+ #ifndef UNDER_CE
+ #include <io.h>
+ #endif
++#else
++// for isatty()
++#include <unistd.h>
+ #endif
++
+ #include <stdio.h>
+ 
++#ifdef _7ZIP_LARGE_PAGES
++#include "../../../../C/Alloc.h"
++#endif
++
+ #include "../../../Common/ListFileUtils.h"
+ #include "../../../Common/StringConvert.h"
+ #include "../../../Common/StringToInt.h"
+ 
++#include "../../../Windows/ErrorMsg.h"
+ #include "../../../Windows/FileDir.h"
+ #include "../../../Windows/FileName.h"
+ #ifdef _WIN32
+ #include "../../../Windows/FileMapping.h"
++#include "../../../Windows/MemoryLock.h"
+ #include "../../../Windows/Synchronization.h"
+ #endif
+ 
+ #include "ArchiveCommandLine.h"
+ #include "EnumDirItems.h"
+-#include "SortUtils.h"
+ #include "Update.h"
+ #include "UpdateAction.h"
+ 
+ extern bool g_CaseSensitive;
+ extern bool g_PathTrailReplaceMode;
+ 
++#ifdef _7ZIP_LARGE_PAGES
++bool g_LargePagesMode = false;
++#endif
++
+ #ifdef UNDER_CE
+ 
+ #define MY_IS_TERMINAL(x) false;

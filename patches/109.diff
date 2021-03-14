@@ -1,0 +1,13 @@
+diff --git a/C/Lzma2Enc.c b/C/Lzma2Enc.c
+index e970944..5c1ad49 100644
+--- a/C/Lzma2Enc.c
++++ b/C/Lzma2Enc.c
+@@ -115,7 +115,7 @@ Hunk #2, a/C/Lzma2Enc.c SRes LzmaEnc_PrepareForLzma2(CLzmaEncHandle pp, ISeqInStream *inStream, UInt32 k
+     ISzAllocPtr alloc, ISzAllocPtr allocBig);
+ SRes LzmaEnc_MemPrepare(CLzmaEncHandle pp, const Byte *src, SizeT srcLen,
+     UInt32 keepWindowSize, ISzAllocPtr alloc, ISzAllocPtr allocBig);
+-SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp, Bool reInit,
++SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp, BoolInt reInit,
+     Byte *dest, size_t *destLen, UInt32 desiredPackSize, UInt32 *unpackSize);
+ const Byte *LzmaEnc_GetCurBuf(CLzmaEncHandle pp);
+ void LzmaEnc_Finish(CLzmaEncHandle pp);

@@ -1,0 +1,18 @@
+diff --git a/CPP/Windows/FileIO.h b/CPP/Windows/FileIO.h
+index 32c285f..5ca5448 100644
+--- a/CPP/Windows/FileIO.h
++++ b/CPP/Windows/FileIO.h
+@@ -171,7 +171,12 @@ Hunk #2, a/CPP/Windows/FileIO.h class CInFile: public CFileBase
+ 
+   bool OpenReparse(CFSTR fileName)
+   {
+-    return Open(fileName, FILE_SHARE_READ, OPEN_EXISTING,
++    // 17.02 fix: to support Windows XP compatibility junctions:
++    //   we use Create() with (desiredAccess = 0) instead of Open() with GENERIC_READ
++    return
++        Create(fileName, 0,
++        // Open(fileName,
++        FILE_SHARE_READ, OPEN_EXISTING,
+         FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS);
+   }
+   

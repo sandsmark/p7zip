@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/Archive/7z/7zHandlerOut.cpp b/CPP/7zip/Archive/7z/7zHandlerOut.cpp
+index c4fabed..b6be06a 100644
+--- a/CPP/7zip/Archive/7z/7zHandlerOut.cpp
++++ b/CPP/7zip/Archive/7z/7zHandlerOut.cpp
+@@ -810,7 +810,7 @@ Hunk #7, a/CPP/7zip/Archive/7z/7zHandlerOut.cpp HRESULT COutHandler::SetProperty(const wchar_t *nameSpec, const PROPVARIANT &val
+       return E_INVALIDARG;
+     return SetSolidFromString(name);
+   }
+-  
++
+   UInt32 number;
+   int index = ParseStringToUInt32(name, number);
+   // UString realName = name.Ptr(index);

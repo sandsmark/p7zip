@@ -1,0 +1,13 @@
+diff --git a/CPP/7zip/UI/Common/Bench.cpp b/CPP/7zip/UI/Common/Bench.cpp
+index d0fead7..f849a87 100644
+--- a/CPP/7zip/UI/Common/Bench.cpp
++++ b/CPP/7zip/UI/Common/Bench.cpp
+@@ -1222,7 +1222,7 @@ Hunk #24, a/CPP/7zip/UI/Common/Bench.cpp static HRESULT MethodBench(
+ 
+     {
+       CCreatedCoder cod;
+-      RINOK(CreateCoder(EXTERNAL_CODECS_LOC_VARS methodId, true, encoder._encoderFilter, cod));
++      RINOK(CreateCoder_Index(EXTERNAL_CODECS_LOC_VARS codecIndex, true, encoder._encoderFilter, cod));
+       encoder._encoder = cod.Coder;
+       if (!encoder._encoder && !encoder._encoderFilter)
+         return E_NOTIMPL;

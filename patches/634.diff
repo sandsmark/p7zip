@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Bundles/Format7zExtract/makefile b/CPP/7zip/Bundles/Format7zExtract/makefile
+index 82265b0..e22faf3 100644
+--- a/CPP/7zip/Bundles/Format7zExtract/makefile
++++ b/CPP/7zip/Bundles/Format7zExtract/makefile
+@@ -42,6 +42,7 @@ Hunk #1, a/CPP/7zip/Bundles/Format7zExtract/makefile AR_OBJS = \
+ 
+ AR_COMMON_OBJS = \
+   $O\CoderMixer2.obj \
++  $O\HandlerOut.obj \
+   $O\ItemNameUtils.obj \
+   $O\OutStreamWithCRC.obj \
+   $O\ParseProperties.obj \

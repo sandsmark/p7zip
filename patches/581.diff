@@ -1,0 +1,12 @@
+diff --git a/CPP/7zip/Archive/Zip/ZipIn.h b/CPP/7zip/Archive/Zip/ZipIn.h
+index a312c36..f46f1f0 100644
+--- a/CPP/7zip/Archive/Zip/ZipIn.h
++++ b/CPP/7zip/Archive/Zip/ZipIn.h
+@@ -198,6 +198,7 @@ Hunk #3, a/CPP/7zip/Archive/Zip/ZipIn.h struct CVols
+     StreamIndex = -1;
+     NeedSeek = false;
+ 
++    DisableVolsSearch = false;
+     StartIsExe = false;
+     StartIsZ = false;
+     StartIsZip = false;

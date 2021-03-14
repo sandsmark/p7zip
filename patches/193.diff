@@ -1,0 +1,18 @@
+diff --git a/C/LzmaEnc.c b/C/LzmaEnc.c
+index 9b7e691..46a0db0 100644
+--- a/C/LzmaEnc.c
++++ b/C/LzmaEnc.c
+@@ -1964,10 +1964,13 @@ Hunk #29, a/C/LzmaEnc.c static SRes LzmaEnc_CodeOneBlock(CLzmaEnc *p, Bool useLimits, UInt32 maxPackSize
+       }
+     }
+   }
++
+   p->nowPos64 += nowPos32 - startPos32;
+   return Flush(p, nowPos32);
+ }
+ 
++
++
+ #define kBigHashDicLimit ((UInt32)1 << 24)
+ 
+ static SRes LzmaEnc_Alloc(CLzmaEnc *p, UInt32 keepWindowSize, ISzAllocPtr alloc, ISzAllocPtr allocBig)

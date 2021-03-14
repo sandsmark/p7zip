@@ -1,0 +1,12 @@
+diff --git a/CPP/Windows/Control/Dialog.h b/CPP/Windows/Control/Dialog.h
+index 59b9f41..33caa5b 100644
+--- a/CPP/Windows/Control/Dialog.h
++++ b/CPP/Windows/Control/Dialog.h
+@@ -147,6 +147,7 @@ Hunk #3, a/CPP/Windows/Control/Dialog.h class CModalDialog: public CDialog
+   bool End(INT_PTR result) { return BOOLToBool(::EndDialog(_window, result)); }
+   virtual void OnOK() { End(IDOK); }
+   virtual void OnCancel() { End(IDCANCEL); }
++  virtual void OnClose() { End(IDCLOSE); }
+ };
+ 
+ class CDialogChildControl: public NWindows::CWindow
