@@ -781,10 +781,10 @@ static UInt32 Bt5_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
   if (offset != 0)
   {
     UPDATE_maxLen
-    distances[(size_t)offset - 2] = maxLen;
+    distances[(size_t)offset - 2] = (UInt32)maxLen;
     if (maxLen == lenLimit)
     {
-      SkipMatchesSpec(lenLimit, curMatch, MF_PARAMS(p));
+      SkipMatchesSpec((UInt32)lenLimit, curMatch, MF_PARAMS(p));
       MOVE_POS_RET;
     }
   }
@@ -916,7 +916,7 @@ static UInt32 Hc5_MatchFinder_GetMatches(CMatchFinder *p, UInt32 *distances)
   if (offset != 0)
   {
     UPDATE_maxLen
-    distances[(size_t)offset - 2] = maxLen;
+    distances[(size_t)offset - 2] = (UInt32)maxLen;
     if (maxLen == lenLimit)
     {
       p->son[p->cyclicBufferPos] = curMatch;

@@ -2202,6 +2202,30 @@ static HRESULT FreqBench(
 
   if (_file)
   {
+    #ifdef _WIN32
+    #ifndef UNDER_CE
+    {
+      AString s;
+      // OSVERSIONINFO vi;
+      OSVERSIONINFOEXW vi;
+      vi.dwOSVersionInfoSize = sizeof(vi);
+      // if (::GetVersionEx(&vi))
+      if (My_RtlGetVersion(&vi))
+      {
+        s += "Windows";
+        if (vi.dwPlatformId != VER_PLATFORM_WIN32_NT)
+          s.Add_UInt32(vi.dwPlatformId);
+        s += " "; s.Add_UInt32(vi.dwMajorVersion);
+        s += "."; s.Add_UInt32(vi.dwMinorVersion);
+        s += " "; s.Add_UInt32(vi.dwBuildNumber);
+        // s += " "; s += GetAnsiString(vi.szCSDVersion);
+      }
+      printCallback->Print(s);
+      printCallback->NewLine();
+    }
+    #endif
+    #endif
+
     {
       UInt64 numCommands = (UInt64)numIterations * bufferSize * numThreads * complexity;
       UInt64 rating = info.GetSpeed(numCommands);

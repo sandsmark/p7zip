@@ -900,6 +900,10 @@ STDMETHODIMP CDecoder::Code(ISequentialInStream *inStream, ISequentialOutStream 
       return S_FALSE;
     _solidAllowed = false;
 
+    if (_isSolid && !_solidAllowed)
+      return S_FALSE;
+    _solidAllowed = false;
+
     if (!_vmData)
     {
       _vmData = (Byte *)::MidAlloc(kVmDataSizeMax + kVmCodeSizeMax);

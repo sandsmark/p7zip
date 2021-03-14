@@ -105,6 +105,12 @@ CODER_INTERFACE(ICompressSetMemLimit, 0x28)
 };
 
 
+CODER_INTERFACE(ICompressSetMemLimit, 0x28)
+{
+  STDMETHOD(SetMemLimit)(UInt64 memUsage) PURE;
+};
+
+
 
 namespace NCoderPropID
 {

@@ -317,6 +317,7 @@ void CArchivePath::ParseFromPath(const UString &path, EArcNameMode mode)
 UString CArchivePath::GetFinalPath() const
 {
   UString path = GetPathWithoutExt();
+  // if BaseExtension is empty, we must ignore VolExtension also.
   if (!BaseExtension.IsEmpty())
   {
     path += L'.';

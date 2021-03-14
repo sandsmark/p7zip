@@ -1482,6 +1482,33 @@ HRESULT CArchiveExtractCallback::CloseFile()
 }
 
 
+HRESULT CArchiveExtractCallback::CloseFile()
+{
+  if (!_outFileStream)
+    return S_OK;
+  
+  HRESULT hres = S_OK;
+  _outFileStreamSpec->SetTime(
+      (WriteCTime && _fi.CTimeDefined) ? &_fi.CTime : NULL,
+      (WriteATime && _fi.ATimeDefined) ? &_fi.ATime : NULL,
+      (WriteMTime && _fi.MTimeDefined) ? &_fi.MTime : (_arc->MTimeDefined ? &_arc->MTime : NULL));
+  
+  const UInt64 processedSize = _outFileStreamSpec->ProcessedSize;
+  if (_fileLengthWasSet && _curSize > processedSize)
+  {
+    bool res = _outFileStreamSpec->File.SetLength(processedSize);
+    _fileLengthWasSet = res;
+    if (!res)
+      hres = SendMessageError_with_LastError(kCantSetFileLen, us2fs(_item.Path));
+  }
+  _curSize = processedSize;
+  _curSizeDefined = true;
+  RINOK(_outFileStreamSpec->Close());
+  _outFileStream.Release();
+  return hres;
+}
+
+
 STDMETHODIMP CArchiveExtractCallback::SetOperationResult(Int32 opRes)
 {
   COM_TRY_BEGIN
