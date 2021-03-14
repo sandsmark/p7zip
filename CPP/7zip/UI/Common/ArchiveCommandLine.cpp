@@ -127,6 +127,7 @@ enum Enum
   kUseLStat,
   
   kShareForWrite,
+  kStopAfterOpenError,
   kCaseSensitive,
   kArcNameMode,
 
@@ -407,8 +408,19 @@ static void AddToCensorFromListFile(
   UStringVector names;
   if (!NFind::DoesFileExist(us2fs(fileName)))
     throw CArcCmdLineException(kCannotFindListFile, fileName);
-  if (!ReadNamesFromListFile(us2fs(fileName), names, codePage))
+  DWORD lastError = 0;
+  if (!ReadNamesFromListFile2(us2fs(fileName), names, codePage, lastError))
+  {
+    if (lastError != 0)
+    {
+      UString m;
+      m = "The file operation error for listfile";
+      m.Add_LF();
+      m += NError::MyFormatMessage(lastError);
+      throw CArcCmdLineException(m, fileName);
+    }
     throw CArcCmdLineException(kIncorrectListFile, fileName);
+  }
   if (renamePairs)
   {
     if ((names.Size() & 1) != 0)
@@ -914,9 +926,45 @@ void CArcCmdLineParser::Parse1(const UStringVector &commandStrings,
     options.CaseSensitive = g_CaseSensitive;
   }
 
-  options.LargePages = false;
+
+  #if defined(_WIN32) && !defined(UNDER_CE)
+  NSecurity::EnablePrivilege_SymLink();
+  #endif
+  
+  // options.LargePages = false;
+
   if (parser[NKey::kLargePages].ThereIs)
-    options.LargePages = !parser[NKey::kLargePages].WithMinus;
+  {
+    unsigned slp = 0;
+    const UString &s = parser[NKey::kLargePages].PostStrings[0];
+    if (s.IsEmpty())
+      slp = 1;
+    else if (s != L"-")
+    {
+      if (!StringToUInt32(s, slp))
+        throw CArcCmdLineException("Unsupported switch postfix for -slp", s);
+    }
+    
+    #ifdef _7ZIP_LARGE_PAGES
+    if (slp >
+          #ifndef UNDER_CE
+            (unsigned)NSecurity::Get_LargePages_RiskLevel()
+          #else
+            0
+          #endif
+        )
+    {
+      SetLargePageSize();
+      // note: this process also can inherit that Privilege from parent process
+      g_LargePagesMode =
+      #if defined(_WIN32) && !defined(UNDER_CE)
+        NSecurity::EnablePrivilege_LockMemory();
+      #else
+        true;
+      #endif
+    }
+    #endif
+  }
 
 
   #ifndef UNDER_CE
@@ -988,64 +1036,6 @@ static Int32 FindCharset(const NCommandLineParser::CParser &parser, unsigned key
   }
 }
 
-HRESULT EnumerateDirItemsAndSort(
-    NWildcard::CCensor &censor,
-    NWildcard::ECensorPathMode censorPathMode,
-    const UString &addPathPrefix,
-    UStringVector &sortedPaths,
-    UStringVector &sortedFullPaths,
-    CDirItemsStat &st,
-    IDirItemsCallback *callback)
-{
-  FStringVector paths;
-  
-  {
-    CDirItems dirItems;
-    dirItems.Callback = callback;
-    {
-      HRESULT res = EnumerateItems(censor, censorPathMode, addPathPrefix, dirItems);
-      st = dirItems.Stat;
-      RINOK(res);
-    }
-  
-    FOR_VECTOR (i, dirItems.Items)
-    {
-      const CDirItem &dirItem = dirItems.Items[i];
-      if (!dirItem.IsDir())
-        paths.Add(dirItems.GetPhyPath(i));
-    }
-  }
-  
-  if (paths.Size() == 0)
-    throw CArcCmdLineException(kCannotFindArchive);
-  
-  UStringVector fullPaths;
-  
-  unsigned i;
-  
-  for (i = 0; i < paths.Size(); i++)
-  {
-    FString fullPath;
-    NFile::NDir::MyGetFullPathName(paths[i], fullPath);
-    fullPaths.Add(fs2us(fullPath));
-  }
-  
-  CUIntVector indices;
-  SortFileNames(fullPaths, indices);
-  sortedPaths.ClearAndReserve(indices.Size());
-  sortedFullPaths.ClearAndReserve(indices.Size());
-
-  for (i = 0; i < indices.Size(); i++)
-  {
-    unsigned index = indices[i];
-    sortedPaths.AddInReserved(fs2us(paths[index]));
-    sortedFullPaths.AddInReserved(fullPaths[index]);
-    if (i > 0 && CompareFileNames(sortedFullPaths[i], sortedFullPaths[i - 1]) == 0)
-      throw CArcCmdLineException("Duplicate archive path:", sortedFullPaths[i]);
-  }
-
-  return S_OK;
-}
 
 static void SetBoolPair(NCommandLineParser::CParser &parser, unsigned switchID, CBoolPair &bp)
 {
@@ -1292,6 +1282,8 @@ void CArcCmdLineParser::Parse2(CArcCmdLineOptions &options)
 
     if (parser[NKey::kShareForWrite].ThereIs)
       updateOptions.OpenShareForWrite = true;
+    if (parser[NKey::kStopAfterOpenError].ThereIs)
+      updateOptions.StopAfterOpenError = true;
 
     updateOptions.PathMode = censorPathMode;
 

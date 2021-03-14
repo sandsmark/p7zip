@@ -136,7 +136,7 @@ HRESULT CDecoder::WriteArea(UInt32 startPtr, UInt32 endPtr)
   return WriteData(_window, endPtr);
 }
 
-void CDecoder::ExecuteFilter(int tempFilterIndex, NVm::CBlockRef &outBlockRef)
+void CDecoder::ExecuteFilter(unsigned tempFilterIndex, NVm::CBlockRef &outBlockRef)
 {
   CTempFilter *tempFilter = _tempFilters[tempFilterIndex];
   tempFilter->InitR[6] = (UInt32)_writtenFileSize;
@@ -148,7 +148,8 @@ void CDecoder::ExecuteFilter(int tempFilterIndex, NVm::CBlockRef &outBlockRef)
   if (!_vm.Execute(filter, tempFilter, outBlockRef, filter->GlobalData))
     _unsupportedFilter = true;
   delete tempFilter;
-  _tempFilters[tempFilterIndex] = 0;
+  _tempFilters[tempFilterIndex] = NULL;
+  _numEmptyTempFilters++;
 }
 
 HRESULT CDecoder::WriteBuf()
@@ -225,6 +226,7 @@ HRESULT CDecoder::WriteBuf()
 void CDecoder::InitFilters()
 {
   _lastFilter = 0;
+  _numEmptyTempFilters = 0;
   unsigned i;
   for (i = 0; i < _tempFilters.Size(); i++)
     delete _tempFilters[i];
@@ -274,24 +276,27 @@ bool CDecoder::AddVmCode(UInt32 firstByte, UInt32 codeSize)
     filter->ExecCount++;
   }
 
-  unsigned numEmptyItems = 0;
+  if (_numEmptyTempFilters != 0)
   {
-    FOR_VECTOR (i, _tempFilters)
+    unsigned num = _tempFilters.Size();
+    CTempFilter **tempFilters = &_tempFilters.Front();
+    
+    unsigned w = 0;
+    for (unsigned i = 0; i < num; i++)
     {
-      _tempFilters[i - numEmptyItems] = _tempFilters[i];
-      if (!_tempFilters[i])
-        numEmptyItems++;
-      if (numEmptyItems != 0)
-        _tempFilters[i] = NULL;
+      CTempFilter *tf = tempFilters[i];
+      if (tf)
+        tempFilters[w++] = tf;
     }
+
+    _tempFilters.DeleteFrom(w);
+    _numEmptyTempFilters = 0;
   }
-  if (numEmptyItems == 0)
-  {
-    _tempFilters.Add(NULL);
-    numEmptyItems = 1;
-  }
+  
+  if (_tempFilters.Size() > MAX_UNPACK_FILTERS)
+    return false;
   CTempFilter *tempFilter = new CTempFilter;
-  _tempFilters[_tempFilters.Size() - numEmptyItems] = tempFilter;
+  _tempFilters.Add(tempFilter);
   tempFilter->FilterIndex = filterIndex;
  
   UInt32 blockStart = inp.ReadEncodedUInt32();
@@ -406,7 +411,7 @@ bool CDecoder::ReadVmCodePPM()
 
 #define RIF(x) { if (!(x)) return S_FALSE; }
 
-UInt32 CDecoder::ReadBits(int numBits) { return m_InBitStream.BitDecoder.ReadBits(numBits); }
+UInt32 CDecoder::ReadBits(unsigned numBits) { return m_InBitStream.BitDecoder.ReadBits(numBits); }
 
 // ---------- PPM ----------
 
@@ -415,7 +420,7 @@ HRESULT CDecoder::InitPPM()
   unsigned maxOrder = (unsigned)ReadBits(7);
 
   bool reset = ((maxOrder & 0x20) != 0);
-  int maxMB = 0;
+  UInt32 maxMB = 0;
   if (reset)
     maxMB = (Byte)ReadBits(8);
   else
@@ -557,12 +562,13 @@ HRESULT CDecoder::ReadTables(bool &keepDecompressing)
   PrevAlignCount = 0;
 
   Byte levelLevels[kLevelTableSize];
-  Byte newLevels[kTablesSizesSum];
+  Byte lens[kTablesSizesSum];
 
   if (ReadBits(1) == 0)
     memset(m_LastLevels, 0, kTablesSizesSum);
 
-  int i;
+  unsigned i;
+
   for (i = 0; i < kLevelTableSize; i++)
   {
     UInt32 length = ReadBits(4);
@@ -767,7 +773,7 @@ HRESULT CDecoder::DecodeLZ(bool &keepDecompressing)
         if (sym2 >= kDistTableSize)
           return S_FALSE;
         rep0 = kDistStart[sym2];
-        int numBits = kDistDirectBits[sym2];
+        unsigned numBits = kDistDirectBits[sym2];
         if (sym2 >= (kNumAlignBits * 2) + 2)
         {
           if (numBits > kNumAlignBits)
@@ -890,6 +896,10 @@ STDMETHODIMP CDecoder::Code(ISequentialInStream *inStream, ISequentialOutStream 
       return S_FALSE;
     _solidAllowed = false;
 
+    if (_isSolid && !_solidAllowed)
+      return S_FALSE;
+    _solidAllowed = false;
+
     if (!_vmData)
     {
       _vmData = (Byte *)::MidAlloc(kVmDataSizeMax + kVmCodeSizeMax);
@@ -918,8 +928,8 @@ STDMETHODIMP CDecoder::Code(ISequentialInStream *inStream, ISequentialOutStream 
     _unpackSize = outSize ? *outSize : (UInt64)(Int64)-1;
     return CodeReal(progress);
   }
-  catch(const CInBufferException &e)  { return e.ErrorCode; }
-  catch(...) { return S_FALSE; }
+  catch(const CInBufferException &e)  { /* _errorMode = true; */ return e.ErrorCode; }
+  catch(...) { /* _errorMode = true; */ return S_FALSE; }
   // CNewException is possible here. But probably CNewException is caused
   // by error in data stream.
 }
@@ -928,7 +938,7 @@ STDMETHODIMP CDecoder::SetDecoderProperties2(const Byte *data, UInt32 size)
 {
   if (size < 1)
     return E_INVALIDARG;
-  m_IsSolid = ((data[0] & 1) != 0);
+  _isSolid = ((data[0] & 1) != 0);
   return S_OK;
 }
 

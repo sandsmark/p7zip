@@ -236,7 +236,10 @@ void CProgressSync::AddError_Code_Name(DWORD systemError, const wchar_t *name)
   AddError_Message_Name(s, name);
 }
 
-CProgressDialog::CProgressDialog(): _timer(0), CompressingMode(true), MainWindow(0)
+CProgressDialog::CProgressDialog():
+   _timer(0),
+   CompressingMode(true),
+   MainWindow(0)
 {
   _isDir = false;
 
@@ -984,7 +987,9 @@ bool CProgressDialog::OnExternalCloseMessage()
   // FIXME ::SendMessage(GetItem(IDCANCEL), BM_SETSTYLE, BS_DEFPUSHBUTTON, MAKELPARAM(TRUE, 0));
   HideItem(IDB_PROGRESS_BACKGROUND);
   HideItem(IDB_PAUSE);
-  
+
+  ProcessWasFinished_GuiVirt();
+
   bool thereAreMessages;
   CProgressFinalMessage fm;
   {
@@ -992,6 +997,7 @@ bool CProgressDialog::OnExternalCloseMessage()
     thereAreMessages = !Sync.Messages.IsEmpty();
     fm = Sync.FinalMessage;
   }
+
   if (!fm.ErrorMessage.Message.IsEmpty())
   {
     MessagesDisplayed = true;
@@ -1002,6 +1008,7 @@ bool CProgressDialog::OnExternalCloseMessage()
   else if (!thereAreMessages)
   {
     MessagesDisplayed = true;
+
     if (!fm.OkMessage.Message.IsEmpty())
     {
       if (fm.OkMessage.Title.IsEmpty())
@@ -1283,11 +1290,24 @@ void CProgressDialog::ProcessWasFinished()
 }
 
 
+static THREAD_FUNC_DECL MyThreadFunction(void *param)
+{
+  CProgressThreadVirt *p = (CProgressThreadVirt *)param;
+  try
+  {
+    p->Process();
+    p->ThreadFinishedOK = true;
+  }
+  catch (...) { p->Result = E_FAIL; }
+  return 0;
+}
+
+
 HRESULT CProgressThreadVirt::Create(const UString &title, HWND parentWindow)
 {
   NWindows::CThread thread;
   RINOK(thread.Create(MyThreadFunction, this));
-  ProgressDialog.Create(title, thread, parentWindow);
+  CProgressDialog::Create(title, thread, parentWindow);
   return S_OK;
 }
 
@@ -1303,7 +1323,7 @@ static void AddMessageToString(UString &dest, const UString &src)
 
 void CProgressThreadVirt::Process()
 {
-  CProgressCloser closer(ProgressDialog);
+  CProgressCloser closer(*this);
   UString m;
   try { Result = ProcessVirt(); }
   catch(const wchar_t *s) { m = s; }
@@ -1333,7 +1353,7 @@ void CProgressThreadVirt::Process()
     }
   }
 
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   NSynchronization::CCriticalSectionLock lock(sync._cs);
   if (m.IsEmpty())
   {

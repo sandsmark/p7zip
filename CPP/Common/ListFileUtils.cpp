@@ -43,7 +43,10 @@ bool ReadNamesFromListFile(CFSTR fileName, UStringVector &strings, UINT codePage
     CByteArr buf((size_t)fileSize);
     UInt32 processed;
     if (!file.Read(buf, (UInt32)fileSize, processed))
+    {
+      lastError = ::GetLastError();
       return false;
+    }
     if (processed != fileSize)
       return false;
     file.Close();
@@ -74,7 +77,10 @@ bool ReadNamesFromListFile(CFSTR fileName, UStringVector &strings, UINT codePage
     char *p = s.GetBuf((unsigned)fileSize);
     UInt32 processed;
     if (!file.Read(p, (UInt32)fileSize, processed))
+    {
+      lastError = ::GetLastError();
       return false;
+    }
     if (processed != fileSize)
       return false;
     file.Close();
@@ -94,7 +100,7 @@ bool ReadNamesFromListFile(CFSTR fileName, UStringVector &strings, UINT codePage
   }
 
   const wchar_t kGoodBOM = 0xFEFF;
-  const wchar_t kBadBOM  = 0xFFFE;
+  // const wchar_t kBadBOM  = 0xFFFE;
   
   UString s;
   unsigned i = 0;

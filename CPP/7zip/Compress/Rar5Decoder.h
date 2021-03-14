@@ -158,7 +158,7 @@ public:
     return *_buf++;
   }
 
-  UInt32 GetValue(unsigned numBits)
+  UInt32 GetValue(unsigned numBits) const
   {
     UInt32 v = ((UInt32)_buf[0] << 16) | ((UInt32)_buf[1] << 8) | (UInt32)_buf[2];
     v >>= (24 - numBits - _bitPos);
@@ -269,11 +269,6 @@ class CDecoder:
   UInt64 _lzEnd;
   UInt64 _writtenFileSize;
   size_t _winSizeAllocated;
-
-  Byte _dictSizeLog;
-  bool _tableWasFilled;
-  bool _isSolid;
-  bool _wasInit;
 
   UInt32 _reps[kNumReps];
   UInt32 _lastLen;

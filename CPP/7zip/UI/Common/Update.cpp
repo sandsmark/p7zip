@@ -291,29 +291,27 @@ void CArchivePath::ParseFromPath(const UString &path, EArcNameMode mode)
   
   if (mode == k_ArcNameMode_Add)
     return;
-  if (mode == k_ArcNameMode_Exact)
-  {
-    BaseExtension.Empty();
-    return;
-  }
   
-  int dotPos = Name.ReverseFind_Dot();
-  if (dotPos < 0)
-    return;
-  if ((unsigned)dotPos == Name.Len() - 1)
+  if (mode != k_ArcNameMode_Exact)
   {
-    Name.DeleteBack();
-    BaseExtension.Empty();
-    return;
+    int dotPos = Name.ReverseFind_Dot();
+    if (dotPos < 0)
+      return;
+    if ((unsigned)dotPos == Name.Len() - 1)
+      Name.DeleteBack();
+    else
+    {
+      const UString ext = Name.Ptr(dotPos + 1);
+      if (BaseExtension.IsEqualTo_NoCase(ext))
+      {
+        BaseExtension = ext;
+        Name.DeleteFrom(dotPos);
+        return;
+      }
+    }
   }
-  const UString ext = Name.Ptr(dotPos + 1);
-  if (BaseExtension.IsEqualTo_NoCase(ext))
-  {
-    BaseExtension = ext;
-    Name.DeleteFrom(dotPos);
-  }
-  else
-    BaseExtension.Empty();
+
+  BaseExtension.Empty();
 }
 
 UString CArchivePath::GetFinalPath() const
@@ -330,6 +328,7 @@ UString CArchivePath::GetFinalPath() const
 UString CArchivePath::GetFinalVolPath() const
 {
   UString path = GetPathWithoutExt();
+  // if BaseExtension is empty, we must ignore VolExtension also.
   if (!BaseExtension.IsEmpty())
   {
     path += L'.';
@@ -642,6 +641,7 @@ static HRESULT Compress(
   CMyComPtr<IArchiveUpdateCallback> updateCallback(updateCallbackSpec);
   
   updateCallbackSpec->ShareForWrite = options.OpenShareForWrite;
+  updateCallbackSpec->StopAfterOpenError = options.StopAfterOpenError;
   updateCallbackSpec->StdInMode = options.StdInMode;
   updateCallbackSpec->Callback = callback;
 
@@ -951,36 +951,6 @@ static HRESULT EnumerateInArchiveItems(
 
 #include <mapi.h>
 
-#endif
-
-struct CRefSortPair
-{
-  unsigned Len;
-  unsigned Index;
-};
-
-#define RINOZ(x) { int __tt = (x); if (__tt != 0) return __tt; }
-
-static int CompareRefSortPair(const CRefSortPair *a1, const CRefSortPair *a2, void *)
-{
-  RINOZ(-MyCompare(a1->Len, a2->Len));
-  return MyCompare(a1->Index, a2->Index);
-}
-
-static unsigned GetNumSlashes(const FChar *s)
-{
-  for (unsigned numSlashes = 0;;)
-  {
-    FChar c = *s++;
-    if (c == 0)
-      return numSlashes;
-    if (IS_PATH_SEPAR(c))
-      numSlashes++;
-  }
-}
-
-#ifdef _WIN32
-void ConvertToLongNames(NWildcard::CCensor &censor);
 #endif
 
 HRESULT UpdateArchive(
@@ -1298,6 +1268,31 @@ HRESULT UpdateArchive(
 
   unsigned ci;
 
+
+  // self including protection
+  if (options.DeleteAfterCompressing)
+  {
+    for (ci = 0; ci < options.Commands.Size(); ci++)
+    {
+      CArchivePath &ap = options.Commands[ci].ArchivePath;
+      const FString path = us2fs(ap.GetFinalPath());
+      // maybe we must compare absolute paths path here
+      FOR_VECTOR (i, dirItems.Items)
+      {
+        const FString phyPath = dirItems.GetPhyPath(i);
+        if (phyPath == path)
+        {
+          UString s;
+          s = "It is not allowed to include archive to itself";
+          s.Add_LF();
+          s += path;
+          throw s;
+        }
+      }
+    }
+  }
+
+
   for (ci = 0; ci < options.Commands.Size(); ci++)
   {
     CArchivePath &ap = options.Commands[ci].ArchivePath;
@@ -1411,9 +1406,13 @@ HRESULT UpdateArchive(
       CArchivePath &ap = options.Commands[0].ArchivePath;
       const FString &tempPath = ap.GetTempPath();
       
+      // DWORD attrib = 0;
       if (thereIsInArchive)
+      {
+        // attrib = NFind::GetFileAttrib(us2fs(arcPath));
         if (!DeleteFileAlways(us2fs(arcPath)))
           return errorInfo.SetFromLastError("cannot delete the file", us2fs(arcPath));
+      }
       
       if (!MyMoveFile(tempPath, us2fs(arcPath)))
       {
@@ -1421,6 +1420,15 @@ HRESULT UpdateArchive(
         errorInfo.FileNames.Add(us2fs(arcPath));
         return errorInfo.Get_HRESULT_Error();
       }
+      
+      /*
+      if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_READONLY))
+      {
+        DWORD attrib2 = NFind::GetFileAttrib(us2fs(arcPath));
+        if (attrib2 != INVALID_FILE_ATTRIBUTES)
+          NDir::SetFileAttrib(us2fs(arcPath), attrib2 | FILE_ATTRIBUTE_READONLY);
+      }
+      */
     }
     catch(...)
     {
@@ -1510,7 +1518,7 @@ HRESULT UpdateArchive(
 
   if (options.DeleteAfterCompressing)
   {
-    CRecordVector<CRefSortPair> pairs;
+    CRecordVector<CDirPathSortPair> pairs;
     FStringVector foldersNames;
 
     unsigned i;
@@ -1518,12 +1526,12 @@ HRESULT UpdateArchive(
     for (i = 0; i < dirItems.Items.Size(); i++)
     {
       const CDirItem &dirItem = dirItems.Items[i];
-      FString phyPath = dirItems.GetPhyPath(i);
+      const FString phyPath = dirItems.GetPhyPath(i);
       if (dirItem.IsDir())
       {
-        CRefSortPair pair;
+        CDirPathSortPair pair;
         pair.Index = i;
-        pair.Len = GetNumSlashes(phyPath);
+        pair.SetNumSlashes(phyPath);
         pairs.Add(pair);
       }
       else
@@ -1546,11 +1554,11 @@ HRESULT UpdateArchive(
       }
     }
 
-    pairs.Sort(CompareRefSortPair, NULL);
+    pairs.Sort2();
     
     for (i = 0; i < pairs.Size(); i++)
     {
-      FString phyPath = dirItems.GetPhyPath(pairs[i].Index);
+      const FString phyPath = dirItems.GetPhyPath(pairs[i].Index);
       if (NFind::DoesDirExist(phyPath))
       {
         RINOK(callback->DeletingAfterArchiving(phyPath, true));

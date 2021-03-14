@@ -376,7 +376,7 @@ static const char *kStartExtensions =
   #endif
   " exe bat com"
   " chm"
-  " msi doc xls ppt pps wps wpt wks xlr wdb vsd pub"
+  " msi doc dot xls ppt pps wps wpt wks xlr wdb vsd pub"
 
   " docx docm dotx dotm xlsx xlsm xltx xltm xlsb xps"
   " xlam pptx pptm potx potm ppam ppsx ppsm xsn"
@@ -728,7 +728,7 @@ HRESULT CPanel::OnOpenItemChanged(UInt32 index, const wchar_t *fullFilePath,
   CThreadCopyFrom t;
   t.UpdateCallbackSpec = new CUpdateCallback100Imp;
   t.UpdateCallback = t.UpdateCallbackSpec;
-  t.UpdateCallbackSpec->ProgressDialog = &t.ProgressDialog;
+  t.UpdateCallbackSpec->ProgressDialog = &t;
   t.ItemIndex = index;
   t.FullPath = fullFilePath;
   t.FolderOperations = _folderOperations;

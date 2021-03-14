@@ -122,6 +122,7 @@ public:
   const UStringVector *NewNames;
 
   bool ShareForWrite;
+  bool StopAfterOpenError;
   bool StdInMode;
 
   bool KeepOriginalItemNames;

@@ -2,9 +2,9 @@
 
 #include "StdAfx.h"
 
-#include "../../../C/7zCrc.h"
 #include "../../../C/Alloc.h"
 #include "../../../C/CpuArch.h"
+#include "../../../C/LzmaDec.h"
 #include "../../../C/Xz.h"
 #include "../../../C/lz4/lz4.h"
 
@@ -873,8 +873,8 @@ class CHandler:
   CBufPtrSeqOutStream *_outStreamSpec;
   CMyComPtr<ISequentialOutStream> _outStream;
 
-  NCompress::NLzma::CDecoder *_lzmaDecoderSpec;
-  CMyComPtr<ICompressCoder> _lzmaDecoder;
+  // NCompress::NLzma::CDecoder *_lzmaDecoderSpec;
+  // CMyComPtr<ICompressCoder> _lzmaDecoder;
 
   NCompress::NZlib::CDecoder *_zlibDecoderSpec;
   CMyComPtr<ICompressCoder> _zlibDecoder;
@@ -1224,6 +1224,7 @@ HRESULT CHandler::Decompress(ISequentialOutStream *outStream, Byte *outBuf, bool
     if (inSize != propsSize + _lzmaDecoderSpec->GetInputProcessedSize())
       return S_FALSE;
   }
+  */
   else
   {
     if (_inputBuffer.Size() < inSize)

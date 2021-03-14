@@ -162,8 +162,6 @@ static DWORD CALLBACK CopyProgressRoutine(
   LPVOID lpData                         // from CopyFileEx
 )
 {
-  TotalFileSize = TotalFileSize;
-  // TotalBytesTransferred = TotalBytesTransferred;
   // StreamSize = StreamSize;
   // StreamBytesTransferred = StreamBytesTransferred;
   // dwStreamNumber = dwStreamNumber;

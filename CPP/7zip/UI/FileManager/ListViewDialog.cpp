@@ -2,6 +2,9 @@
 
 #include "StdAfx.h"
 
+#include "../../../Windows/Clipboard.h"
+
+#include "EditDialog.h"
 #include "ListViewDialog.h"
 #include "RegistryUtils.h"
 
@@ -10,6 +13,23 @@
 #endif
 
 using namespace NWindows;
+
+static const unsigned kOneStringMaxSize = 1024;
+
+
+static void ListView_GetSelected(NControl::CListView &listView, CUIntVector &vector)
+{
+  vector.Clear();
+  int index = -1;
+  for (;;)
+  {
+    index = listView.GetNextSelectedItem(index);
+    if (index < 0)
+      break;
+    vector.Add(index);
+  }
+}
+
 
 bool CListViewDialog::OnInit()
 {
@@ -74,7 +94,102 @@ bool CListViewDialog::OnSize(WPARAM /* wParam */, int xSize, int ySize)
   return false;
 }
 
+
 extern bool g_LVN_ITEMACTIVATE_Support;
+
+void CListViewDialog::CopyToClipboard()
+{
+  CUIntVector indexes;
+  ListView_GetSelected(_listView, indexes);
+  UString s;
+  
+  FOR_VECTOR (i, indexes)
+  {
+    unsigned index = indexes[i];
+    s += Strings[index];
+    if (NumColumns > 1 && index < Values.Size())
+    {
+      const UString &v = Values[index];
+      // if (!v.IsEmpty())
+      {
+        s += ": ";
+        s += v;
+      }
+    }
+    // if (indexes.Size() > 1)
+    {
+      s +=
+        #ifdef _WIN32
+          "\r\n"
+        #else
+          "\n"
+        #endif
+        ;
+    }
+  }
+  
+  ClipboardSetText(*this, s);
+}
+
+
+void CListViewDialog::ShowItemInfo()
+{
+  CUIntVector indexes;
+  ListView_GetSelected(_listView, indexes);
+  if (indexes.Size() != 1)
+    return;
+  unsigned index = indexes[0];
+
+  CEditDialog dlg;
+  if (NumColumns == 1)
+    dlg.Text = Strings[index];
+  else
+  {
+    dlg.Title = Strings[index];
+    if (index < Values.Size())
+      dlg.Text = Values[index];
+  }
+  
+  #ifdef _WIN32
+  if (dlg.Text.Find(L'\r') < 0)
+    dlg.Text.Replace(L"\n", L"\r\n");
+  #endif
+
+  dlg.Create(*this);
+}
+
+
+void CListViewDialog::DeleteItems()
+{
+  for (;;)
+  {
+    int index = _listView.GetNextSelectedItem(-1);
+    if (index < 0)
+      break;
+    StringsWereChanged = true;
+    _listView.DeleteItem(index);
+    if ((unsigned)index < Strings.Size())
+      Strings.Delete(index);
+    if ((unsigned)index < Values.Size())
+      Values.Delete(index);
+  }
+  int focusedIndex = _listView.GetFocusedItem();
+  if (focusedIndex >= 0)
+    _listView.SetItemState_FocusedSelected(focusedIndex);
+  _listView.SetColumnWidthAuto(0);
+}
+
+
+void CListViewDialog::OnEnter()
+{
+  if (IsKeyDown(VK_MENU)
+      || NumColumns > 1)
+  {
+    ShowItemInfo();
+    return;
+  }
+  OnOK();
+}
 
 bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
 {
@@ -86,7 +201,7 @@ bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
     case LVN_ITEMACTIVATE:
       if (g_LVN_ITEMACTIVATE_Support)
       {
-        OnOK();
+        OnEnter();
         return true;
       }
       break;
@@ -94,7 +209,7 @@ bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
     case NM_RETURN: // probabably it's unused
       if (!g_LVN_ITEMACTIVATE_Support)
       {
-        OnOK();
+        OnEnter();
         return true;
       }
       break;
@@ -108,19 +223,7 @@ bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
         {
           if (!DeleteIsAllowed)
             return false;
-          for (;;)
-          {
-            int index = _listView.GetNextSelectedItem(-1);
-            if (index < 0)
-              break;
-            StringsWereChanged = true;
-            _listView.DeleteItem(index);
-            Strings.Delete(index);
-          }
-          int focusedIndex = _listView.GetFocusedItem();
-          if (focusedIndex >= 0)
-            _listView.SetItemState_FocusedSelected(focusedIndex);
-          _listView.SetColumnWidthAuto(0);
+          DeleteItems();
           return true;
         }
         case 'A':
@@ -130,6 +233,17 @@ bool CListViewDialog::OnNotify(UINT /* controlID */, LPNMHDR header)
             _listView.SelectAll();
             return true;
           }
+          break;
+        }
+        case VK_INSERT:
+        case 'C':
+        {
+          if (IsKeyDown(VK_CONTROL))
+          {
+            CopyToClipboard();
+            return true;
+          }
+          break;
         }
       }
     }

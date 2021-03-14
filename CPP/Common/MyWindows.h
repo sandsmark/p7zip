@@ -11,6 +11,7 @@
 
 #include <stddef.h> // for wchar_t
 #include <string.h>
+// #include <stdint.h> // for uintptr_t
 
 #include "MyGuidDef.h"
 
@@ -77,6 +78,8 @@ typedef struct _FILETIME
 #define FAILED(Status) ((HRESULT)(Status)<0)
 typedef ULONG PROPID;
 typedef LONG SCODE;
+
+#define ERROR_NEGATIVE_SEEK 131L
 
 #define S_OK    ((HRESULT)0x00000000L)
 #define S_FALSE ((HRESULT)0x00000001L)

@@ -13,9 +13,6 @@
 
 #include "../../../Windows/FileDir.h"
 #include "../../../Windows/NtCheck.h"
-#ifdef _WIN32
-#include "../../../Windows/MemoryLock.h"
-#endif
 
 #include "../Common/ArchiveCommandLine.h"
 #include "../Common/ExitCode.h"

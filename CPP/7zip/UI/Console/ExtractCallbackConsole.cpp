@@ -60,8 +60,9 @@ HRESULT CExtractScanConsole::ScanError(const FString &path, DWORD systemError)
   
   if (_se)
   {
-    *_se << endl << kError << NError::MyFormatMessage(systemError) << endl <<
-        fs2us(path) << endl << endl;
+    *_se << endl << kError << NError::MyFormatMessage(systemError) << endl;
+    _se->NormalizePrint_UString(fs2us(path));
+    *_se << endl << endl;
     _se->Flush();
   }
   return HRESULT_FROM_WIN32(systemError);
@@ -95,6 +96,16 @@ void PrintSize_bytes_Smart(AString &s, UInt64 val)
   s += ')';
 }
 
+void PrintSize_bytes_Smart_comma(AString &s, UInt64 val)
+{
+  if (val == (UInt64)(Int64)-1)
+    return;
+  s += ", ";
+  PrintSize_bytes_Smart(s, val);
+}
+
+
+
 void Print_DirItemsStat(AString &s, const CDirItemsStat &st)
 {
   if (st.NumDirs != 0)
@@ -103,14 +114,12 @@ void Print_DirItemsStat(AString &s, const CDirItemsStat &st)
     s += ", ";
   }
   Print_UInt64_and_String(s, st.NumFiles, st.NumFiles == 1 ? "file" : "files");
-  s += ", ";
-  PrintSize_bytes_Smart(s, st.FilesSize);
+  PrintSize_bytes_Smart_comma(s, st.FilesSize);
   if (st.NumAltStreams != 0)
   {
     s.Add_LF();
     Print_UInt64_and_String(s, st.NumAltStreams, "alternate streams");
-    s += ", ";
-    PrintSize_bytes_Smart(s, st.AltStreamsSize);
+    PrintSize_bytes_Smart_comma(s, st.AltStreamsSize);
   }
 }
 
@@ -210,8 +219,10 @@ static const char * const kTab = "  ";
 
 static void PrintFileInfo(CStdOutStream *_so, const wchar_t *path, const FILETIME *ft, const UInt64 *size)
 {
-  *_so << kTab << "Path:     " << path << endl;
-  if (size)
+  *_so << kTab << "Path:     ";
+  _so->NormalizePrint_wstr(path);
+  *_so << endl;
+  if (size && *size != (UInt64)(Int64)-1)
   {
     AString s;
     PrintSize_bytes_Smart(s, *size);
@@ -299,7 +310,10 @@ STDMETHODIMP CExtractCallbackConsole::PrepareOperation(const wchar_t *name, Int3
 
     _tempU.Empty();
     if (name)
+    {
       _tempU = name;
+      _so->Normalize_UString(_tempU);
+    }
     _so->PrintUString(_tempU, _tempA);
     if (position)
       *_so << " <" << *position << ">";
@@ -422,7 +436,10 @@ STDMETHODIMP CExtractCallbackConsole::SetOperationResult(Int32 opRes, Int32 encr
       
       *_se << s;
       if (!_currentName.IsEmpty())
-        *_se << " : " << _currentName;
+      {
+        *_se << " : ";
+        _se->NormalizePrint_UString(_currentName);
+      }
       *_se << endl;
       _se->Flush();
     }
@@ -474,7 +491,11 @@ HRESULT CExtractCallbackConsole::BeforeOpen(const wchar_t *name, bool testMode)
   
   ClosePercents_for_so();
   if (_so)
-    *_so << endl << (testMode ? kTesting : kExtracting) << name << endl;
+  {
+    *_so << endl << (testMode ? kTesting : kExtracting);
+    _so->NormalizePrint_wstr(name);
+    *_so << endl;
+  }
 
   if (NeedPercents())
     _percent.Command = "Open";
@@ -580,7 +601,10 @@ HRESULT CExtractCallbackConsole::OpenResult(
       {
         *_se << endl;
         if (level != 0)
-          *_se << arc.Path << endl;
+        {
+          _se->NormalizePrint_UString(arc.Path);
+          *_se << endl;
+        }
       }
       
       if (errorFlags != 0)
@@ -614,7 +638,10 @@ HRESULT CExtractCallbackConsole::OpenResult(
       {
         *_so << endl;
         if (level != 0)
-          *_so << arc.Path << endl;
+        {
+          _so->NormalizePrint_UString(arc.Path);
+          *_so << endl;
+        }
       }
       
       if (warningFlags != 0)
@@ -669,7 +696,9 @@ HRESULT CExtractCallbackConsole::OpenResult(
       _so->Flush();
     if (_se)
     {
-      *_se << kError << name << endl;
+      *_se << kError;
+      _se->NormalizePrint_wstr(name);
+      *_se << endl;
       HRESULT res = Print_OpenArchive_Error(*_se, codecs, arcLink);
       RINOK(res);
       if (result == S_FALSE)

@@ -77,8 +77,6 @@ UString CVolSeqName::GetNextName()
   return UnchangedPart + ChangedPart;
 }
 
-static const UInt32 kBufSize = (1 << 20);
-
 class CThreadSplit: public CProgressThreadVirt
 {
   HRESULT ProcessVirt();
@@ -89,30 +87,84 @@ public:
   CRecordVector<UInt64> VolumeSizes;
 };
 
+
+class CPreAllocOutFile
+{
+  UInt64 _preAllocSize;
+public:
+  NIO::COutFile File;
+  UInt64 Written;
+  
+  CPreAllocOutFile(): _preAllocSize(0), Written(0) {}
+  
+  ~CPreAllocOutFile()
+  {
+    SetCorrectFileLength();
+  }
+
+  void PreAlloc(UInt64 preAllocSize)
+  {
+    _preAllocSize = 0;
+    if (File.SetLength(preAllocSize))
+      _preAllocSize = preAllocSize;
+    File.SeekToBegin();
+  }
+
+  bool Write(const void *data, UInt32 size, UInt32 &processedSize) throw()
+  {
+    bool res = File.Write(data, size, processedSize);
+    Written += processedSize;
+    return res;
+  }
+
+  void Close()
+  {
+    SetCorrectFileLength();
+    Written = 0;
+    _preAllocSize = 0;
+    File.Close();
+  }
+
+  void SetCorrectFileLength()
+  {
+    if (Written < _preAllocSize)
+    {
+      File.SetLength(Written);
+      _preAllocSize = 0;
+    }
+  }
+};
+
+
+static const UInt32 kBufSize = (1 << 20);
+
 HRESULT CThreadSplit::ProcessVirt()
 {
   NIO::CInFile inFile;
   if (!inFile.Open(FilePath))
     return GetLastError();
-  NIO::COutFile outFile;
-  CMyBuffer bufferObject;
-  if (!bufferObject.Allocate(kBufSize))
+
+  CPreAllocOutFile outFile;
+  
+  CMyBuffer buffer;
+  if (!buffer.Allocate(kBufSize))
     return E_OUTOFMEMORY;
-  Byte *buffer = (Byte *)(void *)bufferObject;
-  UInt64 curVolSize = 0;
+  
   CVolSeqName seqName;
   seqName.SetNumDigits(NumVolumes);
+  
   UInt64 length;
   if (!inFile.GetLength(length))
     return GetLastError();
   
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   sync.Set_NumBytesTotal(length);
-  UInt64 pos = 0;
   
+  UInt64 pos = 0;
+  UInt64 prev = 0;
   UInt64 numFiles = 0;
   unsigned volIndex = 0;
-  
+
   for (;;)
   {
     UInt64 volSize;
@@ -234,7 +286,7 @@ void CApp::Split()
   CThreadSplit spliter;
   spliter.NumVolumes = numVolumes;
 
-  CProgressDialog &progressDialog = spliter.ProgressDialog;
+  CProgressDialog &progressDialog = spliter;
 
   UString progressWindowTitle = L"7-Zip"; // LangString(IDS_APP_TITLE, 0x03000000);
   UString title = LangString(IDS_SPLITTING);
@@ -290,7 +342,7 @@ HRESULT CThreadCombine::ProcessVirt()
     return res;
   }
   
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   sync.Set_NumBytesTotal(TotalSize);
   
   CMyBuffer bufferObject;
@@ -461,7 +513,7 @@ void CApp::Combine()
     return;
   }
   
-    CProgressDialog &progressDialog = combiner.ProgressDialog;
+    CProgressDialog &progressDialog = combiner;
     progressDialog.ShowCompressionInfo = false;
   
     UString progressWindowTitle = L"7-Zip"; // LangString(IDS_APP_TITLE, 0x03000000);

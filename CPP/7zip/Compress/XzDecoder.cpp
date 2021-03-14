@@ -256,8 +256,24 @@ STDMETHODIMP CComDecoder::SetFinishMode(UInt32 finishMode)
 
 STDMETHODIMP CComDecoder::GetInStreamProcessedSize(UInt64 *value)
 {
-  *value = _decoder.InSize;
+  *value = Stat.InSize;
   return S_OK;
 }
+
+#ifndef _7ZIP_ST
+
+STDMETHODIMP CComDecoder::SetNumberOfThreads(UInt32 numThreads)
+{
+  _numThreads = numThreads;
+  return S_OK;
+}
+
+STDMETHODIMP CComDecoder::SetMemLimit(UInt64 memUsage)
+{
+  _memUsage = memUsage;
+  return S_OK;
+}
+
+#endif
 
 }}

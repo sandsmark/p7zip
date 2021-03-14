@@ -33,7 +33,11 @@ struct CReparseAttr
   UString PrintName;
 
   CReparseAttr(): Tag(0), Flags(0) {}
-  bool Parse(const Byte *p, size_t size);
+
+  // Parse()
+  // returns true and (errorCode = 0), if (correct MOUNT_POINT or SYMLINK)
+  // returns false and (errorCode = ERROR_REPARSE_TAG_MISMATCH), if not (MOUNT_POINT or SYMLINK)
+  bool Parse(const Byte *p, size_t size, DWORD &errorCode);
 
   bool IsMountPoint() const { return Tag == _my_IO_REPARSE_TAG_MOUNT_POINT; } // it's Junction
   bool IsSymLink() const { return Tag == _my_IO_REPARSE_TAG_SYMLINK; }

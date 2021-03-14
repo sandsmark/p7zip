@@ -173,6 +173,7 @@ HRESULT CArchiveExtractCallback::PrepareHardLinks(const CRecordVector<UInt32> *r
 #endif
 
 CArchiveExtractCallback::CArchiveExtractCallback():
+    _arc(NULL),
     WriteCTime(true),
     WriteATime(true),
     WriteMTime(true),
@@ -196,8 +197,8 @@ void CArchiveExtractCallback::Init(
     const UStringVector &removePathParts, bool removePartsForAltStreams,
     UInt64 packSize)
 {
-  _extractedFolderPaths.Clear();
-  _extractedFolderIndices.Clear();
+  ClearExtractedDirsInfo();
+  _outFileStream.Release();
   
   #ifdef SUPPORT_LINKS
   _hardLinks.Clear();
@@ -359,9 +360,11 @@ void CArchiveExtractCallback::CreateComplexDirectory(const UStringVector &dirPat
   }
 }
 
-HRESULT CArchiveExtractCallback::GetTime(int index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined)
+HRESULT CArchiveExtractCallback::GetTime(UInt32 index, PROPID propID, FILETIME &filetime, bool &filetimeIsDefined)
 {
   filetimeIsDefined = false;
+  filetime.dwLowDateTime = 0;
+  filetime.dwHighDateTime = 0;
   NCOM::CPropVariant prop;
   RINOK(_arc->Archive->GetProperty(index, propID, &prop));
   if (prop.vt == VT_FILETIME)
@@ -726,7 +729,8 @@ STDMETHODIMP CArchiveExtractCallback::GetStream(UInt32 index, ISequentialOutStre
         return E_FAIL;
       UString s;
       CReparseAttr reparse;
-      isOkReparse = reparse.Parse((const Byte *)data, dataSize);
+      DWORD errorCode = 0;
+      isOkReparse = reparse.Parse((const Byte *)data, dataSize, errorCode);
       if (isOkReparse)
       {
         isHardLink = false;
@@ -1022,14 +1026,36 @@ if (askExtractMode == NArchive::NExtract::NAskMode::kExtract && !_testMode)
       {
         FString fullPathNew;
         CreateComplexDirectory(pathParts, fullPathNew);
+        
         if (_item.IsDir)
         {
-          _extractedFolderPaths.Add(fullPathNew);
-          _extractedFolderIndices.Add(index);
-          SetDirTime(fullPathNew,
-            (WriteCTime && _fi.CTimeDefined) ? &_fi.CTime : NULL,
-            (WriteATime && _fi.ATimeDefined) ? &_fi.ATime : NULL,
-            (WriteMTime && _fi.MTimeDefined) ? &_fi.MTime : (_arc->MTimeDefined ? &_arc->MTime : NULL));
+          CDirPathTime &pt = _extractedFolders.AddNew();
+          
+          pt.CTime = _fi.CTime;
+          pt.CTimeDefined = (WriteCTime && _fi.CTimeDefined);
+          
+          pt.ATime = _fi.ATime;
+          pt.ATimeDefined = (WriteATime && _fi.ATimeDefined);
+          
+          pt.MTimeDefined = false;
+
+          if (WriteMTime)
+          {
+            if (_fi.MTimeDefined)
+            {
+              pt.MTime = _fi.MTime;
+              pt.MTimeDefined = true;
+            }
+            else if (_arc->MTimeDefined)
+            {
+              pt.MTime = _arc->MTime;
+              pt.MTimeDefined = true;
+            }
+          }
+
+          pt.Path = fullPathNew;
+
+          pt.SetDirTime();
         }
       }
     }
@@ -1148,7 +1174,9 @@ if (askExtractMode == NArchive::NExtract::NAskMode::kExtract && !_testMode)
           bool needDelete = true;
           if (needDelete)
           {
+            if (NFind::DoesFileExist(fullProcessedPath))
             if (!DeleteFileAlways(fullProcessedPath))
+            if (GetLastError() != ERROR_FILE_NOT_FOUND)
             {
               RINOK(SendMessageError_with_LastError(kCantDeleteOutputFile, fullProcessedPath));
               return S_OK;
@@ -1262,7 +1290,8 @@ if (askExtractMode == NArchive::NExtract::NAskMode::kExtract && !_testMode)
               if (FillLinkData(data, fs2us(existPath), !isJunction))
               {
                 CReparseAttr attr;
-                if (!attr.Parse(data, data.Size()))
+                DWORD errorCode = 0;
+                if (!attr.Parse(data, data.Size(), errorCode))
                 {
                   RINOK(SendMessageError("Internal error for symbolic link file", us2fs(_item.Path)));
                   // return E_FAIL;
@@ -1423,6 +1452,33 @@ STDMETHODIMP CArchiveExtractCallback::PrepareOperation(Int32 askExtractMode)
       askExtractMode, _isSplit ? &_position: 0);
   
   COM_TRY_END
+}
+
+
+HRESULT CArchiveExtractCallback::CloseFile()
+{
+  if (!_outFileStream)
+    return S_OK;
+  
+  HRESULT hres = S_OK;
+  _outFileStreamSpec->SetTime(
+      (WriteCTime && _fi.CTimeDefined) ? &_fi.CTime : NULL,
+      (WriteATime && _fi.ATimeDefined) ? &_fi.ATime : NULL,
+      (WriteMTime && _fi.MTimeDefined) ? &_fi.MTime : (_arc->MTimeDefined ? &_arc->MTime : NULL));
+  
+  const UInt64 processedSize = _outFileStreamSpec->ProcessedSize;
+  if (_fileLengthWasSet && _curSize > processedSize)
+  {
+    bool res = _outFileStreamSpec->File.SetLength(processedSize);
+    _fileLengthWasSet = res;
+    if (!res)
+      hres = SendMessageError_with_LastError(kCantSetFileLen, us2fs(_item.Path));
+  }
+  _curSize = processedSize;
+  _curSizeDefined = true;
+  RINOK(_outFileStreamSpec->Close());
+  _outFileStream.Release();
+  return hres;
 }
 
 

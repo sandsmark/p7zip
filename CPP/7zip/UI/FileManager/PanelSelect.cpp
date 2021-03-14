@@ -232,6 +232,8 @@ void CPanel::InvertSelection()
     FOR_VECTOR (i, _selectedStatusVector)
       if (_selectedStatusVector[i])
         numSelected++;
+    // 17.02: fixed : now we invert item even, if single item is selected
+    /*
     if (numSelected == 1)
     {
       int focused = _listView.GetFocusedItem();
@@ -243,6 +245,7 @@ void CPanel::InvertSelection()
             _selectedStatusVector[realIndex] = false;
       }
     }
+    */
   }
   FOR_VECTOR (i, _selectedStatusVector)
     _selectedStatusVector[i] = !_selectedStatusVector[i];

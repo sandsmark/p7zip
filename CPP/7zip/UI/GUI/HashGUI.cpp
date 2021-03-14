@@ -9,6 +9,7 @@
 
 #include "../FileManager/FormatUtils.h"
 #include "../FileManager/LangUtils.h"
+#include "../FileManager/ListViewDialog.h"
 #include "../FileManager/OverwriteDialogRes.h"
 #include "../FileManager/ProgressDialog2.h"
 #include "../FileManager/ProgressDialog2Res.h"
@@ -19,13 +20,19 @@
 
 using namespace NWindows;
 
+
+
 class CHashCallbackGUI: public CProgressThreadVirt, public IHashCallbackUI
 {
   UInt64 NumFiles;
   bool _curIsFolder;
   UString FirstFileName;
+  // UString MainPath;
+
+  CPropNameValPairs PropNameValPairs;
 
   HRESULT ProcessVirt();
+  virtual void ProcessWasFinished_GuiVirt();
 
 public:
   const NWildcard::CCensor *censor;
@@ -93,26 +100,26 @@ HRESULT CHashCallbackGUI::FinishScanning(const CDirItemsStat &st)
 
 HRESULT CHashCallbackGUI::CheckBreak()
 {
-  return ProgressDialog.Sync.CheckStop();
+  return Sync.CheckStop();
 }
 
 HRESULT CHashCallbackGUI::SetNumFiles(UInt64 numFiles)
 {
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   sync.Set_NumFilesTotal(numFiles);
   return CheckBreak();
 }
 
 HRESULT CHashCallbackGUI::SetTotal(UInt64 size)
 {
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   sync.Set_NumBytesTotal(size);
   return CheckBreak();
 }
 
 HRESULT CHashCallbackGUI::SetCompleted(const UInt64 *completed)
 {
-  return ProgressDialog.Sync.Set_NumBytesCur(completed);
+  return Sync.Set_NumBytesCur(completed);
 }
 
 HRESULT CHashCallbackGUI::BeforeFirstFile(const CHashBundle & /* hb */)
@@ -125,7 +132,7 @@ HRESULT CHashCallbackGUI::GetStream(const wchar_t *name, bool isFolder)
   if (NumFiles == 0)
     FirstFileName = name;
   _curIsFolder = isFolder;
-  CProgressSync &sync = ProgressDialog.Sync;
+  CProgressSync &sync = Sync;
   sync.Set_FilePath(name, isFolder);
   return CheckBreak();
 }
@@ -225,31 +232,56 @@ void AddHashBundleRes(UString &s, const CHashBundle &hb, const UString &firstFil
   }
 }
 
-HRESULT CHashCallbackGUI::AfterLastFile(const CHashBundle &hb)
+
+void AddHashBundleRes(UString &s, const CHashBundle &hb)
 {
-  UString s;
-  AddHashBundleRes(s, hb, FirstFileName);
+  CPropNameValPairs pairs;
+  AddHashBundleRes(pairs, hb);
   
-  CProgressSync &sync = ProgressDialog.Sync;
+  FOR_VECTOR (i, pairs)
+  {
+    const CProperty &pair = pairs[i];
+    s += pair.Name;
+    s += ": ";
+    s += pair.Value;
+    s.Add_LF();
+  }
+
+  if (hb.NumErrors == 0 && hb.Hashers.IsEmpty())
+  {
+    s.Add_LF();
+    AddLangString(s, IDS_MESSAGE_NO_ERRORS);
+    s.Add_LF();
+  }
+}
+
+
+HRESULT CHashCallbackGUI::AfterLastFile(CHashBundle &hb)
+{
+  hb.FirstFileName = FirstFileName;
+  // MainPath
+  AddHashBundleRes(PropNameValPairs, hb);
+  
+  CProgressSync &sync = Sync;
   sync.Set_NumFilesCur(hb.NumFiles);
 
-  CProgressMessageBoxPair &pair = GetMessagePair(hb.NumErrors != 0);
-  pair.Message = s;
-  LangString(IDS_CHECKSUM_INFORMATION, pair.Title);
+  // CProgressMessageBoxPair &pair = GetMessagePair(hb.NumErrors != 0);
+  // pair.Message = s;
+  // LangString(IDS_CHECKSUM_INFORMATION, pair.Title);
 
   return S_OK;
 }
 
+
 HRESULT CHashCallbackGUI::ProcessVirt()
 {
   NumFiles = 0;
-
   AString errorInfo;
   HRESULT res = HashCalc(EXTERNAL_CODECS_LOC_VARS
       *censor, *options, errorInfo, this);
-
   return res;
 }
+
 
 HRESULT HashCalcGUI(
     DECL_EXTERNAL_CODECS_LOC_VARS

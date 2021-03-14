@@ -43,6 +43,7 @@ CODER_INTERFACE(ICompressCoder2, 0x18)
     S_OK     : OK
     S_FALSE  : data error (for decoders)
     E_OUTOFMEMORY : memory allocation error
+    E_NOTIMPL : unsupported encoding method (for decoders)
     another error code : some error. For example, it can be error code received from inStream or outStream function.
   
   Parameters:
@@ -97,6 +98,12 @@ CODER_INTERFACE(ICompressCoder2, 0x18)
   ICompressCoder2 is used when (numInStreams != 1 || numOutStreams != 1)
      The rules are similar to ICompressCoder rules
 */
+
+CODER_INTERFACE(ICompressSetMemLimit, 0x28)
+{
+  STDMETHOD(SetMemLimit)(UInt64 memUsage) PURE;
+};
+
 
 
 namespace NCoderPropID

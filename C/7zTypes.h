@@ -101,7 +101,8 @@ typedef UInt32 SizeT;
 typedef size_t SizeT;
 #endif
 
-typedef int Bool;
+typedef int BoolInt;
+/* typedef BoolInt Bool; */
 #define True 1
 #define False 0
 

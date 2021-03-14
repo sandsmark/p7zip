@@ -235,6 +235,7 @@ public:
   CAgentFolder *_agentFolder;
 
   UString _archiveFilePath;
+  DWORD _attrib;
   bool _isDeviceFile;
 
   #ifndef EXTRACT_ONLY
@@ -245,6 +246,11 @@ public:
   const CArc &GetArc() const { return _archiveLink.Arcs.Back(); }
   IInArchive *GetArchive() const { if ( _archiveLink.Arcs.IsEmpty()) return 0; return GetArc().Archive; }
   bool CanUpdate() const;
+
+  bool Is_Attrib_ReadOnly() const
+  {
+    return _attrib != INVALID_FILE_ATTRIBUTES && (_attrib & FILE_ATTRIBUTE_READONLY);
+  }
 
   bool IsThereReadOnlyArc() const
   {

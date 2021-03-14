@@ -15,6 +15,7 @@
 
 #include "App.h"
 #include "LangUtils.h"
+#include "ListViewDialog.h"
 #include "MyLoadMenu.h"
 #include "PropertyName.h"
 
@@ -132,7 +133,9 @@ void CPanel::Properties()
   }
   
   {
-    UString message;
+    CListViewDialog message;
+    // message.DeleteIsAllowed = false;
+    // message.SelectFirst = false;
 
     CRecordVector<UInt32> operatedIndices;
     GetOperatedItemIndices(operatedIndices);
@@ -312,9 +315,14 @@ void CPanel::Properties()
         }
       }
     }
-    ::MessageBoxW(*(this), message, LangString(IDS_PROPERTIES), MB_OK);
+
+    message.Title = LangString(IDS_PROPERTIES);
+    message.NumColumns = 2;
+    message.Create(GetParent());
   }
 }
+
+
 
 void CPanel::EditCut()
 {
